@@ -160,7 +160,9 @@ def generate_report(sheet_id):
             if df[col].dtype == 'object':
                 df[col] = df[col].astype(str).str.strip()
 
-    weeks = generate_weeks_for_current_and_past_months(months_back=3)
+    # Calcula quantos meses se passaram desde Janeiro para mostrar apenas 2026
+    months_back = datetime.now().month
+    weeks = generate_weeks_for_current_and_past_months(months_back=months_back)
     all_months_html = {}
     
     for w in weeks:
@@ -439,7 +441,6 @@ def get_login_page(error=None):
     <div class="login-container">
         <div class="logo">
             <h1>Painel <span>Tráfego</span></h1>
-            <p>Report de Resultados</p>
         </div>
         {"<div class='error'>E-mail ou senha incorretos</div>" if error else ""}
         <form method="POST">
