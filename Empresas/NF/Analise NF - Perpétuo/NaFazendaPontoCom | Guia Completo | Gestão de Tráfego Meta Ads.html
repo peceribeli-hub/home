@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completo: Gestão de Tráfego Meta Ads | NaFazenda.com</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-master-dark: #050505;
+            --revo-red-base: rgb(224, 0, 0);
+            --revo-red-dark: rgb(168, 14, 0);
+            --revo-red-glow: rgba(224, 0, 0, 0.4);
+            --text-white: #FFFFFF;
+            --text-gray-light: #CCCCCC;
+            --text-gray-dark: #666666;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --light-bg: #F5F5F5;
+            --light-text: #1A1A1A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            background: var(--bg-master-dark);
+        }
+
+        /* ── BACKGROUND MATRIX ANIMATION ── */
+        .bg-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background-color: var(--bg-master-dark);
+        }
+
+        .falling-pattern-anim {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 2;
+            opacity: 0.85;
+            background-image:
+                radial-gradient(4px 100px at 0px 235px, var(--revo-red-base), transparent),
+                radial-gradient(4px 100px at 300px 235px, var(--revo-red-base), transparent),
+                radial-gradient(2px 2px at 150px 117.5px, var(--revo-red-base) 100%, transparent 150%);
+            background-size: 300px 235px, 300px 235px, 300px 235px;
+            background-position: 0px 220px, 3px 220px, 151.5px 337.5px;
+            animation: fall 150s linear infinite;
+        }
+
+        @keyframes fall {
+            100% {
+                background-position: 0px 6800px, 3px 6800px, 151.5px 6917.5px;
+            }
+        }
+
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.65);
+            z-index: 4;
+        }
+
+        /* ── NAVIGATION ── */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(224, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--text-white);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--revo-red-base);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray-dark);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--revo-red-base);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* ── HERO SECTION (DARK) ── */
+        .hero-section {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 80px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(224, 0, 0, 0.3);
+            color: var(--revo-red-base);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .top-subtitle {
+            font-size: 11px;
+            color: var(--revo-red-base);
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-size: clamp(40px, 7vw, 92px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 32px;
+            color: var(--text-white);
+            font-family: var(--font-display);
+        }
+
+        .page-title span {
+            color: var(--revo-red-base);
+        }
+
+        .page-description {
+            font-size: 16px;
+            color: var(--text-gray-light);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        /* ── ANIMATED BUTTON ── */
+        .btn-anim-wrapper {
+            position: relative;
+            display: inline-flex;
+            border-radius: 80px;
+            padding: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            overflow: hidden;
+            background: #070707;
+            z-index: 20;
+        }
+
+        @keyframes spinLED {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-anim-border {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0) 240deg, var(--revo-red-dark) 300deg, var(--revo-red-base) 360deg);
+            z-index: 1;
+            animation: spinLED 3s linear infinite;
+        }
+
+        .btn-anim-wrapper:hover .btn-anim-border {
+            animation: spinLED 1.5s linear infinite;
+        }
+
+        .btn-anim-inner {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(88deg, var(--revo-red-base) -25%, rgb(38, 4, 4) 100%);
+            border-radius: 78px;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .btn-text-main {
+            font-family: var(--font-main);
+            color: #FFF;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* ── LIGHT CONTENT SECTIONS ── */
+        .content-section {
+            background: var(--light-bg);
+            color: var(--light-text);
+            padding: 100px 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-section.dark {
+            background: #0A0A0A;
+            color: var(--text-white);
+        }
+
+        .section-header {
+            max-width: 1100px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            font-family: var(--font-display);
+        }
+
+        .section-title span {
+            color: var(--revo-red-base);
+        }
+
+        .section-description {
+            font-size: 16px;
+            color: #777;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .content-section.dark .section-description {
+            color: var(--text-gray-light);
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ── TABLES ── */
+        .table-container {
+            background: #FFF;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .content-section.dark .table-container {
+            background: #090909;
+            border: 1px solid rgba(224, 0, 0, 0.2);
+            box-shadow: 0 0 30px rgba(224, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 16px;
+            border-bottom: 2px solid rgba(224, 0, 0, 0.2);
+            text-align: left;
+            color: var(--text-gray-dark);
+        }
+
+        .content-section.dark th {
+            color: var(--text-gray-light);
+        }
+
+        td {
+            padding: 20px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .content-section.dark td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ── TAGS ── */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .tag-green {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .tag-yellow {
+            background: rgba(234, 179, 8, 0.15);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .tag-red {
+            background: rgba(224, 0, 0, 0.15);
+            color: var(--revo-red-base);
+            border: 1px solid rgba(224, 0, 0, 0.3);
+        }
+
+        .tag-gray {
+            background: rgba(100, 100, 100, 0.15);
+            color: #777;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+        }
+
+        /* ── CHECKLIST ── */
+        .checklist {
+            background: #FFF;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+        }
+
+        .content-section.dark .checklist {
+            background: #0F0F0F;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .content-section.dark .checklist-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(224, 0, 0, 0.3);
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checklist-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--light-text);
+        }
+
+        .content-section.dark .checklist-text {
+            color: var(--text-white);
+        }
+
+        /* ── CODE BLOCKS ── */
+        .code-block {
+            background: #1A1A1A;
+            color: #E5E5E5;
+            padding: 24px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 24px 0;
+            border: 1px solid rgba(224, 0, 0, 0.2);
+        }
+
+        /* ── GRID CARDS ── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: #FFF;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 32px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .content-section.dark .card {
+            background: #0F0F0F;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(224, 0, 0, 0.12);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--light-text);
+        }
+
+        .content-section.dark .card-title {
+            color: var(--text-white);
+        }
+
+        .card-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #777;
+        }
+
+        .content-section.dark .card-content {
+            color: var(--text-gray-light);
+        }
+
+        /* ── ALERT BOX ── */
+        .alert-box {
+            background: #FFF9E6;
+            border-left: 4px solid #EAB308;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 32px 0;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .content-section.dark .alert-box {
+            background: rgba(234, 179, 8, 0.1);
+        }
+
+        .alert-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #EAB308;
+        }
+
+        .alert-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .content-section.dark .alert-text {
+            color: var(--text-gray-light);
+        }
+
+        /* ── ACCORDION ── */
+        .accordion-item {
+            background: #FFF;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .content-section.dark .accordion-item {
+            background: #0F0F0F;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .accordion-header {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .accordion-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--light-text);
+        }
+
+        .content-section.dark .accordion-title {
+            color: var(--text-white);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s;
+            color: var(--revo-red-base);
+        }
+
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-item.open .accordion-content {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .accordion-body {
+            padding: 0 24px 24px 24px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .content-section.dark .accordion-body {
+            color: var(--text-gray-light);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .site-nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(5, 5, 5, 0.98);
+                padding: 20px;
+                gap: 20px;
+                border-bottom: 1px solid rgba(224, 0, 0, 0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .container,
+            .content-wrapper,
+            .section-header {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .content-section {
+                padding: 60px 20px;
+            }
+
+            .page-title {
+                font-size: clamp(32px, 10vw, 48px);
+            }
+
+            .section-title {
+                font-size: clamp(28px, 8vw, 40px);
+            }
+
+            .table-container {
+                padding: 20px;
+                overflow-x: scroll;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── SCROLL TO TOP BUTTON ── */
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: var(--revo-red-base);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(224, 0, 0, 0.3);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-4px);
+        }
+
+        .scroll-top i {
+            color: #FFF;
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .scroll-top i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="site-nav">
+        <div class="nav-logo">
+            NaFazenda<span>.com</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#hero" class="active">Início</a></li>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#rotinas">Rotinas</a></li>
+            <li><a href="#escala">Escala</a></li>
+            <li><a href="#relatorios">Relatórios</a></li>
+            <li><a href="#benchmarks">Benchmarks</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- HERO SECTION (DARK) -->
+    <section id="hero" class="hero-section">
+        <div class="bg-container">
+            <div class="falling-pattern-anim"></div>
+            <div class="bg-overlay"></div>
+        </div>
+
+        <div class="container">
+            <div class="top-badge">TRÁFEGO PAGO</div>
+            <div class="top-subtitle">SISTEMA DE GESTÃO META ADS</div>
+
+            <div class="page-title">
+                Guia Completo de<br>
+                <span>Gestão de Tráfego.</span>
+            </div>
+
+            <div class="page-description">
+                Sistema operacional completo para gestão de tráfego pago Meta Ads. Rotinas diárias, otimizações a cada 3 dias, relatórios semanais e mensais baseados em comissão líquida.
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <a href="#produtos" class="btn-anim-wrapper">
+                    <div class="btn-anim-border"></div>
+                    <div class="btn-anim-inner">
+                        <i class="fas fa-rocket" style="font-size: 14px; color: #FFF;"></i>
+                        <p class="btn-text-main">Explorar Sistema</p>
+                    </div>
+                </a>
+                <div style="font-size: 13px; color: var(--text-gray-dark); font-weight: 500;">
+                    Cliente: Matheus Moretti · Março 2026
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: CATÁLOGO DE PRODUTOS (LIGHT) -->
+    <section id="produtos" class="content-section">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge" style="border-color: rgba(224, 0, 0, 0.3); color: var(--revo-red-base);">01 · CATÁLOGO</div>
+                <div class="section-title">
+                    Produtos e <span>Precificação.</span>
+                </div>
+                <div class="section-description">
+                    Todos os cálculos de ROAS e CPA são baseados em <strong>Comissão Líquida</strong>, não em faturamento bruto.
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Ticket Bruto</th>
+                            <th>Comissão Líquida</th>
+                            <th>% Líquido</th>
+                            <th>CPA Ideal (1,5×)</th>
+                            <th>CPA Limite (1,2×)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Recria na Prática</strong></td>
+                            <td>R$ 997</td>
+                            <td><strong>R$ 765</strong></td>
+                            <td>76,7%</td>
+                            <td><span class="tag tag-green">R$ 510</span></td>
+                            <td><span class="tag tag-red">R$ 637</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Formulando na Prática</strong></td>
+                            <td>R$ 497</td>
+                            <td><strong>R$ 476</strong></td>
+                            <td>95,8%</td>
+                            <td><span class="tag tag-green">R$ 317</span></td>
+                            <td><span class="tag tag-red">R$ 397</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trava do Boi na Prática</strong></td>
+                            <td>R$ 997</td>
+                            <td><strong>R$ 797</strong></td>
+                            <td>79,9%</td>
+                            <td><span class="tag tag-green">R$ 531</span></td>
+                            <td><span class="tag tag-red">R$ 664</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <div class="alert-title">IMPORTANTE: Base de Cálculo</div>
+                    <div class="alert-text">
+                        <strong>ROAS Líquido = Comissão Líquida Total ÷ Investimento</strong><br>
+                        Nunca use faturamento bruto para calcular ROAS. Sempre use a comissão líquida que o NaFazenda recebe após impostos e taxas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">Recria na Prática</div>
+                    <div class="card-content">
+                        Melhor performance. <strong>Foco principal de investimento.</strong> ROAS atual: 1,42 (caminhando para 1,5).
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Formulando na Prática</div>
+                    <div class="card-content">
+                        CPA crítico (R$ 619). <strong>Prioridade máxima de otimização.</strong> ROAS atual: 0,53 (meta: 1,4).
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Trava do Boi na Prática</div>
+                    <div class="card-content">
+                        Vendas majoritariamente orgânicas. <strong>Não forçar tráfego pago.</strong> Usar como upsell/remarketing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: SISTEMA DE SEMÁFORO (DARK) -->
+    <section id="semaforo" class="content-section dark">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge">02 · SEMÁFORO CAC</div>
+                <div class="section-title">
+                    Sistema de <span>Semáforo.</span>
+                </div>
+                <div class="section-description">
+                    Todas as métricas com zonas verde/amarelo/vermelho para tomada de decisão imediata.
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: var(--text-white);">
+                    ROAS (Return on Ad Spend - Baseado em Líquido)
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Zona</th>
+                            <th>ROAS Líquido</th>
+                            <th>Ação</th>
+                            <th>Frequência</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag tag-green">🟢 VERDE</span></td>
+                            <td>≥ 1,50</td>
+                            <td>✅ Aumentar budget +20%</td>
+                            <td>A cada 3 dias</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-yellow">🟡 AMARELO</span></td>
+                            <td>1,40 – 1,49</td>
+                            <td>⚠️ Manter budget</td>
+                            <td>Diária</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-yellow">🟡 ATENÇÃO</span></td>
+                            <td>1,20 – 1,39</td>
+                            <td>🟡 Pausar criativos ruins</td>
+                            <td>Diária</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag tag-red">🔴 VERMELHO</span></td>
+                            <td>< 1,20</td>
+                            <td>❌ Pausar ou reduzir -30%</td>
+                            <td>Imediata</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">CTR (Click-Through Rate)</div>
+                    <div class="card-content">
+                        <strong>🟢 Verde:</strong> ≥ 1% (Recria/Trava) | ≥ 0,5% (Formulando)<br>
+                        <strong>🟡 Amarelo:</strong> 0,6-0,99% (Recria)<br>
+                        <strong>🔴 Vermelho:</strong> < 0,6% → Pausar após R$ 100
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">CPM (Custo por Mil)</div>
+                    <div class="card-content">
+                        <strong>🟢 Verde:</strong> R$ 5 – R$ 9<br>
+                        <strong>🟡 Amarelo:</strong> R$ 10 – R$ 12<br>
+                        <strong>🔴 Vermelho:</strong> > R$ 12 → Expandir interesses
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Connect Rate</div>
+                    <div class="card-content">
+                        <strong>🟢 Verde:</strong> ≥ 75%<br>
+                        <strong>🟡 Amarelo:</strong> 60-74% → Otimizar página<br>
+                        <strong>🔴 Vermelho:</strong> < 60% → 🚨 Problema de página
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ROTINAS OPERACIONAIS (DARK) -->
+    <section id="rotinas" class="content-section dark">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge">03 · OPERACIONAL</div>
+                <div class="section-title">
+                    Rotinas de <span>Otimização.</span>
+                </div>
+                <div class="section-description">
+                    Sistema completo de rotinas: diária (15 min), otimização a cada 3 dias (40 min), relatório semanal e mensal.
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 24px; color: var(--light-text);">
+                    <i class="fas fa-clock" style="color: var(--revo-red-base); margin-right: 8px;"></i>
+                    Rotina Diária (15 min - Segunda a Sexta)
+                </h3>
+
+                <div class="checklist-item">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">
+                        <strong>1. TEM SALDO NA CONTA DE ANÚNCIOS?</strong><br>
+                        Verificar: Gerenciador de Anúncios → Configurações de Pagamento<br>
+                        ❌ NÃO → 🚨 ALERTA CRÍTICO: Recarregar + avisar Regis
+                    </div>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">
+                        <strong>2. DASHBOARDS ESTÃO ATUALIZANDO?</strong><br>
+                        Looker Studio puxando dados das últimas 24h?<br>
+                        ❌ NÃO → Verificar conexão API ou atualizar manualmente
+                    </div>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">
+                        <strong>3. VENDAS ESPERADAS vs REAIS</strong><br>
+                        • Recria: Budget R$ 500/dia, CPA ideal R$ 510 → 0,9 vendas/dia (a cada 1-2 dias)<br>
+                        • Formulando: Budget R$ 300/dia, CPA ideal R$ 317 → 0,9 vendas/dia (a cada 1-2 dias)<br>
+                        ❌ NÃO → 🟡 Investigar (criativo? público? página?)
+                    </div>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checkbox"></div>
+                    <div class="checklist-text">
+                        <strong>4. ALGUM CRIATIVO COM CPA CRÍTICO?</strong><br>
+                        Abrir Gerenciador → Últimas 24h → Agrupar por Anúncio<br>
+                        CPA > limite do produto? → ❌ PAUSAR IMEDIATAMENTE<br>
+                        Gastou > 3× CPA ideal sem venda? → ❌ PAUSAR
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <i class="fas fa-sync-alt" style="color: var(--revo-red-base); margin-right: 8px;"></i>
+                        Rotina de Otimização (40 min - Segunda, Quarta, Sexta)
+                    </div>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">ETAPA 1: Análise por ANÚNCIO (15 min)</h4>
+                        <p>1. Abrir Gerenciador de Anúncios<br>
+                        2. Filtrar: Últimos 3 dias<br>
+                        3. Agrupar por: Anúncio<br>
+                        4. Colunas: Gasto, Conversões, CPA, CTR, CPM, Connect Rate</p>
+
+                        <p style="margin-top: 16px;"><strong>Decisões por produto:</strong></p>
+                        <p>
+                        <strong>RECRIA:</strong><br>
+                        • Gastou > R$ 1.530 sem venda? → ❌ PAUSAR<br>
+                        • CPA > R$ 637? → ❌ PAUSAR<br>
+                        • CTR < 0,6% após R$ 100? → 🟡 MARCAR<br>
+                        • CPA < R$ 510? → ✅ MANTER
+                        </p>
+
+                        <p style="margin-top: 16px;"><strong>FORMULANDO:</strong><br>
+                        • Gastou > R$ 951 sem venda? → ❌ PAUSAR<br>
+                        • CPA > R$ 397? → ❌ PAUSAR<br>
+                        • CTR < 0,35% após R$ 100? → 🟡 MARCAR<br>
+                        • CPA < R$ 317? → ✅ MANTER
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">ETAPA 2: Análise por CAMPANHA (10 min)</h4>
+                        <p>1. Agrupar por: Campanha<br>
+                        2. Calcular ROAS Líquido (Comissão Líq. ÷ Gasto)<br>
+                        3. Aplicar decisões:</p>
+
+                        <p>
+                        • ROAS ≥ 1,5 por 3 dias? → ✅ AUMENTAR budget +20%<br>
+                        • ROAS 1,4-1,49? → ⚠️ MANTER budget<br>
+                        • ROAS 1,2-1,39? → 🟡 NÃO escalar, pausar criativos ruins<br>
+                        • ROAS < 1,2 por 3 dias? → ❌ PAUSAR campanha ou reduzir -30%
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">ETAPA 3: Diagnóstico de FUNIL (15 min)</h4>
+                        <p><strong>Quando fazer:</strong> Se ROAS caiu ou CPA subiu muito</p>
+                        <p>
+                        • Connect Rate < 60%? → 🚨 PROBLEMA DE PÁGINA<br>
+                        • Conversão caiu? → Revisar VSL ou promessa<br>
+                        • CTR despencou? → Fadiga de criativo<br>
+                        • CPM disparou? → Competição alta ou público saturado
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: REGRAS DE ESCALA (LIGHT) -->
+    <section id="escala" class="content-section">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge" style="border-color: rgba(224, 0, 0, 0.3); color: var(--revo-red-base);">04 · ESCALA</div>
+                <div class="section-title">
+                    Regras de <span>Escala.</span>
+                </div>
+                <div class="section-description">
+                    Tabela objetiva: quando aumentar, manter ou reduzir budget baseado em ROAS líquido.
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ROAS Líquido</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                            <th>Quanto Ajustar</th>
+                            <th>Quando Aplicar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>≥ 1,50</strong></td>
+                            <td><span class="tag tag-green">🟢 VERDE</span></td>
+                            <td>✅ Aumentar budget</td>
+                            <td><strong>+20%</strong></td>
+                            <td>A cada 3 dias (se mantiver)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1,40 – 1,49</strong></td>
+                            <td><span class="tag tag-yellow">🟡 AMARELO</span></td>
+                            <td>⚠️ Manter budget</td>
+                            <td><strong>0%</strong></td>
+                            <td>Monitorar diariamente</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1,20 – 1,39</strong></td>
+                            <td><span class="tag tag-yellow">🟡 ATENÇÃO</span></td>
+                            <td>🟡 Não escalar</td>
+                            <td><strong>0%</strong></td>
+                            <td>Pausar criativos ruins</td>
+                        </tr>
+                        <tr>
+                            <td><strong>< 1,20</strong></td>
+                            <td><span class="tag tag-red">🔴 VERMELHO</span></td>
+                            <td>❌ Pausar ou reduzir</td>
+                            <td><strong>-30% ou pausar</strong></td>
+                            <td>Imediatamente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-icon">💡</div>
+                <div class="alert-content">
+                    <div class="alert-title">Regras Adicionais</div>
+                    <div class="alert-text">
+                        <strong>1. Nunca escale acima de 20% por vez</strong> – Aumentos bruscos desestabilizam o algoritmo.<br>
+                        <strong>2. Aguarde 3 dias antes de novo aumento</strong> – Deixe o algoritmo estabilizar.<br>
+                        <strong>3. Priorize produtos com melhor ROAS</strong> – Se Recria está 1,6 e Formulando 1,3, escale Recria primeiro.
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+<strong>Exemplo 1: Campanha com ROAS 1,6 (Verde)</strong>
+
+Situação:
+- Campanha: Recria - Escala
+- ROAS Líquido: 1,6 (por 3 dias consecutivos)
+- Budget atual: R$ 500/dia
+
+Ação:
+✅ Aumentar budget em 20%
+Novo budget: R$ 500 × 1,2 = R$ 600/dia
+
+Quando reavaliar: Daqui a 3 dias (na próxima otimização)
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: RELATÓRIOS (DARK) -->
+    <section id="relatorios" class="content-section dark">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge">05 · RELATÓRIOS</div>
+                <div class="section-title">
+                    Templates de <span>Relatórios.</span>
+                </div>
+                <div class="section-description">
+                    Estruturas prontas para relatório semanal (sexta-feira) e relatório mensal (último dia útil).
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <i class="fas fa-calendar-week" style="color: var(--revo-red-base); margin-right: 8px;"></i>
+                        Relatório Semanal (Sexta-feira - 1 hora)
+                    </div>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">1. RESUMO EXECUTIVO</h4>
+                        <p>
+                        📈 <strong>ROAS Consolidado (Líquido):</strong> [X,XX] (🟢/🟡/🔴)<br>
+                        💰 <strong>Investimento Total:</strong> R$ [X.XXX]<br>
+                        🎯 <strong>Vendas Totais:</strong> [XX] vendas<br>
+                        💵 <strong>Comissão Líquida Total:</strong> R$ [X.XXX]
+                        </p>
+
+                        <p style="margin-top: 16px;"><strong>Principal Insight da Semana:</strong><br>
+                        [Escrever 1-2 frases sobre o principal aprendizado ou resultado da semana]</p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">2. PERFORMANCE POR PRODUTO</h4>
+                        <p style="font-family: 'Courier New', monospace; font-size: 12px;">
+                        Produto | Investimento | Vendas | Comissão Líq. | CPA Líq. | ROAS Líq. | Status<br>
+                        Recria  | R$ [XXX]     | [X]    | R$ [XXX]      | R$ [XXX] | [X,XX]    | 🟢/🟡/🔴<br>
+                        Formul. | R$ [XXX]     | [X]    | R$ [XXX]      | R$ [XXX] | [X,XX]    | 🟢/🟡/🔴
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">3. AÇÕES DA SEMANA</h4>
+                        <p>
+                        ✅ [Ação 1 - Ex: Pausados 3 criativos com CPA > R$ 400]<br>
+                        ✅ [Ação 2 - Ex: Escalada campanha Recria de R$ 500 para R$ 600/dia]<br>
+                        ✅ [Ação 3 - Ex: Testados 2 novos públicos Lookalike 2%]
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">4. PRÓXIMOS PASSOS</h4>
+                        <p>
+                        1. [Ex: Otimizar Formulando (CPA ainda em R$ 619 → meta R$ 340)]<br>
+                        2. [Ex: Criar 3 novos criativos para Recria (testar ângulo "depoimentos")]<br>
+                        3. [Ex: Monitorar Connect Rate (atualmente 58% → meta 75%)]
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">
+                        <i class="fas fa-calendar-alt" style="color: var(--revo-red-base); margin-right: 8px;"></i>
+                        Relatório Mensal (Último dia útil - 2 horas)
+                    </div>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">1. RESUMO EXECUTIVO MENSAL</h4>
+                        <p>
+                        📈 <strong>ROAS Consolidado (Líquido):</strong> [X,XX]<br>
+                        💰 <strong>Investimento Total:</strong> R$ [XX.XXX]<br>
+                        🎯 <strong>Vendas Totais:</strong> [XXX] vendas<br>
+                        💵 <strong>Comissão Líquida Total:</strong> R$ [XX.XXX]
+                        </p>
+
+                        <p style="margin-top: 16px;"><strong>Comparação com Mês Anterior:</strong><br>
+                        • ROAS: [X,XX] → [X,XX] ([+/-X%])<br>
+                        • Investimento: R$ [XX.XXX] → R$ [XX.XXX] ([+/-X%])<br>
+                        • Vendas: [XXX] → [XXX] ([+/-X%])
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">2. APRENDIZADOS DO MÊS</h4>
+                        <p>
+                        <strong>O que funcionou:</strong><br>
+                        1. [Ex: Criativos com ângulo "depoimentos" tiveram CTR 40% maior]<br>
+                        2. [Ex: Público Lookalike 2% teve CPA 15% menor]<br><br>
+
+                        <strong>O que NÃO funcionou:</strong><br>
+                        1. [Ex: Criativos em carrossel tiveram CTR < 0,5%]<br>
+                        2. [Ex: Tráfego para Trava do Boi teve ROAS 0,0]
+                        </p>
+
+                        <hr style="margin: 24px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+
+                        <h4 style="font-weight: 700; margin-bottom: 12px;">3. METAS PARA PRÓXIMO MÊS</h4>
+                        <p>
+                        <strong>ROAS Alvo:</strong><br>
+                        • Recria: [X,XX]<br>
+                        • Formulando: [X,XX]<br><br>
+
+                        <strong>Investimento Planejado:</strong> R$ [XX.XXX]<br>
+                        <strong>Novas Hipóteses:</strong><br>
+                        1. [Ex: Testar público Lookalike 5%]<br>
+                        2. [Ex: Criar 5 novos criativos com ângulo "resultados em 90 dias"]
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: BENCHMARKS (LIGHT) -->
+    <section id="benchmarks" class="content-section">
+        <div class="content-wrapper">
+            <div class="section-header">
+                <div class="top-badge" style="border-color: rgba(224, 0, 0, 0.3); color: var(--revo-red-base);">06 · BENCHMARKS</div>
+                <div class="section-title">
+                    Benchmarks de <span>Funil.</span>
+                </div>
+                <div class="section-description">
+                    Metas de CPM, CTR, Connect Rate e Conversão por produto (baseado em comissão líquida).
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: var(--text-white);">
+                    Recria na Prática (Líquido: R$ 765)
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Etapa do Funil</th>
+                            <th>Métrica</th>
+                            <th>Meta</th>
+                            <th>Como Calcular</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Impressão</td>
+                            <td>CPM</td>
+                            <td>R$ 8,00</td>
+                            <td>(Investimento ÷ Impressões) × 1000</td>
+                        </tr>
+                        <tr>
+                            <td>2. Clique</td>
+                            <td>CTR</td>
+                            <td>1,00%</td>
+                            <td>Cliques ÷ Impressões</td>
+                        </tr>
+                        <tr>
+                            <td>3. Página</td>
+                            <td>Connect Rate</td>
+                            <td>75,00%</td>
+                            <td>Views de Página ÷ Cliques</td>
+                        </tr>
+                        <tr>
+                            <td>4. Venda</td>
+                            <td>Conversão Página</td>
+                            <td>5,00%</td>
+                            <td>Vendas ÷ Views de Página</td>
+                        </tr>
+                        <tr>
+                            <td>5. Custo</td>
+                            <td><strong>CPA Líquido</strong></td>
+                            <td><strong>≤ R$ 510</strong></td>
+                            <td>Investimento ÷ Vendas</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 24px; padding: 16px; background: rgba(34, 197, 94, 0.1); border-left: 3px solid #22c55e; border-radius: 6px;">
+                    <strong style="color: #22c55e;">Sistema de Semáforo:</strong><br>
+                    🟢 CPA ≤ R$ 510 (1,5× líquido) — IDEAL<br>
+                    🟡 CPA R$ 511 – R$ 546 (1,4×) — ALERTA<br>
+                    🟡 CPA R$ 547 – R$ 637 (1,2×) — ATENÇÃO<br>
+                    🔴 CPA ≥ R$ 638 — CRÍTICO - PAUSAR
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px;">
+                <div class="card">
+                    <div class="card-title">Formulando na Prática</div>
+                    <div class="card-content">
+                        <strong>Líquido: R$ 476</strong><br>
+                        • CPM: R$ 9,00<br>
+                        • CTR: 0,50%<br>
+                        • Connect Rate: 70%<br>
+                        • Conversão: 2,00%<br>
+                        • <strong>CPA Ideal: ≤ R$ 317</strong><br>
+                        • <strong>CPA Limite: R$ 397</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Trava do Boi na Prática</div>
+                    <div class="card-content">
+                        <strong>Líquido: R$ 797</strong><br>
+                        • CPM: R$ 8,00<br>
+                        • CTR: 1,00%<br>
+                        • Connect Rate: 75%<br>
+                        • Conversão: 5,00%<br>
+                        • <strong>CPA Ideal: ≤ R$ 531</strong><br>
+                        • <strong>CPA Limite: R$ 664</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Accordion Toggle
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const allItems = document.querySelectorAll('.accordion-item');
+
+            allItems.forEach(i => {
+                if (i !== item) {
+                    i.classList.remove('open');
+                }
+            });
+
+            item.classList.toggle('open');
+        }
+
+        // Scroll to Top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/Hide Scroll to Top Button
+        window.addEventListener('scroll', function () {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+
+            // Update active nav link
+            updateActiveNavLink();
+        });
+
+        // Update Active Navigation Link
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth Scroll for Nav Links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

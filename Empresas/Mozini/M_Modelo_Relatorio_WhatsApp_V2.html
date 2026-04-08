@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel REVO | Report de WhatsApp - Mozini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-master-dark: #050505;
+            --revo-red-base: rgb(224, 0, 0);
+            --revo-red-dark: rgb(168, 14, 0);
+            --revo-red-glow: rgba(224, 0, 0, 0.4);
+            --card-bg: #090909;
+            --text-white: #FFFFFF;
+            --text-gray-light: #CCCCCC;
+            --text-gray-dark: #666666;
+            --font-main: 'Inter', sans-serif;
+            --border-glow: rgba(224, 0, 0, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-master-dark);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 40px;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* HEADER */
+        .header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(224, 0, 0, 0.3);
+            color: var(--revo-red-base);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin: 0;
+            color: var(--text-white);
+            letter-spacing: -0.02em;
+        }
+
+        .header h1 span {
+            color: var(--revo-red-base);
+        }
+
+        .header p {
+            color: var(--text-gray-light);
+            margin: 8px 0 0 0;
+            font-size: 14px;
+        }
+
+        /* TOGGLES (Meses) */
+        details {
+            background: transparent;
+            margin-bottom: 20px;
+        }
+
+        details > summary {
+            padding: 15px 0;
+            font-size: 24px;
+            font-weight: 800;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-white);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: color 0.2s;
+        }
+
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details > summary:hover {
+            color: var(--revo-red-base);
+        }
+
+        details > summary::after {
+            content: '+';
+            font-size: 24px;
+            color: var(--text-gray-dark);
+            font-weight: 300;
+        }
+
+        details[open] > summary::after {
+            content: '−';
+            color: var(--revo-red-base);
+        }
+
+        .details-content {
+            padding: 30px 0;
+        }
+
+        /* TOGGLES (Semanas) */
+        .week-toggle {
+            background: #0A0A0A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .week-toggle > summary {
+            padding: 20px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            background: #0D0D0D;
+            border-bottom: none;
+            letter-spacing: 0.5px;
+        }
+        
+        .week-toggle[open] > summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: #090909;
+        }
+
+        .week-toggle > summary:hover {
+            background: #111111;
+        }
+
+        .week-content {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .week-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CARDS REVO */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.01);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        /* METRIC LIST (REVO Tables/Lists) */
+        .metric-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .metric-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-list li:last-child {
+            border-bottom: none;
+        }
+
+        .metric-list li b {
+            color: var(--text-gray-light);
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            margin-right: 15px;
+        }
+
+        .metric-list li span {
+            font-weight: 700;
+            color: var(--text-white);
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .metric-list li span.highlight-red {
+            color: var(--revo-red-base);
+        }
+
+        /* SUB SEC Toggles */
+        .sub-section-toggle {
+            background: #0A0A0A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .sub-section-toggle > summary {
+            padding: 16px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: none;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-gray-light);
+            background: #0A0A0A;
+        }
+        
+        .sub-section-toggle[open] > summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: #0D0D0D;
+        }
+
+        .sub-section-toggle > summary::after {
+            content: '+';
+            font-size: 16px;
+            color: var(--text-gray-dark);
+            font-weight: 400;
+        }
+
+        .sub-section-toggle[open] > summary::after {
+            content: '−';
+            color: var(--text-white);
+        }
+
+        /* SUB SECTIONS (Insight Box style) */
+        .sub-section {
+            background: #0A0A0A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .sub-section h4 {
+            margin: 0 0 12px 0;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gray-dark);
+        }
+
+        /* ALERTS */
+        .insight-box {
+            background: #0A0A0A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--revo-red-base);
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-gray-light);
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+
+        .insight-box strong {
+            color: var(--text-white);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+        }
+
+        .btn-criativo {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 11px;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-criativo:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--text-white);
+            text-decoration: none;
+        }
+
+        .falling-pattern-anim {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+            background-image:
+                radial-gradient(4px 100px at 0px 235px, var(--revo-red-base), transparent),
+                radial-gradient(4px 100px at 300px 235px, var(--revo-red-base), transparent),
+                radial-gradient(2px 2px at 150px 117.5px, var(--revo-red-base) 100%, transparent 150%);
+            background-size: 300px 235px, 300px 235px, 300px 235px;
+            background-position: 0px 220px, 3px 220px, 151.5px 337.5px;
+            animation: fall 150s linear infinite;
+        }
+
+        @keyframes fall {
+            100% {
+                background-position: 0px 6800px, 3px 6800px, 151.5px 6917.5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="falling-pattern-anim"></div>
+
+<div class="dashboard-container">
+    
+    <!-- HEADER -->
+    <div class="header">
+        <div class="top-badge">Painel Contínuo</div>
+        <h1>Report de <span>Resultados.</span></h1>
+        <p>Acompanhamento de Tráfego e Funil Comercial Semanal - Mozini Advocacia</p>
+    </div>
+
+    <!-- MÊS 1 -->
+    <details open>
+        <summary>MARÇO 2026</summary>
+        
+        <div class="details-content">
+
+            <!-- SEMANA 2 -->
+            <details class="week-toggle">
+                <summary>SEMANA 2 (09/03 a 17/03)</summary>
+                <div class="week-content">
+                    <!-- 1. COMERCIAL -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #F59E0B; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); grid-column: 1 / -1;">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">1. Report Comercial (CRM)</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Leads Recebidos (Total)</b> <span>24 Leads</span></li>
+                            <li><b>Leads MQL (Qualificados)</b> <span style="line-height: 1.6;">7 Meta Ads<br>0 Google Ads<br>1 Indicação</span></li>
+                            <li><b>Leads SQL (Oportunidade)</b> <span>4 Indicação</span></li>
+                            <li><b>Reunião Agendada</b> <span>5 Indicação</span></li>
+                            <li><b>Reunião Realizada</b> <span>4 Indicação</span></li>
+                            <li><b>Leads Perdidos</b> <span style="line-height: 1.6;">0 Meta Ads<br>0 Google Ads</span></li>
+                            <li><b>Contratos Fechados</b> <span style="color: #4ADE80; font-weight: bold; font-size: 18px;">2</span></li>
+                        </ul>
+                        <details class="sub-section-toggle">
+                            <summary>Pipeline do Comercial (Etapas do CRM)</summary>
+                            <div style="padding: 16px;">
+                                <ul class="metric-list" style="margin-bottom: 0;">
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #3B82F6;">🔵 Meta Ads (18 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (7):</strong> 7 Qualificação<br>
+                                            <strong>Medicamento (2):</strong> 2 Qualificação<br>
+                                            <strong>Procedimento (2):</strong> 2 Qualificação<br>
+                                            <strong>Reajuste Abusivo (6):</strong> 6 Qualificação<br>
+                                            <strong>Tratamento (1):</strong> 1 Qualificação
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #22C55E;">🟢 Google Ads (1 Lead)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Sem Problema (1):</strong> 1 Qualificação
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #F97316;">🟠 Indicação (2 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (1):</strong> 1 Qualificação<br>
+                                            <strong>Procedimento (1):</strong> 1 Qualificação
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                        <b style="color: #A855F7;">🟣 Canal Desconhecido (3 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Sem Problema (1):</strong> 1 Qualificação<br>
+                                            <strong>Desconhecido (2):</strong> 2 Qualificação
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </details>
+                        </div>
+                    </details>
+                    <!-- 2. META ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #3B82F6; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">2. Report Meta Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 364,83</span></li>
+                            <li><b>Leads Gerados</b> <span style="line-height:1.6;">7 Real<br>26 Meta Ads</span></li>
+                            <li><b>Custo por Lead (CPL)</b> <span style="line-height:1.6;">R$ 52,12 Real<br>R$ 14,03 Meta Ads</span></li>
+                            <li><b>Lead MQL</b> <span>7 Leads</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 52,12</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">7 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 52,12</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Reajuste Abusivo</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">6 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 60,80</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Medicamento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">2 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 182,41</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Procedimento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">2 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 182,41</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Tratamento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 364,83</span>
+                            </div>
+                        </div>
+                        <div class="sub-section">
+                            <h4>Top Criativos</h4>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD022</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">12 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 30,40</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD023</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">6 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 60,80</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD012</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">4 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 91,21</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD011</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 364,83</span>
+                            </div>
+                        </div>
+                        </div>
+                    </details>
+                    <!-- 3. GOOGLE ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #34A853; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">3. Report Google Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 20,21</span></li>
+                            <li><b>Leads MQL</b> <span>1 Lead</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 20,21</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 20,21</span>
+                            </div>
+                        </div>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <!-- SEMANA 3 -->
+            <details class="week-toggle">
+                <summary>SEMANA 3 (18/03 a 24/03)</summary>
+                <div class="week-content">
+                    <!-- 1. COMERCIAL -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #F59E0B; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); grid-column: 1 / -1;">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">1. Report Comercial (CRM)</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Leads Recebidos (Total)</b> <span>40 Leads</span></li>
+                            <li><b>Leads MQL (Qualificados)</b> <span style="line-height: 1.6;">13 Meta Ads<br>1 Google Ads<br>1 Indicação</span></li>
+                            <li><b>Leads SQL (Oportunidade)</b> <span>0</span></li>
+                            <li><b>Reunião Agendada</b> <span>1 MQL Meta</span></li>
+                            <li><b>Reunião Realizada</b> <span>1 Indicação</span></li>
+                            <li><b>Leads Perdidos</b> <span style="line-height: 1.6;">0 Meta Ads<br>0 Google Ads</span></li>
+                            <li><b>Contratos Fechados</b> <span style="color: var(--revo-red-base); font-weight: bold; font-size: 16px;">0</span></li>
+                        </ul>
+                        <details class="sub-section-toggle">
+                            <summary>Pipeline do Comercial (Etapas do CRM)</summary>
+                            <div style="padding: 16px;">
+                                <ul class="metric-list" style="margin-bottom: 0;">
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #3B82F6;">🔵 Meta Ads (29 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (12):</strong> 7 Contato Inicial | 1 Resposta Inicial | 4 Perdidas (Vários motivos)<br>
+                                            <strong>Procedimento (2):</strong> 1 Qualificação | 1 Negociação<br>
+                                            <strong>Reajuste Abusivo (14):</strong> 1 Contato Inicial | 1 Resposta Inicial | 12 Qualificação<br>
+                                            <strong>Sem Problema (1):</strong> 1 Perdida (Tirar dúvidas)
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #22C55E;">🟢 Google Ads (7 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (5):</strong> 1 Contato Inicial | 3 Qualificação | 1 Perdida (Sem legitimidade)<br>
+                                            <strong>Erro Médico (1):</strong> 1 Qualificação<br>
+                                            <strong>Procedimento (1):</strong> 1 Qualificação
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </details>
+                        </div>
+                    </details>
+                    <!-- 2. META ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #3B82F6; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">2. Report Meta Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 176,41</span></li>
+                            <li><b>Leads Gerados</b> <span style="line-height:1.6;">13 Real<br>32 Meta Ads</span></li>
+                            <li><b>Custo por Lead (CPL)</b> <span style="line-height:1.6;">R$ 13,57 Real<br>R$ 5,51 Meta Ads</span></li>
+                            <li><b>Lead MQL</b> <span>13 Leads</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 13,57</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Reajuste Abusivo</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">14 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 12,60</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Procedimento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">2 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 88,21</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 176,41</span>
+                            </div>
+                        </div>
+                        <div class="sub-section">
+                            <h4>Top Criativos</h4>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD012</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">20 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 2,15</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD019</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">8 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 5,92</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD025</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">2 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 12,48</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD022</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 32,85</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD027</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 4,64</span>
+                            </div>
+                        </div>
+                        </div>
+                    </details>
+                    <!-- 3. GOOGLE ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #34A853; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">3. Report Google Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 113,40</span></li>
+                            <li><b>Leads MQL</b> <span>1 Lead</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 113,40</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">5 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 22,68</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Erro Médico</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 113,40</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Procedimento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 113,40</span>
+                            </div>
+                        </div>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <!-- SEMANA 4 -->
+            <details class="week-toggle" open>
+                <summary>SEMANA 4 (25/03 a 31/03)</summary>
+                <div class="week-content">
+                    <!-- 1. COMERCIAL -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #F59E0B; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); grid-column: 1 / -1;">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">1. Report Comercial (CRM)</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Leads Recebidos (Total)</b> <span>54 Leads</span></li>
+                            <li><b>Leads MQL (Qualificados)</b> <span style="line-height: 1.6;">21 Meta Ads<br>0 Google Ads<br>3 Indicação</span></li>
+                            <li><b>Leads SQL (Oportunidade)</b> <span>1 Indicação</span></li>
+                            <li><b>Reunião Agendada</b> <span>1 Indicação</span></li>
+                            <li><b>Reunião Realizada</b> <span>1 Indicação</span></li>
+                            <li><b>Leads Perdidos</b> <span style="line-height: 1.6;">0 Meta Ads<br>0 Google Ads</span></li>
+                            <li><b>Contratos Fechados</b> <span style="color: var(--revo-red-base); font-weight: bold; font-size: 16px;">0</span></li>
+                        </ul>
+                        <details class="sub-section-toggle">
+                            <summary>Pipeline do Comercial (Etapas do CRM)</summary>
+                            <div style="padding: 16px;">
+                                <ul class="metric-list" style="margin-bottom: 0;">
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #3B82F6;">🔵 Meta Ads (46 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (14):</strong> 10 Contato Inicial | 1 Resposta Inicial | 2 Qualificação | 1 Perdida (Problema resolvido)<br>
+                                            <strong>Reajuste Abusivo (30):</strong> 2 Contato Inicial | 4 Resposta Inicial | 20 Qualificação | 1 Reunião Agendada | 2 Perdidas (Problema resolvido) | 1 Perdida (Queria apenas tirar dúvidas)<br>
+                                            <strong>Tratamento (1):</strong> 1 Qualificação<br>
+                                            <strong>Sem Problema (1):</strong> 1 Resposta Inicial
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;">
+                                        <b style="color: #F97316;">🟠 Indicação (3 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Desconhecido (2):</strong> 2 Qualificação<br>
+                                            <strong>Tratamento (1):</strong> 1 Qualificação
+                                        </div>
+                                    </li>
+                                    <li style="flex-direction: column; align-items: flex-start; gap: 4px;">
+                                        <b style="color: #A855F7;">🟣 Canal Desconhecido (5 Leads)</b>
+                                        <div style="font-size: 13px; color: var(--text-gray-light); width: 100%; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">
+                                            <strong>Sem Problema (1):</strong> 1 Contato Inicial<br>
+                                            <strong>Desconhecido (2):</strong> 1 Contato Inicial | 1 Perdida (Lead sem legitimidade jurídica)<br>
+                                            <strong>Reajuste Abusivo (2):</strong> 2 Qualificação
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </details>
+                        <div class="insight-box">
+                            <strong>⚠️ Alerta de CRM</strong>
+                            • Lead da Origem Desconhecida do dia 31/03/2026 (Kayque Kempe) sem atualização de status.<br>
+                            • Lead da Meta do dia 28/03/2026 (Thiago Pereira) sem atualização de status.
+                        </div>
+                        </div>
+                    </details>
+                    <!-- 2. META ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #3B82F6; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">2. Report Meta Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 360,41</span></li>
+                            <li><b>Leads Gerados</b> <span style="line-height:1.6;">21 Real<br>55 Meta Ads</span></li>
+                            <li><b>Custo por Lead (CPL)</b> <span style="line-height:1.6;">R$ 17,16 Real<br>R$ 6,55 Meta Ads</span></li>
+                            <li><b>Lead MQL</b> <span>21 Leads</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 17,16</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Reajuste Abusivo</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">30 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 12,01</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">14 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 25,74</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Tratamento</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 360,41</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b style="color:var(--text-gray-light); font-size:12px; text-transform:uppercase;">Desconhecido</b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">1 Lead</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 360,41</span>
+                            </div>
+                        </div>
+                        <div class="sub-section">
+                            <h4>Top Criativos</h4>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD012</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">27 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 5,10</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD019</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">16 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 8,82</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">VD025</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">8 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 6,95</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD011</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">4 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 2,02</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:auto 1fr 1fr; gap:10px; padding:12px 0; font-size:13px; align-items:center;">
+                                <b><a href="#" class="btn-criativo">AD013</a></b>
+                                <span style="text-align:center; color:var(--text-white); font-weight:700;">0 Leads</span>
+                                <span style="text-align:right; color:var(--text-gray-light); font-weight:700;">R$ 0,00</span>
+                            </div>
+                        </div>
+                        </div>
+                    </details>
+                    <!-- 3. GOOGLE ADS -->
+                    <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #34A853; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">3. Report Google Ads</summary>
+                        <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                        <ul class="metric-list">
+                            <li><b>Investimento total</b> <span>R$ 16,82</span></li>
+                            <li><b>Leads Gerados</b> <span>0 Leads</span></li>
+                            <li><b>Custo por Lead (CPL)</b> <span>R$ 0,00</span></li>
+                            <li><b>Lead MQL</b> <span>0 Leads</span></li>
+                            <li><b>Custo Lead MQL</b> <span class="highlight-red">R$ 0,00</span></li>
+                        </ul>
+                        <div class="sub-section">
+                            <h4>Volume por Demanda</h4>
+                            <p style="color:var(--text-gray-dark); font-size:11px; text-align:center; padding:20px;">Sem volume de leads nesta semana.</p>
+                        </div>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- PROXIMOS MESES -->
+    <details>
+        <summary style="color: var(--text-gray-dark);">ABRIL 2026</summary>
+    </details>
+
+</div>
+
+</body>
+</html>

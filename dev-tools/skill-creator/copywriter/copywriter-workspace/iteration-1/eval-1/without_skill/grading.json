@@ -1,0 +1,26 @@
+{
+    "eval_id": 1,
+    "run_config": "without_skill",
+    "expectations": [
+        {
+            "text": "Sem em-dash",
+            "passed": true,
+            "evidence": "Nenhum em-dash no output, mas isso é coincidência — o modelo baseline não recebeu essa instrução."
+        },
+        {
+            "text": "Sem prescritivo",
+            "passed": false,
+            "evidence": "O texto usa frases como 'Preencha as perguntas abaixo para que possamos entender melhor' — linguagem genérica e passiva, sem a rigidez do protocolo REVO."
+        },
+        {
+            "text": "Tom data-driven",
+            "passed": false,
+            "evidence": "Nenhum dos termos ROAS, CPL, Kommo, Advisory ou Diagnóstico aparecem nas perguntas do formulário baseline."
+        },
+        {
+            "text": "Repulsão Anti-Alvo",
+            "passed": false,
+            "evidence": "O formulário baseline não contém nenhum mecanismo de repulsão. Nenhuma pergunta filtra por faturamento mínimo ou modelo de operação."
+        }
+    ]
+}

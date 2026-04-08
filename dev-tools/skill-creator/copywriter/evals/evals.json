@@ -1,0 +1,22 @@
+{
+    "skill_name": "copywriter",
+    "evals": [
+        {
+            "id": 1,
+            "prompt": "Aurora, ative o Copywriter e escreva a copy das perguntas do Formulário de Aplicação para o Advisory Recorrente (high-ticket). Você DEVE carregar o IDP do Regis Prado antes. Aplique rigorosamente os princípios de Anti-Alvo e repulsão descritos no protocolo e no tom de voz.",
+            "expected_output": "Conjunto de perguntas para o formulário estruturadas para repelir curiosos e atrair high-ticket. Sem em-dash, sem 'Founder', e seguindo a 1ª pessoa no formato 'Nerd da Roça'.",
+            "files": [
+                "/Users/regisprado/Downloads/New/clients/regis-prado/identity/02_IDP_Regis_Prado.md",
+                "/Users/regisprado/Downloads/New/clients/regis-prado/playbooks/00_Prompt_Mestre_Operacional.md"
+            ]
+        },
+        {
+            "id": 2,
+            "prompt": "Aurora, ative o Copywriter. Preciso de um script de VSL focado na 'Destruição da Ponte' sobre o modelo tradicional de agências, atacando o voo cego no tráfego. O público são infoprodutores e agências que faturam R$30k+. Cliente: Regis Prado.",
+            "expected_output": "Script de VSL que destrói a crença de operação por 'feeling', pautado por dados reais (CPL, ROAS). Sem uso de jargões gringos ou 'hackzinho', respeitando regras gramaticais estritas e mostrando o Mecanismo Único de Advisory.",
+            "files": [
+                "/Users/regisprado/Downloads/New/clients/regis-prado/identity/02_IDP_Regis_Prado.md"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Cliente | REVO Advisory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0B0B0B;
+            --bg-sidebar: #050505;
+            --clean-surface-dark: #121212;
+            --clean-surface-hover: #1A1A1A;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --revo-red-base: rgb(224, 0, 0);
+            --revo-red-shadow: rgb(38, 4, 4);
+            --revo-red-dark-card: #91160B;
+            --revo-red-border: rgb(168, 14, 0);
+            --text-main: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.55);
+            --font-main: 'Inter', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 0;
+            position: fixed;
+            height: 100vh;
+            z-index: 10;
+        }
+
+        .brand {
+            padding: 0 32px;
+            margin-bottom: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Logos */
+        .revo-logo-svg {
+            width: 110px;
+            height: auto;
+        }
+
+        .client-logo-area {
+            margin-top: 10px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .client-logo-img {
+            max-width: 120px;
+            max-height: 50px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(1.5);
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .client-logo-img:hover {
+            filter: grayscale(0) brightness(1);
+            opacity: 1;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 0 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-item.active {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.05);
+            position: relative;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: var(--revo-red-base);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background-color: var(--revo-red-base);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 15px rgba(224, 0, 0, 0.4);
+        }
+
+        /* Card do cliente no fundo da sidebar */
+        .client-card {
+            margin-top: auto;
+            padding: 0 20px;
+        }
+
+        .client-info {
+            background: var(--clean-surface-dark);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .client-avatar {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--revo-red-shadow), #111);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 16px;
+            border: 1px solid rgba(224, 0, 0, 0.3);
+        }
+
+        .client-details h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .client-details p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ─── CONTENT ─── */
+        .content-area {
+            flex: 1;
+            margin-left: 250px;
+            padding: 60px 80px;
+            max-width: 1400px;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-header {
+            margin-bottom: 48px;
+        }
+
+        .page-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--revo-red-base);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        /* ─── MEET CARD ─── */
+        .meet-card {
+            background: linear-gradient(135deg, var(--revo-red-dark-card) 0%, var(--revo-red-shadow) 100%);
+            border-radius: 16px;
+            padding: 32px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            border: 1px solid var(--revo-red-border);
+            margin-bottom: 60px;
+        }
+
+        .meet-card-content h3 {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .meet-card-content p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+        }
+
+        .btn-meet {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 80px;
+            background: white;
+            color: var(--revo-red-dark-card);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: var(--transition);
+            border: 2px solid white;
+        }
+
+        .btn-meet:hover {
+            background: transparent;
+            color: white;
+        }
+
+        /* ─── SECTIONS ─── */
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-label::after {
+            content: '';
+            height: 1px;
+            background-color: var(--border-color);
+            flex: 1;
+        }
+
+        /* ─── CARDS ─── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .access-card {
+            background: var(--clean-surface-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            min-height: 180px;
+        }
+
+        .access-card:hover {
+            transform: translateY(-6px);
+            background: var(--clean-surface-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .access-card:hover .card-icon {
+            color: var(--revo-red-base);
+            border-color: rgba(224, 0, 0, 0.3);
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .access-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .access-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 32px;
+            right: 32px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: var(--transition);
+            color: var(--revo-red-base);
+            font-size: 20px;
+        }
+
+        .access-card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ─── DASHBOARD ─── */
+        .dashboard-frame {
+            width: 100%;
+            height: 75vh;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .dashboard-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ─── METAS ─── */
+        .faturamento-card {
+            background: linear-gradient(135deg, #111, #080808);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 48px;
+            border-left: 4px solid var(--revo-red-base);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fat-valor {
+            font-family: var(--font-serif);
+            font-size: 64px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .kpi-card {
+            background: var(--clean-surface-dark);
+            border: 1px solid var(--border-color);
+            padding: 32px;
+            border-radius: 16px;
+        }
+
+        .kpi-card h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card .valor {
+            font-family: var(--font-serif);
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        /* ─── CRONOGRAMA ─── */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .timeline-item {
+            background: var(--clean-surface-dark);
+            border: 1px solid var(--border-color);
+            padding: 24px 32px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-execucao {
+            background: rgba(224, 0, 0, 0.1);
+            color: var(--revo-red-base);
+            border: 1px solid rgba(224, 0, 0, 0.2);
+        }
+
+        .status-concluido {
+            background: rgba(0, 224, 0, 0.1);
+            color: #00e000;
+            border: 1px solid rgba(0, 224, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="sidebar">
+        <div class="brand">
+            <!-- Logo REVO Advisory -->
+            <img src="../../../../../aurora/references/LOGO.png" alt="REVO Advisory" class="revo-logo-svg"
+                style="filter: brightness(0) invert(1); width: 140px; height: auto;"
+                onerror="this.style.display='none'; document.getElementById('revo-svg-fallback').style.display='block';">
+            <!-- Fallback SVG se o link quebrar -->
+            <svg id="revo-svg-fallback" class="revo-logo-svg" style="display:none;" viewBox="0 0 110 50" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 40L28 12H44Q52 12 52 20Q52 28 44 28H28L44 40" stroke="white" stroke-width="6"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M22 32L14 40" stroke="#FF0000" stroke-width="5" stroke-linecap="round" opacity="0.6" />
+                <text x="60" y="24" fill="white" font-family="Inter" font-weight="900" font-size="16">REVO</text>
+                <text x="60" y="38" fill="rgba(255,255,255,0.5)" font-family="Inter" font-weight="400" font-size="9"
+                    letter-spacing="2">ADVISORY</text>
+            </svg>
+
+            <div class="client-logo-area">
+                <!-- Logo do Cliente (Deve ser colocada em Interno/⚙️ Aurora — Não Mexer/identity/LOGO_CLIENTE.png) -->
+                <img src="../../Interno/%E2%9A%99%EF%B8%8F%20Aurora%20%E2%80%94%20N%C3%A3o%20Mexer/identity/LOGO_CLIENTE.png"
+                    onerror="this.style.display='none'" class="client-logo-img" alt="Logo Cliente">
+            </div>
+        </div>
+
+        <div class="nav-menu">
+            <a class="nav-item active" onclick="switchTab('painel', this)">
+                <i class="ph ph-squares-four"></i>
+                Painel
+            </a>
+            <a class="nav-item" onclick="switchTab('metas', this)">
+                <i class="ph ph-target"></i>
+                Metas & KPIs
+            </a>
+            <a class="nav-item" onclick="switchTab('dash', this)">
+                <i class="ph ph-chart-line-up"></i>
+                Dashboard
+            </a>
+            <a class="nav-item" onclick="switchTab('cronograma', this)">
+                <i class="ph ph-calendar-check"></i>
+                Cronograma
+            </a>
+        </div>
+
+        <div class="client-card">
+            <div class="client-info">
+                <div class="client-avatar" id="side-avatar">C</div>
+                <div class="client-details">
+                    <h4 id="side-nome">Cliente</h4>
+                    <p id="side-empresa">REVO Advisor</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content-area">
+
+        <!-- ABA: PAINEL GERAL -->
+        <div id="tab-painel" class="tab-content active">
+            <div class="page-header">
+                <div class="page-label">Workspace Central</div>
+                <h1>Bem-vindo, <span id="welcome-nome">Dono</span>.</h1>
+                <p>Seus links mestres de operação e documentação oficial orquestrados pela REVO Advisory.</p>
+            </div>
+
+            <div class="meet-card">
+                <div class="meet-card-content">
+                    <h3>Link da Reunião Fixo</h3>
+                    <p>Nossas calls acontecem através deste link. Alterações são confirmadas via Google
+                        Calendar.</p>
+                </div>
+                <a id="link-meet" href="#" target="_blank" class="btn-meet">
+                    Entrar no Google Meet <i class="ph ph-video-camera"></i>
+                </a>
+            </div>
+
+            <div class="section-label">Acessos Rápidos</div>
+            <div class="cards-grid">
+                <a id="card-drive" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-folder-notch-open"></i></div>
+                    <h3>Google Drive</h3>
+                    <p>Repositório com todos os assets, gravações e documentos entregues.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+                <a id="card-planilha-geral" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-table"></i></div>
+                    <h3>Planilha Geral</h3>
+                    <p>Consolidação global dos dados e orquestramento de vendas.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+                <a id="card-planilha-perpetuo" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-trend-up"></i></div>
+                    <h3>Planilha Perpétuo</h3>
+                    <p>Métricas diárias e performance do funil de vendas perpétuo.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+                <a id="card-planilhas-lanc" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-rocket-launch"></i></div>
+                    <h3>Planilhas de Lançamentos</h3>
+                    <p>Rastreio de captação e debriefings de todos os eventos realizados.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+                <a id="card-dna" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-fingerprint"></i></div>
+                    <h3>DNA do Cliente</h3>
+                    <p>Manual de marca, tom de voz, personas e promessas estruturadas.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+                <a id="card-momento" href="#" target="_blank" class="access-card">
+                    <div class="card-icon"><i class="ph ph-projector-screen-chart"></i></div>
+                    <h3>Momento Atual</h3>
+                    <p>Status vivo do projeto, metas do período e dores em resolução.</p>
+                    <i class="ph ph-arrow-right card-arrow"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- ABA: METAS -->
+        <div id="tab-metas" class="tab-content">
+            <div class="page-header">
+                <div class="page-label">Objetivos & Faturamento</div>
+                <h1>Metas Definidas.</h1>
+                <p>O norte estratégico da nossa consultoria de dados para este período.</p>
+            </div>
+
+            <div class="faturamento-card">
+                <div>
+                    <div class="section-label" style="border:none;margin:0">Faturamento Alvo</div>
+                    <div class="fat-valor" id="meta-valor">R$ 0</div>
+                    <p id="meta-msg" style="color:var(--text-muted)">Acompanhando o realizado através das planilhas
+                        mensais.</p>
+                </div>
+                <i class="ph ph-crown" style="font-size: 80px; opacity: 0.1;"></i>
+            </div>
+
+            <div class="kpi-grid" id="kpi-container">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+
+        <!-- ABA: DASHBOARD -->
+        <div id="tab-dash" class="tab-content">
+            <div class="page-header">
+                <div class="page-label">Looker Studio</div>
+                <h1>Performance Data.</h1>
+                <p>O monitoramento clínico de todos os funis da sua operação em tempo real.</p>
+            </div>
+            <div class="dashboard-frame">
+                <iframe id="frame-dash" src="" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- ABA: CRONOGRAMA -->
+        <div id="tab-cronograma" class="tab-content">
+            <div class="page-header">
+                <div class="page-label">Gestão de Projetos</div>
+                <h1>Próximas Entregas.</h1>
+                <p>Visão de curto prazo sobre as sprints e lançamentos em andamento.</p>
+            </div>
+            <div class="timeline" id="cronograma-container">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            el.classList.add('active');
+        }
+
+        const CONFIG = {
+            "cliente": { "nome_dono": "Matheus & Mari", "gestora": "Bruna", "empresa": "Mozini Advocacia", "avatar": "M" },
+            "links": {
+                "meet": "#",
+                "drive": "#",
+                "planilha_geral": "#",
+                "planilha_perpetuo": "#",
+                "planilhas_lanc": "#",
+                "dna": "#",
+                "momento": "#",
+                "looker": ""
+            },
+            "metas": {
+                "alvo": "R$ 500.000", "kpis": [
+                    { "label": "Custo por Lead", "valor": "R$ 3,50" },
+                    { "label": "Taxa de Conv.", "valor": "2.4%" },
+                    { "label": "ROAS Global", "valor": "5.2x" }
+                ]
+            },
+            "entregas": [
+                { "titulo": "Finalização do Dashboard de Lançamento", "status": "execucao" },
+                { "titulo": "Estruturação do DNA do Cliente v2", "status": "concluido" }
+            ]
+        };
+
+        // Populando
+        document.getElementById('welcome-nome').innerText = CONFIG.cliente.nome_dono;
+        document.getElementById('side-nome').innerText = CONFIG.cliente.gestora ? CONFIG.cliente.nome_dono + " (" + CONFIG.cliente.gestora + ")" : CONFIG.cliente.nome_dono;
+        document.getElementById('side-empresa').innerText = CONFIG.cliente.empresa;
+        document.getElementById('side-avatar').innerText = CONFIG.cliente.avatar;
+
+        document.getElementById('link-meet').href = CONFIG.links.meet;
+        document.getElementById('card-drive').href = CONFIG.links.drive;
+        document.getElementById('card-planilha-geral').href = CONFIG.links.planilha_geral;
+        document.getElementById('card-planilha-perpetuo').href = CONFIG.links.planilha_perpetuo;
+        document.getElementById('card-planilhas-lanc').href = CONFIG.links.planilhas_lanc;
+        document.getElementById('card-dna').href = CONFIG.links.dna;
+        document.getElementById('card-momento').href = CONFIG.links.momento;
+        document.getElementById('frame-dash').src = CONFIG.links.looker;
+
+        document.getElementById('meta-valor').innerText = CONFIG.metas.alvo;
+
+        const kpiHTML = CONFIG.metas.kpis.map(k => `<div class="kpi-card"><h4>${k.label}</h4><div class="valor">${k.valor}</div></div>`).join('');
+        document.getElementById('kpi-container').innerHTML = kpiHTML;
+
+        const cronHTML = CONFIG.entregas.map(e => `
+        <div class="timeline-item">
+            <span class="status-badge status-${e.status}">${e.status === 'execucao' ? 'Em Fila' : 'Check'}</span>
+            <div style="font-weight:600">${e.titulo}</div>
+        </div>
+    `).join('');
+        document.getElementById('cronograma-container').innerHTML = cronHTML;
+
+    </script>
+
+</body>
+
+</html>

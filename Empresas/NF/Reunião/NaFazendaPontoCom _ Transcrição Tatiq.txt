@@ -1,0 +1,427 @@
+# Reunião NaFazendaPontoCom
+
+  Meeting started: 3/12/2026, 2:00:52 PM
+  Duration: 89 minutes
+  Participants: Mariane Ferro, Matheus Moretti, Paola Peduzzi, Regis Povolati
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/gj8I4TaoQIVc9RjZ8dmg?o=txt)
+
+    
+
+  
+
+  
+    ## Highlights
+
+    > 01:07:11 Regis Povolati: resultado financeiro Ele ele traz um público mais qualificado que depois compra que depois compra o produto principal. Isso aqui. aqui As pessoas que compraram o combo especial de 59 pessoas sete foram precisar de Pack. Ou seja 12% a taxa de conversão e se comparado ao quem comprou só o ingresso sem nenhuma ordem. Olha como a taxa de conversão. Ela é bem mais baixa 5,6 então explorar os herders além de Para gente o ticket médio faz muito sentido que é engraçado, né? A pessoa
+> 01:08:11 Regis Povolati: Exato então a gente no próximo lançamento. O que que a gente vai olhar e fazer a gente tendo esses dados agora a gente vai fazer igual a gente tá fazendo lançamento latam a gente vai olhar para o custo de ingresso. Vamos mas a gente vai olhar por custo de ingresso com ordem Bump. Então às vezes vai ter um criativo que ele tá a gente tá? Até pagando mais caro na venda no caqui dele, mas se a pessoa tá comprando o combo a conta fecha além do ticketing médio ser mais alto, ela tem uma probabilidade muito maior de comprar o xrpack com esse grau de inteligência agora a gente consegue fazer isso para o próximo lançamento e projetar além daqueles ajustes que a gente já tinha falado sobre o percentual das pessoas que foram precisarem pack que não são tanto da base são mais do tráfego do que comprar os ingressos e tudo mais então isso para mim além do kit médio ajudar o Tite médio isso aqui para mim ajuda muito a
+
+  ## Transcript
+
+  00:00 Regis Povolati: E a iluminação?
+01:19 Regis Povolati: Como melhora? Tá me ouvindo? Me ouve. Não é absurdo cara, quanto? a iluminação
+01:54 Matheus Moretti: buenas
+01:55 Regis Povolati: Como estamos?
+01:56 Paola Peduzzi: Boa tarde
+02:06 Matheus Moretti: Tirando logo, tudo bem?
+02:10 Regis Povolati: nunca mexi no
+02:12 Matheus Moretti: Cara, tudo perfeito menos configurar essa m**** dessas atividades aí.
+02:18 Regis Povolati: Mas é tudo por chat igual as outras pelo que eu vejo é né?
+02:24 Matheus Moretti: Não tem a parte que você abre ele como programação, mas aí eu já não sei fazer.
+02:29 Regis Povolati: Mas aí não tem um chat.
+02:32 Matheus Moretti: Você tem você conversa e me deixar aqui, mas se você quiser abrir para editar manual você consegue.
+02:38 Regis Povolati: Ah entendi a principal facilidade logo porque automaticamente ele já está hospedado, né?
+02:44 Matheus Moretti: Também. E aí pelo plano que eu pago eu consigo até por domínio próprio, se eu quiser.
+02:51 Regis Povolati: Quando você está pagando nele por mês?
+02:53 Matheus Moretti: É que eu tô pagando um pano um pouco melhor por causa das coisas do laboratório, mas se fosse só pela gente seria 25 dólares.
+02:58 Regis Povolati: Tá entendi. É que o que que eu ia te falar já Boa tarde Mário, né? Primeiro
+03:08 Mariane Ferro: Tudo bom? Deixa eu fechar a janela. Aqui tá chovendo.
+03:08 Regis Povolati: antes de falar isso. Eu não manjo de louvable, eu já vi eu tentei usar uma vez mas eu senti algumas complicações exatamente na hora que você pede os ajustes porque se eu não me engano ele gasta os créditos ele não é ele não é tão receptivo com relação a essas coisas, então é o que eu sei do Lobo bom. Eu tô falando isso. Eu tô bem interado em algumas coisas de ar e a gente tá tocando um lançamento a gente já tá no quarto quinto lançamento com esse cliente que é a gente investiu agora 35 mil dólares e eles eles usam uma plataforma gratuita que chama ver céu e no plano gratuito você também consegue ter domínio próprio e tudo mais.
+03:52 Regis Povolati: O que eu imagino que eles estejam fazendo. Eu posso até confirmar com ele eles fazem o HTML pode ser no cod code no em alguma Ilha gratuita, tipo anti gráfico e tudo mais e aí eles jogam para ver céu que é gratuita a taxa de carregamento da página deles com 30 mil dólares de investimento tá tipo 75% e o HTML vai ser o mesmo que tá na loja o bom inclusive e ele não tem nenhum tipo de problema com relação a colocar os códigos e tudo mais porque a lol robô é boa o resultado ele tá sendo bom, mas além dessas complicações a taxa de carregamento não melhorou ela continua no mesmo padrão que a gente estava no na rocha e no turbo Cloud então se você quiser depois que terminar a gente começar a colocar rodar dar uma olhada nisso, chama uma vez é o ponto é eu mando aqui no grupo.
+04:52 Regis Povolati: É o que eu vou começar a fazer com os outros clientes e algumas páginas além de economizar hospedagem. Se for o caso.
+05:01 Matheus Moretti: Fala pegar o link da jogar lá.
+05:03 Regis Povolati: Não você pega o arquivo em HTML e joga lá dentro.
+05:07 Matheus Moretti: Eu acho que o problema é logo vou no esporte.
+05:09 Regis Povolati: Mas eu acho que se você pedir para ele gerar o arquivo HTML. Será que não tem como? Mas mesmo que a logoba não consiga exportar o arquivo HTML na página pronta, é só você apertar com o botão direito e salvar o arquivo como HTML vai ficar 100%, eu fiz algumas alguns desses com páginas que eu gostei na internet e vem a página inteirinha na hora assim, então mesmo é logo a bom não faça dá para testar porque aí você pode usar o aliar que eu tô usando aqui chamante grave que ela é gratuita. E aí você joga na versão?
+05:46 Matheus Moretti: Porque esse daí dá para configurar porque assim eu particularmente. Gostei do site como ficou.
+05:51 Regis Povolati: Ficou bem bonito.
+05:53 Matheus Moretti: Não sei se eu gostei é gastei uma tarde ali, mas muito mais pensando na Copa do que gastando no que propriamente construindo o site site foi tipo meia hora para construir então aí maior trabalho foi pensa nas cópias e tudo mais ali que eu achei que ficou legal é o maior trabalho que tá dando é configurar
+06:15 Regis Povolati: Olha, olha que o desse cliente inclusive Paola tem algum Ah, não é? Esse é o
+06:18 Matheus Moretti: isso aí se esse caminho seu já melhorar carregamento e já foi mais fácil configurar. Vamos testar isso é velocidade de carregamento da página.
+06:33 Regis Povolati: ponto é eu mandei ali eu tenho quase certeza que é exatamente isso no lançamento passado a gente investiu 26000 a taxa dele foi 74 ou seja 130 mil de investimento a taxa de 74 a gente às vezes investindo 100 reais não tá tendo essa taxa nesse lançamento. Deixa eu ver aqui, como é que tá. A gente investiu mais né? A gente vai bater o 30 mil na captação vai bater uns 35 no total 76% com 31 mil dólares de investimento em captação. A página dele tá bonita não a página dele não tá bonita ele não ele não se preocupam em deixar a página bonita, mas mesmo que estando bonita a nossa caia para 70.
+07:21 Regis Povolati: Eu não acho que vai cair eu acho que vai Talvez até mais alto, porque o investimento é menor na escala. Vou compartilhar aqui na tela o a diferença dos gráficos. Aí eu compartilho de vocês também para mim o que mais chama atenção é olha como é linear essa taxa de carregamento dele o lançamento todo é uma taxa linear. Quando a gente olha para o uso na Fazenda.
+07:54 Regis Povolati: Ela ela oscila muito, eu não sei se é porque é um servidor do Brasil mesmo na rocha. Mesmo na Turbo Cláudio não qual desses nomes é o novo?
+08:25 Regis Povolati: E aí eu perguntei para ele eu acredito que eu vi outras pessoas indicando a versão. Descarrega tá com bastante dado a gente subiu todos os dados de Perpétuo. Olha como varia o connect é esse aqui. Ele tem até Picos, mas são Picos numa média muito mais baixo, né? Então aqui tem tanto antes da Turbo Cloud e agora com a Turbo Cloud Imagino, que tipo aqui seja hostinger.
+09:11 Regis Povolati: E aqui seja Turbo Cloud, então dá a gente vê uma melhor mas talvez com a versão, a gente vai ver um gráfico mais aqui e isso impacta para caramba. Estudar de carregamento da página aproveitando que a gente tá falando de arma eu vou até poupar gravar que eu sei que você gosta e tá usando logo porque que eu tô falando tudo isso, eu até comprei um Mac Mini tá para chegar eu tô usando bastante para bastante coisas aqui asiáticas, eu tô usando esse anti Gravity.
+09:52 Regis Povolati: Esse anti Grave se você consegue com as contas, você usa várias modelos, já ele é gratuito, você usa vários modelos de aqui dentro, você vai trocando e ele vai gastando você vai utilizando e ele fica na sua máquina como se fosse o Cláudio Cold como se fosse o acho que o chá de PT tem o próprio. E aí a partir dos HTML são gerados, você pode subir no hospedagem que é o que a gente tá fazendo então ele tem essa visão que é uma visão de chat mesmo igual a gente está acostumado e é igual você falou do logo ou ele tem uma visão de Ele tem essa visão aqui de mais de código e você consegue implementar uma plataforma dentro da outra. Então ele tem essa visão aqui, mas você consegue utilizar só a parte de terminar o de código dele também.
+10:41 Regis Povolati: E aí depois você consegue subir para dentro do de uma De um painel seja no WordPress ou seja dentro dessa versão é só você literalmente você arrastar então, eu vou mostrar para vocês aqui os HTML que a gente gerou. Literalmente eles dão eles passam para gente o HTML eu vou lá subo dentro da do site. E aí já fica já fica todo funcional aqui o HTML dentro do dentro do site, eu não testei o carregamento ainda. E aparentemente fica igualzinho da o da louvable. Ele dá meio que um erro quando você testa no sites fazer dessa forma que eu tô fazendo aqui no WordPress, não ficou bom, mas esteticamente ele fica bem mais fácil e bem mais bem mais útil, então eu tô testando ele fica bem funcional, tem algumas coisas que eu vou passar para vocês também que a parte do dos clientes para a gente organizar, mas olha como ele fica até superior que o logo em algumas coisas funcionar sozinha.
+11:48 Matheus Moretti: Direito a lógica como fazer a gente usar isso para a gente usar isso para gerar
+11:50 Regis Povolati: É um HTML igualzinho, eu tô falando para você gerar. E aí eu subo para a página, ele fica online. Bem bem bem igual você tá fazendo no novo robô por texto mesmo. Só que a diferença é que para ele ficar funcional, tá vendo mais bonitinho assim, eu gerei primeiro a parte do brandbook que é essa parte é aqui vocês não estão vendo tá vendo que ele tem esse movimento no fundo, ele tem o botão que mexe e tudo mais eu primeiro fiz esse documento e aí eu peço para que tudo que for gerado seja gerado nesse mesmo padrão, mas para você se você quiser um detalhe Uns detalhes a mais eu vou te mandar essa plataforma aqui também que é gratuita, você consegue copiar os de Animação para você colocar no site tudo em código então. Ah, quero que
+12:53 Matheus Moretti: para montar as páginas.
+12:55 Regis Povolati: Isso você pode montar as páginas e depois você a partir do HTML que tá pronto que é o que você tá fazendo na loja bom você pode melhorar o nível das coisas desses detalhamento das páginas depois que o HTML que vai estar pronto que você vai gerar, aí você sobe nesse céu que eu te falei, entendeu?
+13:12 Matheus Moretti: E aí você pede para ele substituir?
+13:15 Regis Povolati: Eles substituir as copos também, se quiser ou pode usar as mesmas. Porque como ele está integrado com o tem o cloud Sonic lá dentro que é atualmente o Sonic a Opus que são Atualmente as duas melhores ias para texto do mundo ele ele mesmo ele consegue otimizar a cópia aí ele monta um plano de ação. Olha primeiro eu vou ajustar a cop, agora eu vou ajustar o texto aí você fala eu quero um fundo com um monte de animação e caindo cometas aqui, você vem nesse site e copia o prompt, manda para eles e aí ele já faz isso no
+14:12 Regis Povolati: fundo, então foi assim que eu consegui chegar nesse resultado aqui juntando todas essas peças. Deixa eu fechar algumas coisas que tá travando aqui.
+14:39 Regis Povolati: Tanto que eu vou mostrar agora para vocês ver se vocês estão conseguindo vão conseguir ver minha tela.
+14:50 Matheus Moretti: Tá funcionando Pixel tá funcionando os cookies só não tá funcionando as atividades o quanto que a gente perde em não ter o registro de atividades ou para que vocês precisam disso?
+15:07 Regis Povolati: Você diz o rastreio.
+15:09 Matheus Moretti: É porque assim tá funcionando quando a pessoa clica lá no pop-up pelo que eu vi que o Caique falou já tá mandando os hulks lá mandando as mensagens que ele pediu então não tá conseguindo rastrear a questão de evento.
+15:27 Regis Povolati: a gente perde uma análise mais clara, na hora que a gente for fazer um the briefing igual agora, a gente vai fazer do do imersão então mesmo com os As coisas instaladas a gente já tem uma perda natural, mas ela chega normalmente a 10% Quando não tem esses script de rastreio instalado, aí a gente fica praticamente cego dependendo da meta e da gente caçar manualmente o que der para caçar, entendeu? Então para análise de dados, depois é bem ruim.
+16:08 Mariane Ferro: O resto só uma dúvida esse Pixel ele já é o mesmo que a gente usa para todas as assim, foi criado um novo.
+16:16 Regis Povolati: Não, esse é o Pixel que a gente usa para tudo é o Pixel do suplementação é
+16:18 Mariane Ferro: Para tudo, né?
+16:20 Regis Povolati: seu padrão que agora que desde que a gente mudou isso.
+16:21 Mariane Ferro: Tá que daí ele ligou o padrão, né? Tirou fixa individual.
+16:26 Regis Povolati: Isso é o mesmo é que isso daí que o Mateus não tá conseguindo implementar não é? O Pixel, ele é o são os códigos de rastreio que a gente usa para não depender só do pixel.
+16:39 Matheus Moretti: Ele tá falando é isso aqui ó, ele acabou de falar agora. Eu não sei aí essa parte da meta é com vocês aí.
+16:51 Regis Povolati: Mas eu tô tentando fechar as coisas aqui, mas eu tô bem travado também. Acabei de validar nos blogs chegando com sucesso.
+17:35 Regis Povolati: Tá então segundo a meta a segunda logo voltar a parte do Pixel tá chegando. Tá Paula. Vê isso que O que O Mateus mandou por favor, tenta fazer esse teste dentro do act ali da do suplementação que é o padrão.
+17:54 Matheus Moretti: Eu fiz até agora eu peguei a página do trava do boi que tá tudo certo e falei assim Jerry.
+18:01 Mariane Ferro: Tá sem áudio não tá ou é aqui para mim que tá ruim?
+18:05 Matheus Moretti: Acho que é para você que tá ruim.
+18:08 Regis Povolati: É para mim tá normal aqui.
+18:12 Matheus Moretti: Que eu fiz eu fui lá no na página do trava. Falei para o lado Nigéria o mesmo comando que eu deveria usar em outras páginas para dar certo a questão do Pixel e dá certo todo rastreamento dos eventos. Ele gerou ele gerou tipo um comando. E aí eu coloquei esse comando aqui e não tá indo.
+18:37 Regis Povolati: Nossa tentar reiniciar.
+18:59 Matheus Moretti: Mas pode ser uma bunda bem, sei lá.
+19:08 Regis Povolati: Assim já que tá atrapalhando isso, eu acho que que dá para a gente fazer como a gente vai dividir em três grupos. A gente já vai ter uma noção de rastreio. A gente perde um pouco e como não vai ser um investimento tão grande. A gente não tá falando de um Perpétuo nenhum. Lançamento é igual ao seu por exemplo que a gente investe mais e é um teste no logo para a gente não continuar perdendo tempo e às vezes deixar de começar a captar por conta disso. Eu acho que dá para dá para deixar sem por enquanto pelo menos.
+19:40 Matheus Moretti: Estão acabando a reunião que eu já vou duplicar a página já coloco o link do WhatsApp para os alunos e já passa o trabalho para ela mandar e já faço a página do pessoal diante de paz também que a Maria já me mandou tudo isso.
+19:55 Regis Povolati: Não pelo que eu vi era só aqueles detalhes mesmo. Já colocou a parte de
+19:57 Matheus Moretti: Que vocês queiram.
+20:05 Regis Povolati: pergunta de profissão, já tá disparando api já colocou o WhatsApp. Tá coletando tudo a partir do momento que dispara webcam e a gente consegue coletar todas as informações ali não tá dentro do padrão que a gente gostaria, mas pelo menos tá funcionando para a gente começar a testar.
+20:30 Mariane Ferro: Tá então terminando hoje a gente já pode fazer o disparo em todos os grupos.
+20:32 Regis Povolati: sim
+20:45 Mariane Ferro: A gente já está falando na verdade, né?
+20:51 Regis Povolati: Eu tenho aqui o The briefing para falar e ver algumas coisas do próximo lançamento que seria o lançamento já do Mateus, mas se quiser perguntar do meteoro que eu acho que a gente já pode avançar prometeuórico primeiro.
+21:03 Mariane Ferro: É na verdade assim olhando para os anúncios, o Mateus criou aqueles estáticos. E aí por enquanto a gente tem alguns vídeos do Bruno, mas o Bruno ainda não eles ainda não foram. Editados só uma dúvida essa edição a gente já passa para vocês certo?
+21:29 Regis Povolati: É pelo que a gente tinha combinado iam ser aqueles vídeos do Perpétuo, né? Iam ser 10 vídeos simples do Perpétuo e 10 estáticos do Perpétuo, mas é mas se quiser passar o gerente de Passo a quantidade segue a mesma não tem problema não é só a gente combinar.
+21:47 Mariane Ferro: É não, mas eu acho que a gente pode fazer o gerente de pasta, até porque o Gustavo eu mandei as cópias, o Gustavo recebeu já tem uma semana não retornou hoje eu cobrei mas ele nem visualizou a minha mensagem então acho que nem tem previsão ainda. Espero que aconteça dentro do mês de março o Rodrigo mesma coisa então acho que talvez o que a gente vai ter de edição vai ser os criativos do formulando estático mesmo e esses vídeos do mestre. Se aparecer alguma coisa e a gente alinha.
+22:21 Mariane Ferro: tá
+22:21 Regis Povolati: Esses vídeos Quantos são até então do gerente de pasto?
+22:25 Mariane Ferro: É assim ó, eu fiz eu enviei. nove copos de vidro Para distribuir entre eles e aí eu deixei livre caso um deles quisesse gravar copos iguais tava tudo certo, porque a gente atestado.
+22:45 Regis Povolati: perfeito
+22:46 Mariane Ferro: Mas até agora só o Bruno mandou então, ele mandou agorinha na hora do almoço, eu vou baixar aqui. Vocês querem me passar um link de uma pasta?
+22:58 Regis Povolati: Pode ser?
+22:59 Mariane Ferro: Onde eu posso subir para vocês fazerem as edições desses?
+23:04 Regis Povolati: Eu vou.
+23:04 Mariane Ferro: Que daí terminando aqui terminando aqui eu já subo os links os vídeos para vocês fazerem as edições. E aí subir junto com a campanha, né? Mas acho que a campanha já deve rodar com os criativos estáticos, né? Que o
+23:20 Regis Povolati: perfeito
+23:24 Mariane Ferro: Mateus fez.
+23:27 Matheus Moretti: Final de semana amanhã e sábado de fazer mais eu tô com 12 criativos estáticos para montar aqui fora que eles estão Então até sábado vai ter mais alguns.
+23:41 Regis Povolati: Vou criar pasta aqui está? vídeos
+23:48 Mariane Ferro: É o que eu recebi aqui, parece que foram uns quatro cinco.
+24:00 Regis Povolati: Vou mandar essa pasta já tá compartilhada com vocês que é a mesma pasta a gente organizou as pastas de vocês. Então tem as datas dos lançamentos tem todas as reuniões ali que ficam gravadas, tá? Tá organizadinho a pasta. Então sempre que vocês precisar eu vou mandar depois esse painel que eu mostrei para vocês. Eu vou mandar mas de qualquer forma para vocês verem. Todos os arquivos então vocês têm essa pasta que a pasta compartilhada tem todos os lançamentos e os seus devidos arquivos aqui do Perpétuo também tem os seus arquivos e referências, estamos terminando alguns detalhes de organizar, mas sempre que precisar e as reuniões também tem todas as reuniões e os arquivos dentro da pasta aqui esse essa esse link que eu mandei tá aqui dentro de pasta arquivos. E aí tem aqui os criativos a ficha técnica. A planilha tá tudo organizado aqui dentro, tá?
+24:59 Mariane Ferro: Terminando aqui eu já subo aí vai ter esses prá edição. E aí só uma dúvida rege assim o que eu fiquei com dúvida, não sei nem se você assim, você chegou a ver aquele arquivo do da ficha técnica que eu coloquei algumas dúvidas da estrutura do lançamento. Tipo assim, porque lá tava que a gente
+25:17 Regis Povolati: tá
+25:20 Mariane Ferro: abriria carrinho dia 30 Faria captação do dia 14 até o dia 29, só que assim ó antes antes da abertura de carrinho. Como como que como que geralmente você faz o movimento dentro do grupo de aquecimento? Já que a gente não vai ter tipo porque lá no arquivo tinha assim lá e de alguma coisa.
+25:44 Regis Povolati: Assim é aquele aquele foi o primeiro, né? Que tava errado. Depois eu corrigi. Eu fiz os ajustes igual você falou também e a gente ajustou a revelação da oferta no dia anterior. A gente colocou às 19 no final da tarde a revelação no dia anterior, porque eu acho que se fizer no meio da tarde no domingo, eu acho ruim e a gente pode vir vindo fazendo um aquecimento algum alguns vídeos mensagens texto ali para aquecer a galera que tá dentro do grupo, principalmente no grupo que já tem os alunos que eu acho que dá da onde vai sair é maior quantidade de vendas esse grupo já falando mais sobre sobre da forma que vocês falam um curso que vocês sempre pediram e tudo mais mandaria algumas mensagens, se eu não me engano. Esse era o padrão que vocês faziam no domingo, manda o vídeo revelando a oferta detalhes esse vídeo normalmente é o que se faz no meteoro se eles não puderem gravar dá para ser um texto mesmo explicando a oferta e dizendo que no dia seguinte às 7 horas.
+26:44 Regis Povolati: Da manhã vai abrir essa condição até o final do dia o meteoro normalmente, se eu não me engano o padrão do primeiro meteoro, se eu não me engano era na quarta e na quinta, né? E aí abrir os grupos interagia com a galera num dia no outro dia abrir o grupo e fazer a oferta durante o dia normalmente de aquecimento no máximo. A gente mandava uma mensagem outra na semana então. Nesse caso como vai cair no fim de semana? Eu mandarei mensagem só no domingo.
+27:13 Regis Povolati: Tipo na quinta-feira que vai estar mais próximo uma mensagem ou outra tem que ver como que é o combinado de vocês com relação aos grupos como vocês fazem. Normalmente quando são de outras pessoas você mesmo abre o grupo e interage com a galera ou não, abre o grupo e só manda mensagem ali falando sobre a oferta. Como que vocês fizeram das outras vezes.
+27:37 Mariane Ferro: A gente fazia a captação. É onde eu vou eu vou de trás para frente tá? A gente fazia a captação aí por exemplo, a gente vai abrir carrinho dia 30 que é na segunda no domingo, então a gente vai fazer a oferta a gente vai falar, qual é o valor do desconto.
+28:01 Regis Povolati: isso
+28:02 Mariane Ferro: No caso do Rodrigo a gente mandou escrita. Quando a gente fez os outros ou eu gravava um vídeo falando da oferta. Teve um momento que eu acho que foi um dos clubes, se eu não me engano Mateus gravou um vídeo falando da oferta, mas era do Clube. Então assim existe a opção da gente eu ou Mateus gravar um vídeo falando da oferta ou escrever a oferta. Eu acho que eles fazerem falando do desconto, eu não sei o quanto eles vão não sei o quanto vai ser legal sabe tipo. Então assim ou a gente grava e faz ali um pitzinho até mostrando da parceria.
+28:47 Regis Povolati: sim
+28:54 Mariane Ferro: Eu acho que não tem problema a gente aparecer até porque vai existir uma parceria entre na fazenda e o gerente de pasto ou escreve tá aí três dias antes da abertura do carrinho a gente enviava um formulário. um formulário Perguntando se eles tinham dúvidas, pode ser até três ou quatro dias antes perguntando se eles tinham dúvidas referente ao método ao curso ou ao que eles iriam encontrar ali dentro.
+29:30 Mariane Ferro: E aí a gente poderia fazer isso na quarta? E aí sexta e sábado a gente mandaria mensagens aquecendo o grupo respondendo as dúvidas. Tipo, o que que o curso mete a gente entrega. Qual a diferença de tal coisa? Para eu implantar o método Eu Preciso aumentar a equipe. E aí até a gente pode inventar perguntas.
+30:02 Regis Povolati: Basicamente o que vocês faziam era pegar a parte que se faz normalmente no dia anterior de abrir o grupo e gerar as respostas e vocês fazem isso alguns dias antes.
+30:11 Mariane Ferro: Na verdade não é nem que não é nem que a gente faz faz anos, a gente não costumava abrir o grupo a gente acostumava mandar um formulário ao invés de abrir o corpo a gente manda um formulário isso gera isso acaba gerando uma preparo até maior. Nossa em relação ao que a gente vai responder.
+30:31 Regis Povolati: não faz sentido é que
+30:32 Mariane Ferro: E aí a gente passa dois dias aquecendo o grupo. Tipo vai ter planilha não vai. Quais materiais vão ter disponíveis, quantos módulos carga horária? Quem são os professores enfim?
+30:47 Matheus Moretti: Na minha opinião e até pelos nossos Eventos passados tanto no na imersão Nossa quanto nos meteoros? Para mim o chat é um baita termômetro do que vai acontecer na hora do Pit assim como essa abertura e o envio de perguntas também é um baita termômetro para a gente pensar em conversão aí uma pergunta para fazer assim. Ó, em vez de no dia lá não teve. Pergunta a gente começa a pensar em como aquecer porque a gente não pode começar a pensar antecipar isso. Por exemplo essa colocação serve tanto para um dia de um pit ao vivo, quanto no meteoro tipo se a interação no Já tiver baixa como aquecer ela ou se a interação for se envio de perguntas for baixo, como aquecer esse público, entendeu? Eu acho que isso é um pergunta que a gente deveria fazer deveria se fazer e já tem.
+31:50 Mariane Ferro: Na verdade até por isso que não é muito legal, inclusive algumas coisas Paola Reges. papagaio periquito cachorro entre no grupo porque
+32:05 Regis Povolati: Sim sim, a gente faz cliente oculto.
+32:08 Mariane Ferro: Porque a gente inventa um comprovante. E aí quando o grupo desaquecer vocês pega aí e dá aquela respirada. Tipo. Parabéns Paola. Você acaba de se inscrever no Messenger a gente faz, tipo a gente sempre botou pessoas ocultas ali dentro sabe para dar uma leve aquecida de novo aí assim ó, até por isso que gera uma certa insegurança Régis de abrir o grupo. E aí a gente fala assim turma. Tô abrindo o grupo a interação.
+32:39 Regis Povolati: E não tem interação.
+32:39 Mariane Ferro: E aí eu vou ficar
+32:42 Regis Povolati: É a gente normalmente, coloca cliente oculto sempre fizemos isso normalmente tem um grupo que dependendo da quantidade de grupos o grupo de alunos vai ter menos pessoas provavelmente. Mas vai ser mais engajado o grupo de pessoas mais frias, provavelmente vão vir do tráfego. Esse é o grupo. Que menos tende a ter interação e é normal, faz bastante tempo sinceramente que eu não vejo uma galera fazendo que eu não participo de meteoros nesse formato de abrir grupo e tudo mais eu não sei se a galera tem feito mais tanto que eu vi até que o Kinder é mudou um pouco a metodologia, mas eu acho que o Mateus falou faz muito sentido é muito nítido assim quando o chat tá mais movimentado, depois o resultado ele vem maior do que quando o chat tá tá quieto então.
+33:32 Matheus Moretti: Fazer coisas aleatórias para tentar recuperar tipo a marca que tá indo para o brejo. Então já mas a gente consegue imaginar dá para a gente pensar em situações, por exemplo tá fraca a interação. O que que a gente vai fazer já como plano de contingência, a gente tem que pensar isso antes.
+33:51 Regis Povolati: Sim, cliente oculta um e mandar algumas perguntas esses próprios clientes oculto, a gente normalmente tem ter uma uma lista de perguntas escritas na forma que essas pessoas escreveriam para ser o primeiro é tipo quando final de palestra. Alguém tem uma pergunta se a primeira pessoa não faz a primeira pergunta ninguém mais pergunta, mas depois da primeira pessoa levantar a mão fica às vezes horas ali então o cliente oculto como vão ser três grupos, eu acho bem tranquilo ter três números diferentes e aí puxar essa movimentação. E número 2 na hora de abrir o grupo.
+34:29 Regis Povolati: Abrindo o grupo. Eu não eu não falaria prazo de quanto tempo o grupo vai ficar aberto porque a gente já falou vai ficar aberto por duas horas sim 15 minutos o grupo não tiver pergunta fecha o grupo. Manda um vídeo lá alguma foto alguma coisa e meio que esquece da atenção nos outros grupos e antecipar que o grupo vai ficar aberto. A gente pode pensar em algum benefício de quem tiver presente no grupo naquele momento para ah estejam aqui que a gente vai responder as perguntas de vocês nesse horário vai ser o nosso único momento de contato, porque normalmente nos lançamentos que a gente fazia o que que a gente fazia o especialista parava nessa uma hora por exemplo e ele ficava as pessoas perguntavam no grupo. Ele mandava um áudio respondendo e a gente encaminhava no grupo, então a pessoa tinha sensação que era o próprio especialista.
+35:19 Regis Povolati: Eles então.
+35:19 Matheus Moretti: O que pode fazer não é só para não perder o que a gente pode fazer Mari é tentar perguntar para os meninos. Fala um menino que são três, né? Se eles poderiam estar disponíveis tipo no dia 29 de Março em algum horário para fazer isso aí, entendeu?
+35:39 Mariane Ferro: É assim, ó, por isso esse é um caminho, só que falando em termômetro o próprio formulário, ele é um termômetro. Porque tipo assim você manda você manda o link as pessoas pagam um minuto e preenchem. Ela já é um baita termômetro.
+35:55 Regis Povolati: quantas perguntas vocês fazem normalmente nas
+35:59 Matheus Moretti: Formulário ele se ele for positivo o plano B esquece. Agora se o formulário for negativo a gente tem que ir para o terceiro o segundo passo que é o segundo passo abrir essa questão de perguntas falando que os meninos vão falar respondendo por uma hora e aí tem que alinhar com eles. Se ainda se for fraco a gente tem que ter um plano sem entendeu? Se for um lado for bom. Beleza já tá certo se a movimentação de formulário foi boa, beleza? Já cancela o plano B.
+36:31 Regis Povolati: sim
+36:32 Matheus Moretti: A questão é formulário que a gente vai ter a atuação do formulário
+36:34 Mariane Ferro: sim
+36:35 Matheus Moretti: formulário foi ruim, tá bom? Vamos para o plano B que é o plano B. Aí a gente tem que estar com ele já engatilhado, não adianta no dia a gente fala assim ai vamos ver com os meninos se eles podem participar não a gente tem que ver já antes, entendeu?
+36:46 Regis Povolati: É eu acho que Plano B seria isso abrir os grupos e ver se eles conseguem estar disponíveis às 19 horas para ficar nem que seja 30 minutos uma hora. Eles não precisam estar nos grupos, o que que normalmente a gente faz a gente criar um grupo com especialista mandava a dúvida, às vezes era dúvida que nem tava no grupo que era uma dúvida que a gente criou e falava, manda um áudio explicando com suas palavras como o método resolve isso aí, o especialista mandava um áudio para gente nesse grupo e a gente encaminhava lá porque porque isso fazer com que às vezes o grupo nem tava movimentado. A gente tinha inventado isso para através do cliente oculto esse era um termômetro esse era uma das coisas outra coisa que a gente fazia que aí eu sei que tem os seus pontos positivos e negativos, eu não sei o quanto eles podem fazer isso é Abrir Live no Instagram os três com na fazenda para trocar ideia eu eu vejo sendo algo positivo.
+37:41 Regis Povolati: A se testar em última instância porque aí se nem no Instagram é com Mateus ou a Mari sendo host, por exemplo os quatro conectados numa Live vocês meio que fazendo perguntas e tirando dúvidas vocês conduzindo a conversa e mesmo assim não tiver interação no chat não tiver nada em como última instância aí nesse momento. Eu não consigo pensar em mais nada. Aí eu teria que parar para ver outra estratégia.
+38:09 Matheus Moretti: Com eles por exemplo. Então acho que é plano A formulário Plano B, eles respondendo pergunta e um plano C. A gente abriu uma live na quinta-feira dia 29.
+38:26 Mariane Ferro: Dia 29 não é quinta é domingo.
+38:28 Matheus Moretti: É um dia antes, né?
+38:30 Regis Povolati: isso
+38:31 Mariane Ferro: O Bruno não vai estar né? Porque o Bruno está de férias.
+38:32 Regis Povolati: então
+38:36 Mariane Ferro: tá então assim, ó, o Plano 1 seria mandar o
+38:40 Matheus Moretti: Porque até Faria antes e disse para eles lá no grupo que eu falava faria a gente pode mandar o site para eles verem que ficou bonito ficou bonito, eles vão gostar a gente pode pegar baixar os arquivos dos criativos falar assim, ó, a gente tá montando alguns criativos para complementar o de vocês também. Manda lá para ver que a gente tá fazendo coisas e não só pedindo para eles.
+39:03 Matheus Moretti: E aí daí explicar um pouco vai funcionar essa questão eu falei assim, ó no dia tal vai ter um envio de um formulário o que a gente pensou é se esse essa movimentação for fraca em aquecer de algumas formas o plano B seria s para não ser seria esse vocês tocam.
+39:20 Regis Povolati: Boa eu acho legal deixar ele deixar eles a par também mostrar o que está sendo feito.
+39:25 Matheus Moretti: Entendeu? O que que você?
+39:30 Regis Povolati: o formulário
+39:34 Matheus Moretti: Na verdade.
+39:35 Mariane Ferro: Tá vocês.
+39:37 Regis Povolati: Se você tiver esses outros que você fez Maria aí a gente pode criar. Ou se você quiser fazer e a gente a partir do que você seja porque sinceramente a gente nunca fez um formulário. Nesse estilo se você quiser fazer a gente dar os nossos pitacos de que poderia ser melhor ou não, porque são perguntas mais para entender o a temperatura que essa galera tá entender. Quem são como se fosse uma pesquisa mesmo, mas um pouco mais interativa, né?
+40:06 Matheus Moretti: E até que Mário pensando independente do Plano. A eu acho que vale a pena implementar o b sabe porque eu falei assim eu faria lá e o b se o Ato é fraco em vez de fazer a e b a gente.
+40:22 Mariane Ferro: É na verdade, a gente pode fazer assim, ó, o a e o b por exemplo turma, a gente tá enviando o formulário para vocês colocarem as dúvidas, porém de a tal, a gente vai abrir o grupo para vocês colocarem as dúvidas de vocês lá também. E aí não
+40:42 Regis Povolati: Eu acho que se fizer assim direto as pessoas vão responder o formulário, vamos esperar.
+40:48 Mariane Ferro: É a gente pode mandar o formulário então ao invés da gente mandar o formulário. Tipo na quarta, eu acho que a gente já pode começar a aquecer o grupo. Na segunda. Aí a gente manda o formulário segunda manda o formulário na terça e manda de novo na quarta, tipo não tem problema. Tipo assim, só
+41:04 Regis Povolati: perfeito
+41:06 Mariane Ferro: mensagem de sejam bem-vindo ao grupo blá blá tá aqui um formulário pá aí na quinta a gente quinta e sexta tá na quinta a gente fala assim pessoal, estamos organizando estamos organizando estamos processando as dúvidas de vocês. E a partir de amanhã a gente volta aqui para a gente poder trazer as respostas das dúvidas de vocês. E aí a gente pega e fala assim turma. Amanhã a gente vai abrir o grupo para vocês trazerem as dúvidas de vocês caso.
+41:46 Mariane Ferro: Caso vocês queiram. E aí se parar de interagir o grupo tipo? Ah, o grupo ficou branco ninguém mais interagiu a gente fala assim turma, vamos aproveitar e vamos trazer a dúvida do João que enviou lá no formulário porque aí a gente meio que fica assim tem gente que não é tímido e tem gente que é tímido. Tem gente que vai querer perguntar ali tem gente que se resguardou viu a formulário. E aí a gente faz um mix do plano lá com o plano B.
+42:15 Mariane Ferro: E aí assim quem quem mandar na hora ali assim a gente bota um tempo, por exemplo, a gente vai abrir carrinho na segunda a gente pode abrir tipo domingo cedo o grupo que eu acho que talvez seja um horário legal do próprio Josimar ali ou por Edmar e a gente fala ó, a gente vai abrir o grupo domingo cedo para integração e o Google vai ficar aberto por duas horas. Vocês topa tá aqui nesses duas horas com a gente porque daí a Mari pega dúvida, manda para eles eles respondem e fica esse bate-papo meio que similar.
+42:51 Regis Povolati: Eu acho uma boa.
+42:52 Mariane Ferro: E aí no domingo tipo? Domingo dia 29 é é que eu tô é que eu tô pensando se eu tenho algum
+42:59 Regis Povolati: isso
+43:02 Mariane Ferro: compromisso grande no domingo, mas eu não tenho não, eu tenho dia 28 que é o XR. E domingo é sábado à tarde aí assim a gente pega e fica nesse mito domingo cedo fecha o grupo horário do almoço domingo à tarde abre a oferta. Domingo à noite ali final do diabo é oferta e segunda cedo a gente abre carrinho, tipo 7 horas da manhã eu pus o São Paulo 6 aqui ou tipo 5 aqui 6 aí. E toca o pau aí Reza a gente costuma.
+43:32 Regis Povolati: Comprovante já vai.
+43:37 Mariane Ferro: A gente costuma abrir o grupo na segunda porque por exemplo quem mandar. Comprovante a gente dá alguma coisa em troca e a gente só tem que pensar no que dar em troca.
+43:53 Regis Povolati: Colocar tá legal, é normalmente a gente fala que vai fazer vai passar a pessoa para o grupo de alunos, né? Fazer o tem uma palavra que o kindé usa é fazer não é fazer o upgrade vou te promover para o grupo de alunos. E aí a gente pode entregar alguma coisa algum benefício. Para quem já foi fazendo isso, isso é bom. para movimento
+44:17 Mariane Ferro: Tá então pode ser assim, né? Então tipo dia 23 na segunda a gente manda
+44:22 Regis Povolati: semana
+44:23 Mariane Ferro: formulário.
+44:24 Regis Povolati: E já começa a falar faltam sete dias e já manda o formulário.
+44:26 Mariane Ferro: Dia 24 a gente manda.
+44:32 Regis Povolati: E 25 manda 23 24 25.
+44:34 Mariane Ferro: É dia 23 24 25 aí? Dia. Dia 27. A gente deixa o grupo meio standy by falando que as respostas estão sendo processadas. Aí no sábado dia 28 e 29 domingo a gente responde. E dia 29 de manhã? A gente abre o grupo. Com a participação do Josmar e do Edmar, se o Bruno quiser também não sei. Aí dia 29 no domingo à noite. a oferta E aí dia 30 abre carrinho? certo
+45:39 Regis Povolati: Perfeito é dia 30 abre e fecha o carrinho no mesmo dia e a gente reabre. Dia dia eu coloquei aqui dois ou três Eu Deixaria um dia de descanso.
+45:53 Mariane Ferro: O Régis eu não lembro se a gente deixava esse dia de descanso ou se a gente falava que tipo algumas pessoas perderam blá blá blá.
+46:03 Regis Povolati: É eu acho que normalmente a gente dava esse dia de descanso é para ver o Feeling do suporte do comercial, porque normalmente é quando acontecia isso tinha uma enxurrada de venda para o final do dia que era no dia da pressão aí no dia seguinte um monte de gente de fato. Começava a mandar mensagem. Ai perdi ai não consegui comprar se a gente sentisse que tinha esse.
+46:27 Regis Povolati: Essas pessoas que ficaram na mesa em cima do muro, aí a gente reabria no dia seguinte a gente deixava tudo pronto. Aí a gente só definia. Olha, vamos fazer isso hoje ou vamos fazer isso no dia seguinte porque se não tivesse Às vezes a gente nem fazia ou fazia um tiro curto de duas horas, a gente ficava muito no filho, eu acho que a gente pode deixar pronto e você De o termômetro disso ó tá chegando gente aqui o grupo tá tem gente aquecida tem gente me mandando mensagem. Vamos reabrir aí é aquela desculpa. Ah várias pessoas não pagaram boleto. O pessoal tá pedindo e tal. A gente decidiu reabrir por duas horas por 24 horas por mais x horas, a gente fica muito no fim isso.
+47:06 Mariane Ferro: beleza
+47:09 Matheus Moretti: E aí você vai continuar falando do método ou já foi tudo mais?
+47:15 Mariane Ferro: Eu acho que era mais isso assim que na dúvida.
+47:19 Matheus Moretti: Outra coisa que eu te mandei até como sugestão e eu lembro que você comentar, será que é um tempo curto, mas tipo a pessoa ela Se cadastrou e ela fica meio que no Limbo até a gente começa a movimentar o grupo. Porque mandei ontem três sugestões de e-mail para pessoa receber uma mensagem de e-mail quando ela se cadastrar uma mensagem de e-mail. Depois de 5 dias e um bom dia antes de abertura do carrinho, a gente podia fazer esse movimento tanto no por e-mail quanto por WhatsApp vocês não acha?
+47:53 Mariane Ferro: Então mas via e-mail a gente não tem né?
+47:53 Regis Povolati: Até faz tem que configurar lá tem que implementar.
+47:57 Mariane Ferro: Porque a como não faz.
+48:04 Regis Povolati: Tem que ver se dá para implementar o turbo Cloud o pacote que se vocês pagam na Turbo Cloud porque pela hostinger tinha o pacote de e-mails a uma vez a gente usou, mas assim como e-mail para a gente nunca nunca gerou muito resultado. A gente deixou de lado, mas há como tinha eu tô até abrindo aqui já para confirmar a como tinha como integrar o e-mail lá aí você cria uma automação igualzinho a gente cria de WhatsApp lá dentro. Eu tô vendo aqui se tem como ainda aí você tem que avaliar essa implementação.
+48:36 Mariane Ferro: beleza aí você vê
+48:40 Matheus Moretti: A mesma mensagem que a gente que tá montado lá ficou boa e ficou simplesinha podia usar ela tanto para o e-mail quanto para o WhatsApp, entendeu? E aí mandar no X1 no WhatsApp.
+48:51 Regis Povolati: Olá tem sim Maria fica aqui ó em configurações configurações de e-mail, aí você consegue adicionar o e-mail deve ter uma configuraçãozinha básica que vocês devem ter que fazer no próprio e-mail da onde o e-mail do na fazenda que vocês usavam tá hospedado que é tipo vocês vão colocar aqui, o e-mail é uma área rouba na fazenda.com no mínimo eles vão dar algum algum Eles vão pedir essas informações que no próprio e-mail no próprio servidor, você vai conseguir essas informações e aí a partir desse momento você consegue fazer os disparos aí como funciona esse disparos é igual os robozinho que cria na hora de enviar WhatsApp. Só quer ser selecionar a fonte do e-mail, mas se você conectar aqui depois a gente manda um videozinho. Como utilizar e tudo mais é que essa parte de conexão precisa ser de dentro da conta de vocês com a senha de vocês e tudo mais.
+49:49 Mariane Ferro: Para não a gente conecta o e-mail do marketing market@ E aí vai ter que
+49:54 Regis Povolati: fechou
+49:55 Mariane Ferro: movimentar, né? Porque assim como vai ser usada a primeira vez, pode ser que dê um monte de spam.
+50:02 Regis Povolati: sim
+50:03 Mariane Ferro: Porque nunca foi feito disparo pelo e-mail novo.
+50:07 Regis Povolati: É eu e Nossa faz eu diria que a última vez que eu fiz lançamento com e-mail. Acho que foi o primeiro que vocês que a gente fez junto que vocês usaram. É a galera de vocês.
+50:19 Mariane Ferro: É antigamente Viação.
+50:23 Matheus Moretti: Não tem porque não fazer e assim a gente poderia pegar essas mesmas três
+50:29 Mariane Ferro: É antigamente a gente fazia depois a gente acabou que parou.
+50:29 Regis Povolati: sim
+50:38 Matheus Moretti: mensagens, talvez adaptar elas enxugar elas um pouco e fazer disparo no X1 no WhatsApp.
+50:44 Regis Povolati: É isso a gente faz via. Pepe oficial. Isso a gente já faz já vai fazer pode ser as mesmas mensagens a gente já consegue deixar programado. Se você quiser mandar ali no grupo. Quais são as mensagens porque a gente a gente assim que a pessoa cadastrar já vai receber uma e dentro de 24 horas, a gente pode mandar quantas mensagens quiser e se a pessoa interagir a janela de 24 horas, aumenta então a gente pode sempre sempre utilizando isso.
+51:13 Mariane Ferro: Só antes ou Régis Confirma com o Caique. se Se já tá conectado o site. Com o Web Hulk.
+51:28 Regis Povolati: esse tá
+51:29 Mariane Ferro: Tá para poder ter a entrada de livro lá na planilha e api daí?
+51:31 Regis Povolati: já tá Deixa eu só. Já tá conectado para receber o nome e-mail e telefone.
+51:39 Paola Peduzzi: Eu tô testando aqui esse negócio aqui tipo. São dois testes que eu testei, né? Aquele teste de evento em si mesmo que a gente faz para ver se do evento tá parecendo Realmente esse não tá o que o único que aparece. É esse. Ele consta como?
+52:06 Regis Povolati: Ah mas o de page viu tá tá aparecendo tudo bem.
+52:08 Paola Peduzzi: servidor é aquele É esse daqui, né? Servidor. Enfim, não é do site. Esse site não acontece nada. Já testei várias vezes.
+52:24 Regis Povolati: Talvez ele Talvez ele só funciona e tipo API de conversões. Porque o servidor de conversões? Se tá gerando se tá gerando o peixe vivo pelo menos volta lá no gerenciador
+52:37 Paola Peduzzi: É isso que eu tava.
+52:42 Regis Povolati: de eventos, vamos ver.
+52:45 Paola Peduzzi: Ele fica assim.
+52:46 Regis Povolati: Provavelmente é esse o problema. Tá se tá gerando API de conversões, ele vai gerar o evento a gente só vai perder de um lado, mas de conversões e até tende até a ser melhor não é o ideal, mas é o que eu falei para a gente começar a rodar em um lançamento que a gente vai investir relativamente pouco a gente já começa a testar isso no meio do caminho com o avião no ar mesmo a gente for ajustando aí com Mateus. A gente tenta se desce para implementar o GTM seria melhor. Aí depois a gente vê isso. Vamos primeiro colocar no ar e a gente vai ajustando. Porque como é pouco investimento não vai ter tanta otimização assim.
+53:23 Matheus Moretti: Aí assim Acho que a Mari já vai soltar isso no grupo hoje, a gente já vai ver a entrada de alunos para o grupo e dá para pegar e já colocar essas campanhas com os estáticos para rodar.
+53:36 Regis Povolati: Sim a gente vai
+53:39 Paola Peduzzi: Entre hoje e amanhã eu acho que tem outras aqui, mas amanhã acho que não.
+53:41 Regis Povolati: sim Tá os estáticos, você chegou a conferir para aula dimensão tudo Mateus mandou ali. Acho que ele mandou no canva, deixa eu abrir aqui. Dá uma olhada. Se tiver tudo OK você põe aí, depois as tarefas que você já tá você já coloca dentro da rotina aí.
+54:05 Matheus Moretti: Em teoria tá tá certo, Dona Paula, essa vez eu fiz direitinho para você não brigar comigo.
+54:12 Regis Povolati: Pessoal tem mais alguma coisa do gerente?
+54:17 Mariane Ferro: Não eu acho que não só só uma dúvida Régis. As perguntas algumas perguntas de aquecimento eu já tinha antecipado e pedi para eles gravar alguns vídeos respondendo. E aí outras conforme o formulário for chegando a gente vai pensando em alguma coisa também as perguntas de envio.
+54:36 Regis Povolati: Ou você fala para captar pessoas?
+54:40 Mariane Ferro: Lá na planilha as cópias as coisas vocês vão organizar daí tipo. É por exemplo assim a mensagem a mensagem do da oferta, já que a gente vai
+54:58 Regis Povolati: assim
+54:58 Mariane Ferro: escrever a estrutura em si ali de copo sabe tipo dia tal aquela planilha de ponto de contato.
+55:05 Regis Povolati: Padrão. Vamos sim, vamos sim, tudo padrão. A única diferença é a gente eu
+55:08 Mariane Ferro: beleza
+55:10 Regis Povolati: não tenho certeza se a gente vai fazer os dois que é a planilha, mas a gente tá enviando agora para os nossos clientes assim aí como que funciona tem as datas aqui. Tem qual que é o ponto de contato certinho e a narrativa é que nesse aqui é só o explicativo assim que você aperta em ver narrativa, ele abre um pop-up e já mostra a narrativa com uma mensagem de exemplo.
+55:38 Mariane Ferro: Ah mas vai ser uma mensagem de exemplo não vai vir uma mensagem formatada.
+55:44 Regis Povolati: Não vem da mesma forma que a gente fez lá nas outras assim, ó. Tem uma sugestão com a mensagem. E o a ideia da mensagem como todo igual a gente fez naquele fluxo, a gente mandou exemplo, você desenvolve a mensagem e aí a gente valida para poder enviar.
+56:05 Mariane Ferro: Então assim ó para vocês poderem validar para enviar eu preciso que vocês antecipem isso, entendeu? Tipo até que dia que você consegue liberar os pontos de contato para eu poder criar porque a gente está falando em criar, né? Tipo vocês vão dar ideia, mas a criação da Copa vai vir da gente então precisa
+56:26 Regis Povolati: Sim, sim.
+56:27 Mariane Ferro: saber assim o dia que você vai liberar os pontos de contato para eu poder trabalhar em cima das cópias. Para vocês poderem validar. E como que vai acontecer essa validação? Vai ser tipo uma planilha igual a gente vinha trabalhando de Excel.
+56:41 Regis Povolati: Isso mesmo no mesmo lugar no mesmo estilo daquela planilha ali e aí a gente só usa os emojis para validar. Deixa eu ver como é que estão as datas dos prazos que a gente tinha organizado aqui, mas eu acredito que Uns três dias antes, eu acho que é suficiente Mari para a gente conseguir organizar a mensagem a gente coloca as mensagens lá para de três dias para frente até três dias para frente ao invés, porque normalmente a gente tava deixando lá em cima, né?
+57:14 Mariane Ferro: É porque assim ó. A mensagem do dia 23 24 com formulário, ela é padrão é tipo sejam bem-vindos a esse grupo blá blá blá blá, tipo isso aí, tá tranquilo, o que eu vou
+57:24 Regis Povolati: Essa mensagem adal oferta de revelação do vídeo a gente manda mensagem
+57:28 Mariane Ferro: precisar mais é assim seria a mensagem da oferta.
+57:35 Regis Povolati: completa tá? Essa a gente manda desenhada no padrão certinho.
+57:39 Mariane Ferro: É porque daí essa seria o que vai ser enviado no domingo à noite, né?
+57:44 Regis Povolati: Isso domingo à noite e segunda-feira de manhã essa gente manda detalhar.
+57:48 Mariane Ferro: Isso é Beleza. Então, tá do dia 29 do dia 30, vocês mandam aí o resto eu
+57:55 Regis Povolati: exatamente
+57:56 Mariane Ferro: vou me virando porque porque
+57:59 Regis Povolati: O resto é captação e evento e depois quando tá aberto mesmo padrão desse aqui. Ó, esse aqui a gente mandou a mensagem da oferta revelada e o roteiro do vídeo como nesse caso a gente não vai ter o roteiro do vídeo. E aí a mensagem da liberação do link liberado e tudo mais então essa mensagem em si, a gente a gente manda a parte do pré-lançamento que a fase decapitação que aí a gente manda as sugestões, mas as duas mais importantes que é a liberação do oferta e o autorização do vídeo. Se for ter essa gente manda a mensagem.
+58:38 Mariane Ferro: Não, beleza. fechou
+58:41 Regis Povolati: Então, eu vou colocar aqui para três dias antes, mas a ideia a gente tá com outra pessoa aqui então a ideia se a pessoa já ia adiantando já passei para elas para essa pessoa questão do dos vídeos também e dos estáticos do formulando. Então a gente vai vai adiantar o máximo de coisas desse lançamento para tentar organizar ele quanto antes que daqui a pouco vai começar intercalar com o outro, né?
+59:08 Mariane Ferro: Não beleza eu acho que por enquanto é isso assim, né. Eu vou criar o formulário posso compartilhar lá Caso vocês queiram dar Pitaco.
+59:20 Regis Povolati: Perfeito, não é as respostas.
+59:21 Mariane Ferro: Uma parte mais intuitiva assim de levar eles até a responder o que a gente quer que eles respondam.
+59:34 Regis Povolati: Perfeito, aí a gente põe as mensagens na para cair na planilha para a gente fazer o match de perfil e tudo mais.
+59:46 Mariane Ferro: beleza
+59:48 Regis Povolati: Antes da gente encerrar eu vou mostrar um pouco do The briffin, depois eu vou mandar ele mais completo para vocês que a gente está finalizando. Mas algumas informações bem legais e relevante do da imersão. Se tiver travando muito vocês me fala, eu tô tentando fechar tudo aqui, mas Não tá aguentando.
+01:00:15 Matheus Moretti: Filma aí fala ó, eu faço em reunião quando o computador
+01:00:17 Regis Povolati: Que eu faço choro e reinicia o computador. Eu vou mandar esse arquivo depois para vocês na verdade, eu vou subir tudo vocês vão ter vocês estão conseguindo me ver, eu travei a câmera.
+01:00:30 Matheus Moretti: Não você travou mas a tela.
+01:00:33 Regis Povolati: Tá então vou terminar a imersão. Esse foi essa foi a comissão líquida final que foi gerada da imersão. Em cima do investimento. Esse foi o Rose a visão executiva, né? O panorama geral a gente vendeu 233 ingressos a comissão Liquida gerada foi esses 92 mil o investimento Total ficou em 28 com captação api remarketing fechamos em 29 vendas o caqui médio por aquisição de cada cliente. Dos ingressos na verdade ficaram ficou esse valor.
+01:01:16 Regis Povolati: O roas de entrada a gente tomou um pequeno prejuízo dessa vez diferente do que foi no lançamento passado, mas o que salvou a gente conseguia atingir mesmo com craque mais caro foram os horário de urbanos. Eles representaram o faturamento do Jardim representou quase o dobro do que o faturamento do dos ingressos em si e E aí tem alguns pontos importantes e relevantes que para a gente ajustar para o próximo de pontos positivos, né? Mas aqui tem uns top criativos então depois a gente vai corrigir alguns links que não estão aparecendo, mas aqui vocês vão conseguir ver quais foram os melhores criativos é óbvio que os criativos de que começaram e criativos de pressão, eles tendem a funcionar melhor, mas os criativos estáticos, eles eles foram mais foram os melhores criativos, que que geraram resultado nas vendas de custo de custo mais baixo foram esses criativos aqui, depois a gente manda todas as informações, mas também tá na planilha para vocês verem tem.
+01:02:22 Matheus Moretti: Você vai mandar esse link para a gente Visualizar por aí?
+01:02:28 Regis Povolati: então, vocês vão poder ver também o principal em vídeo foi o Foi o primeiro lá para estrear. O presente é o Mateus mostrando a TV a lousa os outros variações e Versões dos vídeos estão aqui. Vou colocar depois todas as informações. Os vídeos os remarketings né? Os vídeos de pressão eles geram vendas, então eles são importantes que eles são os que geram o CTA mais baixo. Mas é óbvio que eles são utilizados em momentos estratégicos então por isso que eu nem coloquei ele como top criativos lá porque não é toda hora que dá para usar as pressões, né? Então tem nos seus momentos.
+01:03:13 Regis Povolati: Funil de conversão a gente teve uma taxa legal então a gente capturou 336 litros 70. Tenta comprar os ingressos então uma taxa legal de 70% das pessoas que se cadastraram então a gente tem uma meta que acabou 40 39% comprar no Harder bamps, então bem interessante também 25% comprar um combo especial e 12% compraram 12,45 comprar XRE pack de métricas assim é o que a gente já tinha discutido, né? Todas essas métricas aqui estão ótimas o que faltou foi aumentar a boca do Funil para chegar mais limites a um custo aceitável para poder aumentar isso aqui e aí são os ajustes que a gente já conversou que vai fazer para o próximo alguns pontos relevantes os líderes os ingressos do lote 1 representar uma quantidade de venda bem bem legal para o xrp.
+01:04:11 Regis Povolati: Mas é e o lote 6 também o lote zero são normalmente os líderes mais quentes e preparados, mas isso aqui é mais uma métrica para avaliar se tinha algum sentido ou se não tinha taxa de conversão e tudo mais é mais para a gente ter histórico, porque eu já tinha visto que não faz tanta diferença em qual lote as pessoas compram Tá mas é bom para gente ter histórico o WhatsApp gera sempre bastante resultado a um custo baixo, então a gente fez bastante venda de ingresso através do WhatsApp gastando bem pouco, então é um número bem interessante. Outra coisa que deixa eu ver se eu consigo.
+01:04:54 Mariane Ferro: O resto é só uma dúvida essa venda de WhatsApp é base.
+01:05:00 Regis Povolati: A venda do WhatsApp isso a gente pega a base e dispara para a base.
+01:05:01 Mariane Ferro: E é base, né? Aí só só não sei se você assim só lembrando aquilo que eu comentei que embora a base compra mas as conversões direto para o XR não estão acontecendo. Só para enxergar isso.
+01:05:25 Regis Povolati: Sim, depois a gente vai unificar tudo isso e colocar no padrão o perfil de profissão principal que comprou os ingressos. Então foram maior parte pecuaristas com 1.500 cabeças de gado e mais ainda pecuarista que comprou xrpack Light isso pelo menos foi um cruzamento que a gente fez da pesquisa de ingresso ver essa pesquisa de compra que foi os que responderam. A maioria pagou em 12 vezes no cartão. E essas são as informações então assim bem relevante o percentual tanto de pessoas que são pecuaristas comprando o ingresso e mais ainda no xrpack sinal que para o próximo a gente tem que fazer mais criativos e dar mais atenção e energia em cima dos pecuaristas em si, porque eles que convertem depois para o XR Pack.
+01:06:26 Regis Povolati: Deixa eu pegar vamos ver se ficou em algum lugar aqui. Tá não apareceu nesse the briefing, mas eu vou eu vou pegar os dados aqui. Vou falar para vocês, mas de bruxa em final que a gente vai enviar vai estar o Os compradores de ordem de combo do combo, principalmente eles eles converteram precisa repete Lite se eu não me engano 3,5 vezes mais do que quem só comprou o ingresso Eu tô abrindo aqui, eu vou compartilhar com vocês, então além do warnerbamp além.
+01:07:11 Regis Povolati: resultado financeiro Ele ele traz um público mais qualificado que depois compra que depois compra o produto principal. Isso aqui. aqui As pessoas que compraram o combo especial de 59 pessoas sete foram precisar de Pack. Ou seja 12% a taxa de conversão e se comparado ao quem comprou só o ingresso sem nenhuma ordem. Olha como a taxa de conversão. Ela é bem mais baixa 5,6 então explorar os herders além de Para gente o ticket médio faz muito sentido que é engraçado, né? A pessoa
+01:08:06 Regis Povolati: compra participa e ainda compra o próprio produto eu acredito.
+01:08:09 Matheus Moretti: Ele é um termômetro.
+01:08:11 Regis Povolati: Exato então a gente no próximo lançamento. O que que a gente vai olhar e fazer a gente tendo esses dados agora a gente vai fazer igual a gente tá fazendo lançamento latam a gente vai olhar para o custo de ingresso. Vamos mas a gente vai olhar por custo de ingresso com ordem Bump. Então às vezes vai ter um criativo que ele tá a gente tá? Até pagando mais caro na venda no caqui dele, mas se a pessoa tá comprando o combo a conta fecha além do ticketing médio ser mais alto, ela tem uma probabilidade muito maior de comprar o xrpack com esse grau de inteligência agora a gente consegue fazer isso para o próximo lançamento e projetar além daqueles ajustes que a gente já tinha falado sobre o percentual das pessoas que foram precisarem pack que não são tanto da base são mais do tráfego do que comprar os ingressos e tudo mais então isso para mim além do kit médio ajudar o Tite médio isso aqui para mim ajuda muito a
+01:09:08 Regis Povolati: taxa de conversão. a gente tem a clareza de que vende ingresso é bom, mas fazer inclusive mais ações para as pessoas comprarem o combo quando a gente durante a captação a gente vende para mais pessoas os ingressos continua vendendo, mas tem muito mais pontos de contato para tentar vender o compra para essas pessoas porque A gente tá falando de Quase três vezes mais aqui 5.6 versus 11,9.
+01:09:40 Regis Povolati: Duas vezes mais né? Então é um percentual relevante e esse aqui também Mesmo que não seja o combo seja só a gravação ou outros orderbumps é uma taxa mais alta também.
+01:09:55 Matheus Moretti: beleza
+01:09:58 Mariane Ferro: Essa análise Ficou bem legal.
+01:09:59 Regis Povolati: Ficou legal, né? Depois a gente vai finalizar pode ver que ele não trouxe alguns links a gente tá.
+01:10:04 Mariane Ferro: Olhando para a ideia de ordem.
+01:10:06 Regis Povolati: sim
+01:10:07 Mariane Ferro: E é engraçado, né como as pessoas não porque quem comprou o combo podia ter explorado o cashback, eu acho que uma pessoa explorou o cashback só e pediu.
+01:10:15 Regis Povolati: e poucas pessoas Sim muita gente pensa Ah, vou vender gravação não vai ter gente ao vivo é normalmente os dados que o pessoal da mentoria lá do William Baldan é que aumenta até a taxa de comparecimento. Isso é uma das taxas que inclusive eu vou anotar para colocar taxa de
+01:10:34 Matheus Moretti: No próximo no próximo no próximo imersão vai ser imersão.
+01:10:41 Regis Povolati: Se a gente não mudar se a gente na reunião que a gente vai fazer específico de concepção, se a gente que a gente for trazer as ideias e tal a gente pode bater, mas eu acho eu acho ser um bom caminho assim.
+01:10:56 Matheus Moretti: Eu gosto da ideia de 2.0 3.0 115.0 e assim sucessivamente legal e aí a gente vai bater essa narrativa semana que vem já para a gente começar por incomodar.
+01:11:11 Regis Povolati: Deixa eu confirmar aqui, mas eu tenho quase certeza que sim, tava marcado para dia 14 e aí como dia 14, a gente não tem reunião a gente joga para próxima reunião vai ser ou vamos fazer na quinta manter na quinta.
+01:11:20 Matheus Moretti: Na quarta pode ser semana que na quarta semana que vem pode ser para mim.
+01:11:26 Regis Povolati: é Marcado planejamento de dia 14 ao dia 19. Então é assim que começa o a captação do gerente de Passo nos próximos dois dias aí aí a gente já começa a olhar para o planejamento do
+01:11:43 Matheus Moretti: Fazer na quarta-feira às 2 horas, pode ser?
+01:11:46 Regis Povolati: Pode ser vou alterar aqui já a gente já traz algumas ideias o nome eu já gosto. E a gente traz ideia de narrativa. A gente tinha falado sobre não usar mais aquela narrativa de profissionalização, né focar na verdade até usar mas tomar cuidado na forma de usar, né?
+01:12:05 Matheus Moretti: Eu preciso dar uma ruminada nisso aí também aí eu vou ver se eu faço isso para semana que vem e eu tento trazer algumas sugestão diferente.
+01:12:13 Regis Povolati: a gente traz também e
+01:12:16 Matheus Moretti: O gás que a gente trouxe na aula na aula misteriosa, sei lá, como se chamaram aqui do se você precisasse me ver da sua fazenda você viveria sobreviveria.
+01:12:22 Regis Povolati: a Secreta
+01:12:30 Matheus Moretti: Acho que é um bom gancho assim para explorar. enfim, eu tenho que simplificar algumas entregas na minha fala também, depois durante os dois dias de lançamento que eu vou ver se eu já exercito isso para Para trazer para vocês na quarta-feira.
+01:12:51 Regis Povolati: perfeito
+01:12:53 Matheus Moretti: Marcar com o Fábio, vamos ver se a gente marca a semana que vem tá depois
+01:13:02 Mariane Ferro: Tá bem.
+01:13:06 Matheus Moretti: você quiser mandar no grupo lá para ele sugerindo quinta-feira de manhã para a gente conversar.
+01:13:12 Mariane Ferro: Quinta-feira dia 19 não é 19.
+01:13:17 Matheus Moretti: Ou quinta ou sexta seria os dois dias que eu vou ter tempo lá para preparar entrega para ele ou quinta ou sexta de manhã.
+01:13:27 Mariane Ferro: beleza
+01:13:29 Regis Povolati: Perfeito na hora que for se você for mexer no que eu te falei das ias tá Mateus tanto no anti grave, eu vou até te mandar um nome disso é uma hiada do Google. É que eu te mostrei que ela é gratuita, você conecta na conta do Google, se vocês pagarem o Google Space vocês tem até mais créditos mesmo ela sendo gratuito, ela tem um limite e quem paga o Google é um pouco mais caro.
+01:13:55 Matheus Moretti: Eu li por cima parece ser extremamente interessante, só que não deu tempo velho, tá? Eu tô muito mal de gestão de tempo. Eu tô precisando aprender
+01:14:09 Regis Povolati: Não.
+01:14:10 Matheus Moretti: coisas porque tá brava.
+01:14:12 Regis Povolati: Tranquilo, só tô te passando porque é qualquer coisa na hora que você tiver aí fuçando você me manda mensagem, mas ela é você vai colocar lá no seu computador e tal e é Talvez seja até melhor usar ela para mandar as coisas mais detalhadas em Mark. Dá um para o logo ao invés de tentar ficar gastando com ele para ele entender, mas agora já tá rodando enfim.
+01:14:36 Matheus Moretti: É talvez até pensando aqui. Acho que o próximo site que for fazer eu vou duplicar. Trava do boi e tentar ajudar em cima dele. Vamos ver se dá certo, eu já mandei
+01:14:51 Regis Povolati: Perfeito, a gente vai acertar aqui.
+01:14:53 Matheus Moretti: aí no grupo Os Três sites. Do gerente de pasto já estão nativos do WhatsApp. Acho que em termos de entrega de WhatsApp de gerente de pastas que é isso? Eu vou ver se até amanhã amanhã nós vai fazer um procedimento de eu ficar um bom tempo no hospital, mas vou ver se o tempo que eu tiver vaga lá que fica com cabeça, eu monto mais uns três quatro criativos pelo menos E compartilhe com vocês lá, tá? Bora aí fora, isso é a Maria linha com vocês aí a interface de montar os estáticos do formulando e usar os 10 edições de vídeo que a gente tem para fazer esses do gerente de voz também.
+01:15:39 Regis Povolati: Tá sobre isso.
+01:15:40 Mariane Ferro: Até os estados tudo formulando a gente não teve ainda retorno do prazo.
+01:15:46 Regis Povolati: Ah sim, falamos sim amanhã. A gente mandou no grupo não mandou não ficou.
+01:15:52 Paola Peduzzi: Eu mandei acho que eu opsi Maria no dia que eu conversei com você.
+01:15:53 Regis Povolati: A gente vai a gente vai saindo.
+01:15:55 Mariane Ferro: Tá mas aí amanhã a gente começa a rodar já então os estáticos nos anúncios. Porque eu ainda não recebi tipo.
+01:16:07 Regis Povolati: É isso. Que é isso que eu ia perguntar para você, agora, eu acho que você vai falar das cópias certo de direcionamento de cópias você tinha você tinha alguma coisa que você tinha feito de copos de estáticos ou não? A gente faz. Manda uma referência, manda um início para validar.
+01:16:21 Mariane Ferro: Não eu tinha eu.
+01:16:23 Regis Povolati: tá
+01:16:24 Mariane Ferro: Eu mandei lá no grupo. Acho que foi na quinta-feira mesmo da reunião.
+01:16:29 Regis Povolati: Beleza era só para confirmar.
+01:16:30 Mariane Ferro: eu mandei a foto, deixa eu pegar aqui para eu te Eu mandei a foto da onde que tava. Aqui foi dia 6. Eu vou marcar lá a conversa.
+01:16:52 Regis Povolati: Ah beleza, tá na nossa página mesmo, tá no nosso guia mesmo.
+01:16:55 Mariane Ferro: É ficou lá é para a gente concentrar tudo lá, entendeu? Aí eu mandei as sugestões de copos lá aí o que eu preciso saber é qual que é o prazo que vocês vão vão entregar elas para a gente poder tipo tá ok para botar o formulando rodar porque ele parou agora, né?
+01:17:14 Regis Povolati: Sim, é isso que eu ia falar o formulando, ele já tem alguns criativos de videozinho simples e ele já tem ele tem estáticos, ele tem estáticos na conta não, né?
+01:17:26 Mariane Ferro: Não estático. Não, ele só tem um trabalho.
+01:17:28 Regis Povolati: Estático não vocês.
+01:17:32 Matheus Moretti: Sempre o estático, eu recebia uma animação básica do Campo.
+01:17:38 Regis Povolati: Tem Ah, então a gente a gente usa como referência esses estáticos com animação básica ou vocês têm alguma referência do estilo de criativo? Ou a gente pode seguir igual a gente fez uma imersão trazer vários, formatos e visuais diferentes para validar com vocês e botar para testar.
+01:17:57 Matheus Moretti: De vocês uma animaçãozinha básica que tem lá que eu lembro que ele deu muito certo na época é um cara assim é um videozinho bem Tosco que aparece uma foto de um faro de soja do Milho, apareça vários tipos ingredientes.
+01:18:14 Regis Povolati: E a voz tem que falava ou ia fazer na época já a voz ou vocês falavam essas vozes o texto? Ah, era só texto com uma musiquinha.
+01:18:21 Matheus Moretti: Que dá para pensar em suplementação é quando passa muda a forma totalmente
+01:18:24 Mariane Ferro: Lá eu sugeri níveis, tipo assim, eu sugeri níveis de ureia.
+01:18:25 Regis Povolati: Entendi não.
+01:18:33 Matheus Moretti: tem que mudar você sabe fazer esse ajuste sabia que de forma simples. Você pode ter essa autonomia. Acho que são são coisas legais, sabe?
+01:18:50 Mariane Ferro: Eu sugeri pegar diferentes.
+01:18:55 Matheus Moretti: A frase tentar usar palavras mais simples, talvez em vez de falar níveis a quantidade.
+01:19:03 Mariane Ferro: sim
+01:19:03 Matheus Moretti: Sabe é por exemplo em vez de falar. Tipo tentar sempre falar da forma mais simples com a pessoa conseguir entender em vez de falar. Taxa sempre tipo quantidade porque esses termos é eu, acho que vai facilitar o entendimento, sabe?
+01:19:19 Mariane Ferro: É na verdade, vai ter que cuidar com a unidade, né? Porque tipo assim a gente a gente não fala é 5 kg 10 kg. Lá eu coloquei tipo assim, ó, tipo assim nas cópias, eu sugeri tipo níveis de inclusão de ureia explorar. Eu sugeri um desse também tipo assim pilhar vários ingredientes e colocar. Qual é o tipo de como que faria uma formulação. Eu acho que eu sugeri e coloco fazer um saco de suplemento.
+01:19:54 Mariane Ferro: Fazer um saco de suplemento com tantos por cento de proteína ou de saco de suplemento com Outros tantos por cento de proteína e tipo eu fiz alguma sugestões relacionadas a isso acho que eu fiz um de aditivo também tipo.
+01:20:11 Regis Povolati: É eu vi que de estáticos.
+01:20:11 Matheus Moretti: Roda e as ideias depois a gente eu entro lá na frente.
+01:20:19 Mariane Ferro: É até porque também Mateus tem as tops em vídeo, eu acho que essa é de essa de transição, eu acho que ela funcionaria melhor em vídeo do que propriamente em um estático, entendeu?
+01:20:36 Matheus Moretti: Eu vou voltar eu vou voltar com minha carboidrato, agora, vou ficar mais criativo também.
+01:20:42 Regis Povolati: Tá bom, tá certo.
+01:20:44 Matheus Moretti: Eu confesso que eu me perco toda hora nesses links para acessar esse por causa
+01:20:47 Mariane Ferro: Gente que mundo vocês vivem. Olha aqui que eu tô comendo bolo de cenoura.
+01:20:51 Regis Povolati: pai amado bolo de cenoura fofinho
+01:20:57 Mariane Ferro: O mundo do que? Nossa ontem eu corri 5 km hoje eu já tô comendo bolo de cenoura, aí hoje eu corro mais cinco amanhã eu entro em uma Bohemia, mas não leve eu em
+01:21:11 Regis Povolati: Tá certo
+01:21:12 Mariane Ferro: consideração que eu não tenho nada de equilíbrio. Eu não tenho régua, né? Tipo eu vivo. Eu vivo hoje cedo eu comi uma banana agora, eu tô comendo bolo de cenoura. O resto mas eu acho que eu fiz umas 7 ou 8 sugestões de estático lá, eu
+01:21:32 Regis Povolati: é
+01:21:34 Mariane Ferro: sugeri tipo coloca saco de dois sacos de suplemento. Enfim. Acho que dá de ter umas ideias.
+01:21:43 Regis Povolati: Perfeito a gente.
+01:21:44 Mariane Ferro: Até porque os temas dos estáticos. E aí o próprio resultado do estático. Talvez ele ajude a gente a criar promessas e consequentemente a evoluir para os próprios vídeos que o Mateus pode pode gravar.
+01:22:03 Regis Povolati: Sem dúvida perfeito eu vou eu já vi aqui tem milho e sorgo tem verdadeira e ureia sabe proteinado versus ureia proteinado proteinado mix de ingredientes e aditivos são seis temas aqui a gente já tinha deixado algumas imagens de sugestão também de teste.
+01:22:21 Mariane Ferro: Tem as imagens ali?
+01:22:23 Regis Povolati: A gente faz teste com o foto do Mateus sem foto do Mateus. A Gente. Faz, três e três e faz bastante variação para testar aqui nos dois formatos.
+01:22:34 Paola Peduzzi: Só para reforçar também quando vocês forem gravar os conteúdos os criativos para o formulando ou seja lá para o concurso então lembrar de regravar os que já funcionaram que também tá lá na análise do Perpétuo, porque por algum motivo é super informaram. E aí vai estar escrito lá, mas a gente tem é réplicas dele a chance da gente continuar vendendo é maior ainda, né? A gente tem que ficar testando toda vez nós aí tem lá.
+01:23:14 Matheus Moretti: eu peço para você eu peço para amar aonde eu olho os criativos que deram certo aí vocês me manda já. Olha lá e já
+01:23:19 Regis Povolati: A gente vai resolver isso com o painel que disse que vai gravar.
+01:23:24 Paola Peduzzi: segundo
+01:23:25 Matheus Moretti: É mais fácil, né?
+01:23:26 Regis Povolati: Tá beleza, provavelmente até segunda. O portal do cliente já vai estar pronto e aí vai estar aqui organizado. Mas vocês vão entrar sempre no mesmo lugar para as reuniões para as planilhas, vai estar tudo organizadinho para vocês sempre se encontrar no mesmo lugar.
+01:23:44 Matheus Moretti: Maravilha, então turma do mais.
+01:23:47 Mariane Ferro: O resto só uma dúvida a copy para eu encaminhar agora nos grupos, posso fazer quer mandar alguma?
+01:23:54 Regis Povolati: Se você quiser fazer a gente para ser mais rápido você fazer e a gente dar uma olhada.
+01:23:59 Mariane Ferro: Beleza eu vou formatar uma aqui e já mandei porque daí eu já vou mandar agora nos outros. Ah você me diz uma coisa. Como a gente não vai ter nenhuma oferta de dia do consumidor. Eu comentei com Matheus sobre a possibilidade da gente fazer um disparo. Para renovação e dando 70% de desconto eu baixei a planilha aqui da que o wi-fi e a gente tem são é pouca gente 300 e poucas vendas.
+01:24:35 Mariane Ferro: que aconteceram tipo de 15 meses até seis meses Que é o que tá na base da que o wi-fi.
+01:24:44 Regis Povolati: E aí são de todos os cursos.
+01:24:47 Mariane Ferro: É eu filtrei os cursos que está na nossa base hoje.
+01:24:50 Regis Povolati: tá
+01:24:52 Matheus Moretti: Algumas coisas que a gente não tem mais né?
+01:24:55 Mariane Ferro: É o que que a gente Pensou em fazer é criar eu crio a lista entre hoje e amanhã eu mando para vocês. E aí a gente fazer essa oferta tipo amanhã à noite. Finalizando ela no domingo a gente consegue fazer.
+01:25:14 Regis Povolati: Mas ele fala fazer viapi sim, só que é como tá bem em cima, Mari. Se você conseguir já mandar as cópias também. Aí a gente consegue montar dentro da pi. Porque pelo que a gente tá de tarefa aqui, se a gente for parar para também fazer as cópias e estruturar vai demorar mais se você conseguir mandar aí a gente tira a estrutura do dox e monta na pi e já deixa tudo programado para os dois dias.
+01:25:39 Mariane Ferro: Mas não mas a cópia seria seria tipo uma amanhã à noite falando que o curso dele é expirou ou está próximo de expirar?
+01:25:51 Regis Povolati: E como que vai fazer com esse vai mandar essas pessoas para onde falar com
+01:25:51 Mariane Ferro: E aí colocando que a gente vai dar 70% de desconto.
+01:25:59 Regis Povolati: você, aí você vai mandar os links de cada um dos cursos.
+01:25:59 Mariane Ferro: direto para leste link É aí eu já vou botar o link com a oferta na Copa, entendeu?
+01:26:07 Regis Povolati: Perfeito e aí são vários cursos. Então a gente vai ter que só segmentar para cada uma dessas pessoas a cópia e o link certo.
+01:26:13 Mariane Ferro: E sua cópia vai ser Idêntica que eu vou mudar é o curso o nome do curso e o link.
+01:26:19 Regis Povolati: Perfeito, se você mandar tudo organizadinho assim para gente a gente monta assim, porque vai ter que subir lá e segmentar.
+01:26:26 Mariane Ferro: isso
+01:26:28 Regis Povolati: Fechado dá para fazer assim, vou anotar aqui.
+01:26:30 Mariane Ferro: Não beleza eu vou eu vou disparar primeiro nos grupos o match a gente pasto aí
+01:26:31 Regis Povolati: Claro
+01:26:37 Mariane Ferro: eu crio as cópias e mando também.
+01:26:41 Matheus Moretti: Coloca aí nessa turma, não sei se tem para fazer, mas se for o caso se tiver até uma renovação do Clube.
+01:26:48 Regis Povolati: É isso quer falar renovação antecipada com desconto.
+01:26:52 Matheus Moretti: E aí Acho que até a gente podia até aproveitar um dinheiro a mais coloca 70% de renovação mais estimulatec. Já vamos usar já gastar dinheiro.
+01:27:08 Mariane Ferro: Como assim mais o simula PEC?
+01:27:11 Matheus Moretti: Nova com 70% de desconto e ganha sim. Vai ficar na verdade, ele vai comprar o simular pack. E vai ganhar renovação.
+01:27:19 Mariane Ferro: tá
+01:27:27 Regis Povolati: Bem bom.
+01:27:27 Mariane Ferro: Quando eu criar quando eu criar oferta, eu coloco um etapa beleza entendi quando eu fui a oferta eu coloco que é um combo. E aí eu boto simulapec dentro da oferta. Porque eu vou criar com 70% de desconto.
+01:27:42 Matheus Moretti: 70%, mais estimula pack e seu Coloca nesse bolo também as pessoas do clube, entendeu?
+01:27:51 Mariane Ferro: Tá, beleza.
+01:27:53 Matheus Moretti: Vamos mandar a renovação do câmbio para galera também.
+01:27:55 Mariane Ferro: Fechou Combinado, então tá bem o Regis para você fazer o disparo é só.
+01:27:59 Matheus Moretti: beleza
+01:28:03 Regis Povolati: A lista e essas Pops isso a lista tem que ter se for na se for fazer em coluna é bom ter nome telefone e qual é o produto?
+01:28:14 Mariane Ferro: Na verdade eu vou te mandar a lista separadas por produto.
+01:28:18 Regis Povolati: Tá bom perfeito.
+01:28:20 Mariane Ferro: E jogo eles em planinho então eu te mando tipo 5 planilhas cinco copos. De perguntar assim para a gente aproveitar os 24 horas, então a gente faria tipo amanhã. A abertura. E aí a gente pode fazer mais uma em 24 horas.
+01:28:40 Regis Povolati: Quantas quiser em 24 horas?
+01:28:43 Matheus Moretti: O Mário faz uma manhã tarde uma sábado de manhã e uma sábado da noite.
+01:28:48 Regis Povolati: É normalmente a gente manda isso umas duas umas duas no mesmo dia de remarketing no outro dia. Olha você só tem até o horário. E aí você só
+01:28:55 Mariane Ferro: porque
+01:28:55 Regis Povolati: tem mais 30 minutos, a gente faz umas três quatro copos.
+01:28:58 Mariane Ferro: Porque o dia do Consumidor é Domingo, então não compensa a gente abrir fazer no sábado oferta e domingo a gente manda duas de encerramento.
+01:29:10 Regis Povolati: é que sábado nós a taxa de abertura das coisas no sábado tende a ser bem ruim, eu faria no domingo de manhã e
+01:29:18 Mariane Ferro: mas aí a gente perde o
+01:29:20 Regis Povolati: Não e aí, eu manteria um remarketing até segunda de manhã mesmo.
+01:29:27 Matheus Moretti: Fazer sábado e domingo faz domingo e segunda.
+01:29:30 Regis Povolati: Domingo e segunda né?
+01:29:32 Mariane Ferro: Tá beleza então, então tá, então a gente segue assim faz o primeiro disparo domingo falando de dia do Consumidor e segunda falando que encerra na segunda.
+  

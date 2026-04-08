@@ -1,0 +1,1361 @@
+﻿Script
+Script formulário final
+<script>
+function gerarID(length = 16) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+}
+
+
+function preencherCamposUTM(form) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = document.referrer ? new URL(document.referrer) : null;
+  const urlParamsReferrer = referrer ? new URLSearchParams(referrer.search) : new URLSearchParams();
+
+
+  const utms = ['utm_campaign', 'utm_medium', 'utm_source', 'utm_content', 'utm_term'];
+  const fbclid = urlParams.get('fbclid');
+  const gclid = urlParams.get('gclid');
+
+
+  // Geração e persistência do lead_id
+  let lead_id = urlParams.get('fbclid') || urlParams.get('gclid') || localStorage.getItem('lead_id');
+  if (!lead_id) {
+    lead_id = gerarID();
+    localStorage.setItem('lead_id', lead_id);
+  }
+
+
+  // Captura e persistência do referrer original
+  if (!localStorage.getItem('referrer')) {
+    localStorage.setItem('referrer', document.referrer || 'direto');
+  }
+
+
+  // Persistência das UTMs
+  utms.forEach(utm => {
+    const valor = urlParams.get(utm) ?? urlParamsReferrer.get(utm);
+    if (valor) {
+      localStorage.setItem(`utm_utm_${utm}`, valor);
+    }
+  });
+
+
+  // Preencher campos no formulário
+  let utmSourceValue = urlParams.get('utm_source') ??
+                       urlParamsReferrer.get('utm_source') ??
+                       (referrer?.hostname || 'direto');
+
+
+  let utmSourceField = form.querySelector('[id^="form-field-utm_source"]');
+  if (utmSourceField) utmSourceField.value = utmSourceValue;
+
+
+  utms.forEach(utm => {
+    if (utm === 'utm_source') return;
+
+
+    let campo = form.querySelector(`[id^="form-field-${utm}"]`);
+    if (!campo) return;
+
+
+    let valor = urlParams.get(utm)
+              ?? urlParamsReferrer.get(utm)
+              ?? localStorage.getItem(`utm_utm_${utm}`);
+
+
+    if (utm === 'utm_term' && !valor) {
+      valor = (fbclid || gclid) ? 'trafego' : 'organico';
+    }
+
+
+    campo.value = valor || '';
+  });
+
+
+  // Preencher campo lead_id se existir
+  let campoLeadID = form.querySelector('[id^="form-field-lead_id"]');
+  if (campoLeadID) campoLeadID.value = lead_id;
+
+
+  // Preencher campo referrer se existir
+  let campoReferrer = form.querySelector('[id^="form-field-referrer"]');
+  if (campoReferrer) campoReferrer.value = localStorage.getItem('referrer');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const forms = document.querySelectorAll('form');
+  if (!forms.length) return;
+
+
+  forms.forEach(form => {
+    preencherCamposUTM(form);
+    const campoEmail = form.querySelector('[id^="form-field-email"]');
+    if (campoEmail) {
+      campoEmail.addEventListener('change', () => preencherCamposUTM(form));
+    }
+  });
+});
+</script>
+
+
+Requisitos no formulário Typeform ou HTML:
+Para que funcione 100%, certifique-se que os seguintes campos existem como Hidden Fields ou inputs:
+* utm_campaign
+* utm_medium
+* utm_source
+* utm_content
+* utm_term
+* pagina_captura
+* lead_id
+* referrer
+
+
+URL Parâmetros Tráfego UTMify:
+utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}&utm_source2={{adset.name}}&utm_medium2={{placement}}&utm_campaign2={{campaign.name}}&utm_content2={{ad.name}}&utm_term2=trafego
+
+
+URL Parâmetros Tráfego:
+utm_source={{adset.name}}&utm_medium={{placement}}&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term=trafego
+
+
+URL Redirect Orgânico Lastlink:
+&name=[field id="name"]&email=[field id="email"]&phone=[field id="phone"]&utm_campaign=[field id="utm_campaign"]&utm_source=[field id="utm_source"]&utm_medium=[field id="utm_medium"]&utm_content=[field id="utm_content"]&utm_term=[field id="utm_term"]
+
+
+URL Redirect Orgânico Kiwify:
+?name=[field id="name"]&email=[field id="email"]&phone=[field id="telefone"]&utm_campaign=[field id="utm_campaign"]&utm_source=[field id="utm_source"]&utm_medium=[field id="utm_medium"]&utm_content=[field id="utm_content"]&utm_term=[field id="utm_term"]
+
+
+URL Redirect Tráfego:
+?cp=DESAFIO140OFF&name=[field id="name"]&email=[field id="email"]&phone=[field id="phone"]&utm_campaign=[field id="utm_campaign2"]&utm_source=[field id="utm_source2"]&utm_medium=[field id="utm_medium2"]&utm_content=[field id="utm_content2"]&utm_term=[field id="utm_term2"]
+
+Script UTM + SRC Normal:
+<script>
+function gerarID(length = 16) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+}
+
+
+function preencherCamposUTM(form) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = document.referrer ? new URL(document.referrer) : null;
+  const urlParamsReferrer = referrer ? new URLSearchParams(referrer.search) : new URLSearchParams();
+
+
+  // Ordem correta: Campaign > Source > Medium > Content > Term
+  const utms = ['utm_campaign', 'utm_source', 'utm_medium', 'utm_content', 'utm_term'];
+  const fbclid = urlParams.get('fbclid');
+  const gclid = urlParams.get('gclid');
+
+
+  let lead_id = fbclid || gclid || localStorage.getItem('lead_id');
+  if (!lead_id) {
+    lead_id = gerarID();
+    localStorage.setItem('lead_id', lead_id);
+  }
+
+
+  if (!localStorage.getItem('referrer')) {
+    localStorage.setItem('referrer', document.referrer || 'direto');
+  }
+
+
+  utms.forEach(utm => {
+    const valor = urlParams.get(utm) ?? urlParamsReferrer.get(utm);
+    if (valor) localStorage.setItem(`utm_utm_${utm}`, valor);
+  });
+
+
+  utms.forEach(utm => {
+    const campo = form.querySelector(`[id^="form-field-${utm}"]`);
+    if (!campo) return;
+
+
+    let valor = urlParams.get(utm)
+              ?? urlParamsReferrer.get(utm)
+              ?? localStorage.getItem(`utm_utm_${utm}`);
+
+
+    if (utm === 'utm_term' && !valor) valor = (fbclid || gclid) ? 'trafego' : 'organico';
+    campo.value = valor || '';
+  });
+
+
+  // Preencher campo SRC com a nova ordem
+  const campoSRC = form.querySelector('[id^="form-field-src"]');
+  if (campoSRC) {
+    const srcValue = utms.map(param => urlParams.get(param) || '').join('|');
+    campoSRC.value = srcValue;
+  }
+
+
+  const campoLeadID = form.querySelector('[id^="form-field-lead_id"]');
+  if (campoLeadID) campoLeadID.value = lead_id;
+
+
+  const campoReferrer = form.querySelector('[id^="form-field-referrer"]');
+  if (campoReferrer) campoReferrer.value = localStorage.getItem('referrer');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const forms = document.querySelectorAll('form');
+  if (!forms.length) return;
+
+
+  forms.forEach(form => {
+    preencherCamposUTM(form);
+    const campoEmail = form.querySelector('[id^="form-field-email"]');
+    if (campoEmail) {
+      campoEmail.addEventListener('change', () => preencherCamposUTM(form));
+    }
+  });
+});
+</script>
+
+
+Script Redirect Quiz:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirigiendo...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #004AAD;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100vh;
+    }
+    .mensagem {
+      max-width: 90%;
+      font-size: 1.5rem;
+    }
+  </style>
+  <script>
+    function generarFBCLID(length = 16) {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+    }
+
+
+    function redirigirATypeform() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+      const fbclidOriginal = urlParams.get('fbclid');
+
+
+      let fbclid = fbclidOriginal || localStorage.getItem('fbclid');
+      if (!fbclid) {
+        fbclid = generarFBCLID();
+        localStorage.setItem('fbclid', fbclid);
+      }
+
+
+      const query = new URLSearchParams();
+      utms.forEach(utm => {
+        const valor = urlParams.get(utm);
+        if (valor) query.set(utm, valor);
+      });
+
+
+      if (!query.get('utm_term')) {
+        query.set('utm_term', fbclidOriginal ? 'trafego' : 'organico');
+      }
+
+
+      query.set('fbclid', fbclid);
+
+
+      const typeformURL = "https://traderelitenet.typeform.com/to/WCX1wdbS?" + query.toString();
+
+
+      // Redireciona rapidamente (500ms)
+      setTimeout(() => {
+        window.location.href = typeformURL;
+      }, 500);
+    }
+
+
+    window.onload = redirigirATypeform;
+  </script>
+</head>
+<body>
+  <div class="mensagem">
+    Estamos redirigiéndote al test...<br>
+    Un momento por favor 🕐
+  </div>
+</body>
+</html>
+
+
+Script UTM2 SRC:
+<script>
+function gerarID(length = 16) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+}
+
+
+function preencherCamposUTM(form) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrer = document.referrer ? new URL(document.referrer) : null;
+  const urlParamsReferrer = referrer ? new URLSearchParams(referrer.search) : new URLSearchParams();
+
+
+  // Ordem correta para UTMs 2: Campaign > Source > Medium > Content > Term
+  const utms2 = ['utm_campaign2', 'utm_source2', 'utm_medium2', 'utm_content2', 'utm_term2'];
+  const fbclid = urlParams.get('fbclid');
+  const gclid = urlParams.get('gclid');
+
+
+  let lead_id = fbclid || gclid || localStorage.getItem('lead_id');
+  if (!lead_id) {
+    lead_id = gerarID();
+    localStorage.setItem('lead_id', lead_id);
+  }
+
+
+  if (!localStorage.getItem('referrer')) {
+    localStorage.setItem('referrer', document.referrer || 'direto');
+  }
+
+
+  utms2.forEach(utm => {
+    const valor = urlParams.get(utm) ?? urlParamsReferrer.get(utm);
+    if (valor) localStorage.setItem(`utm_utm_${utm}`, valor);
+  });
+
+
+  utms2.forEach(utm => {
+    const campo = form.querySelector(`[id^="form-field-${utm}"]`);
+    if (!campo) return;
+
+
+    let valor = urlParams.get(utm)
+              ?? urlParamsReferrer.get(utm)
+              ?? localStorage.getItem(`utm_utm_${utm}`);
+
+
+    if (utm === 'utm_term2' && !valor) valor = (fbclid || gclid) ? 'trafego' : 'organico';
+    campo.value = valor || '';
+  });
+
+
+  // Preencher campo SRC com UTMs 2 na ordem correta
+  const campoSRC = form.querySelector('[id^="form-field-src"]');
+  if (campoSRC) {
+    const srcValue = utms2.map(param => urlParams.get(param) || '').join('|');
+    campoSRC.value = srcValue;
+  }
+
+
+  const campoLeadID = form.querySelector('[id^="form-field-lead_id"]');
+  if (campoLeadID) campoLeadID.value = lead_id;
+
+
+  const campoReferrer = form.querySelector('[id^="form-field-referrer"]');
+  if (campoReferrer) campoReferrer.value = localStorage.getItem('referrer');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const forms = document.querySelectorAll('form');
+  if (!forms.length) return;
+
+
+  forms.forEach(form => {
+    preencherCamposUTM(form);
+    const campoEmail = form.querySelector('[id^="form-field-email"]');
+    if (campoEmail) {
+      campoEmail.addEventListener('change', () => preencherCamposUTM(form));
+    }
+  });
+});
+</script>
+
+
+Formulário
+Lembre-se de instalá-lo no footer ou bem no final da página se o seu formulário estiver direto na página e NÃO EM UM POPUP.
+
+
+SCK de Exemplo para o Redirecionar do Elementor:
+[RESTANTE DO LINK]&sck=[field id="utm_source"]|[field id="utm_medium"]|[field id="utm_campaign"]|[field id="utm_term"]|[field id="utm_content"]
+
+
+UTMS + SCK:
+[RESTANTE DO LINK]&utm_source=[field id="utm_source"]&utm_medium=[field id="utm_medium"]&utm_campaign=[field id="utm_campaign"]&utm_term=[field id="utm_term"]&utm_content=[field id="utm_content"]&sck=[field id="utm_source"]|[field id="utm_medium"]|[field id="utm_campaign"]|[field id="utm_term"]|[field id="utm_content"]
+
+
+<script>
+function preencherCamposUTM(form) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlParamsReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+    const utms = ['utm_campaign', 'utm_medium', 'utm_source', 'utm_content', 'utm_term'];
+
+
+    // Primeiro, verificar e preencher apenas o utm_source
+    let utmSourceField = form.querySelector('[id^="form-field-utm_source"]');
+    if (utmSourceField) {
+        let utmSourceValue = urlParams.get('utm_source') ?? 
+                             (urlParamsReferrer.get('utm_source') ?? 
+                             (document.referrer ? new URL(document.referrer).hostname : "direto"));
+        utmSourceField.value = utmSourceValue;
+
+
+        // Se utm_source for encontrado, preencher os outros UTMs
+        if (utmSourceValue !== "direto") {
+            utms.forEach(utm => {
+                if (utm !== 'utm_source') {
+                    let campo = form.querySelector('[id^="form-field-' + utm + '"]');
+                    if (campo) {
+                        campo.value = urlParams.get(utm) ?? urlParamsReferrer.get(utm) ?? '';
+                    }
+                }
+            });
+        }
+    }
+
+
+    let campoSlug = form.querySelector('[id^="form-field-pagina_captura"]');
+    if (campoSlug) {
+        campoSlug.value = window.location.pathname.split('/')[1];
+    }
+}
+
+
+document.querySelectorAll('form').forEach(form => {
+    preencherCamposUTM(form);
+    const campoEmail = form.querySelector('[id^="form-field-email"]');
+    if (campoEmail) {
+        campoEmail.addEventListener('change', () => preencherCamposUTM(form));
+    }
+});
+
+
+console.log('%cScript de rastreamento de vendas desenvolvido pela Comunidade NOD', 'font-size:20px;color:yellow;');
+window.onload = () => document.querySelectorAll('form').forEach(preencherCamposUTM);
+</script>
+
+
+
+
+Versão 4.0
+<script>
+console.log('%cScript de rastreio by Comunidade Nova Ordem do Digital - Dericson Calari e Samuel Choairy', 'color: purple; font-size: 20px;');
+
+
+(function () {
+    let parametros = ["utm_source"];
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+
+
+    for (const [key] of params) {
+        if (!parametros.includes(key)) {
+            parametros.push(key);
+        }
+    }
+
+
+    const urlParamsCapt = new URLSearchParams(window.location.search);
+    const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+    let utms = {};
+
+
+    parametros.forEach(el => {
+        if (el === "utm_source") {
+            utms[el] = urlParamsCapt.get(el) ?? (document.referrer ? (urlParamsCaptReferrer.get(el) ?? new URL(document.referrer).hostname) : "direto");
+        } else {
+            utms[el] = urlParamsCapt.get(el) ?? (urlParamsCaptReferrer.get(el) ?? "");
+        }
+    });
+
+
+    let scks = Object.values(utms).filter(value => value !== "");
+
+
+    let currentSckValues = [];
+    if (urlParamsCapt.get('sck')) {
+        currentSckValues = urlParamsCapt.get('sck').split('|');
+    }
+    scks = scks.filter(value => !currentSckValues.includes(value));
+
+
+    const updateLinks = (el, elURL) => {
+        const elSearchParams = new URLSearchParams(elURL.search);
+        let modified = false;
+        for (let key in utms) {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, utms[key]);
+                modified = true;
+            }
+        }
+        if (!elSearchParams.has('sck') && scks.length > 0) {
+            elSearchParams.append('sck', scks.join('|'));
+            modified = true;
+        }
+        if (modified) {
+            return elURL.origin + elURL.pathname + "?" + elSearchParams.toString();
+        }
+        return el.href;
+    };
+
+
+    document.querySelectorAll('a').forEach(el => {
+        const elURL = new URL(el.href);
+        if (!elURL.hash) {
+            el.href = updateLinks(el, elURL);
+        }
+    });
+
+
+    document.querySelectorAll('iframe').forEach(iframe => {
+        let actualSrc = iframe.hasAttribute('data-src') ? iframe.getAttribute('data-src') : iframe.src;
+        if (actualSrc) {
+            const iframeURL = new URL(actualSrc);
+            if (iframe.hasAttribute('data-src')) {
+                iframe.setAttribute('data-src', updateLinks(iframe, iframeURL));
+            } else {
+                iframe.src = updateLinks(iframe, iframeURL);
+            }
+        }
+    });
+
+
+})();
+
+
+</script>
+
+
+Sem formulário - Script Direto
+Instalar no Body End, o mais final possível.
+
+
+
+
+<script>
+console.log('%cScript de rastreio by Comunidade Nova Ordem do Digital - Dericson Calari e Samuel Choairy', 'color: purple; font-size: 20px;');
+
+
+(function () {
+    let parametros = ["utm_source"];
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+
+
+    for (const [key] of params) {
+        if (!parametros.includes(key)) {
+            parametros.push(key);
+        }
+    }
+
+
+    const urlParamsCapt = new URLSearchParams(window.location.search);
+    const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+    let utms = {};
+
+
+    parametros.forEach(el => {
+        if (el === "utm_source") {
+            utms[el] = urlParamsCapt.get(el) ?? (document.referrer ? (urlParamsCaptReferrer.get(el) ?? new URL(document.referrer).hostname) : "direto");
+        } else {
+            utms[el] = urlParamsCapt.get(el) ?? (urlParamsCaptReferrer.get(el) ?? "");
+        }
+    });
+
+
+    let scks = Object.values(utms).filter(value => value !== "");
+
+
+    let currentSckValues = [];
+    if (urlParamsCapt.get('sck')) {
+        currentSckValues = urlParamsCapt.get('sck').split('|');
+    }
+    scks = scks.filter(value => !currentSckValues.includes(value));
+
+
+    const updateLinks = (el, elURL) => {
+        const elSearchParams = new URLSearchParams(elURL.search);
+        let modified = false;
+        for (let key in utms) {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, utms[key]);
+                modified = true;
+            }
+        }
+        if (!elSearchParams.has('sck') && scks.length > 0) {
+            elSearchParams.append('sck', scks.join('|'));
+            modified = true;
+        }
+        if (modified) {
+            return elURL.origin + elURL.pathname + "?" + elSearchParams.toString();
+        }
+        return el.href;
+    };
+
+
+    document.querySelectorAll('a').forEach(el => {
+        const elURL = new URL(el.href);
+        if (!elURL.hash) {
+            el.href = updateLinks(el, elURL);
+        }
+    });
+
+
+    document.querySelectorAll('iframe').forEach(iframe => {
+        let actualSrc = iframe.hasAttribute('data-src') ? iframe.getAttribute('data-src') : iframe.src;
+        if (actualSrc) {
+            const iframeURL = new URL(actualSrc);
+            if (iframe.hasAttribute('data-src')) {
+                iframe.setAttribute('data-src', updateLinks(iframe, iframeURL));
+            } else {
+                iframe.src = updateLinks(iframe, iframeURL);
+            }
+        }
+    });
+
+
+})();
+
+
+</script>
+
+
+Versão para GTM
+<script>
+(function () {
+    console.log('Script de rastreio by Comunidade Nova Ordem do Digital - Dericson Calari e Samuel Choairy');
+
+
+    var parametros = ["utm_source"];
+    var url = window.location.href;
+    var params = (url.split('?')[1] || '').split('&');
+
+
+    // Coletando parâmetros sem duplicatas
+    for (var i = 0; i < params.length; i++) {
+        var key = params[i].split('=')[0];
+        if (parametros.indexOf(key) === -1) {
+            parametros.push(key);
+        }
+    }
+
+
+    // Coleta parâmetros UTM da URL atual e do referrer
+    var urlParamsCapt = (window.location.search || '').substring(1).split('&');
+    var urlParamsCaptReferrer = (document.referrer.split('?')[1] || '').split('&');
+    var utms = {};
+
+
+    for (var i = 0; i < parametros.length; i++) {
+        var el = parametros[i];
+        var value = getValueFromParams(urlParamsCapt, el) || getValueFromParams(urlParamsCaptReferrer, el) || '';
+        if (el === "utm_source") {
+            value = value || (document.referrer ? (getValueFromParams(urlParamsCaptReferrer, el) || getHostname(document.referrer)) : "direto");
+        }
+        utms[el] = value;
+    }
+
+
+    var scks = [];
+    for (var key in utms) {
+        if (utms[key] !== "") {
+            scks.push(utms[key]);
+        }
+    }
+
+
+    // Remove valores duplicados no sck da URL atual
+    var currentSckValues = [];
+    var currentSckParam = getValueFromParams(urlParamsCapt, 'sck');
+    if (currentSckParam) {
+        currentSckValues = currentSckParam.split('|');
+    }
+    scks = scks.filter(function(value) {
+        return currentSckValues.indexOf(value) === -1;
+    });
+
+
+    var links = document.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+        var el = links[i];
+        if (el.href) {
+            var elURL = el.href.split('#')[0];
+            var elSearchParams = (elURL.split('?')[1] || '').split('&');
+            var modified = false;
+            for (var key in utms) {
+                if (!hasParam(elSearchParams, key)) {
+                    elSearchParams.push(key + '=' + utms[key]);
+                    modified = true;
+                }
+            }
+            if (!hasParam(elSearchParams, 'sck') && scks.length > 0) {
+                elSearchParams.push('sck=' + scks.join('|'));
+                modified = true;
+            }
+            if (modified) {
+                var newSearchParams = elSearchParams.join('&').replace(/^&/, '');
+                el.href = elURL.split('?')[0] + '?' + newSearchParams;
+            }
+        }
+    }
+
+
+    function getValueFromParams(params, key) {
+        for (var i = 0; i < params.length; i++) {
+            var pair = params[i].split('=');
+            if (pair[0] === key) {
+                return pair[1];
+            }
+        }
+        return null;
+    }
+
+
+    function hasParam(params, key) {
+        for (var i = 0; i < params.length; i++) {
+            if (params[i].split('=')[0] === key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function getHostname(url) {
+        var a = document.createElement('a');
+        a.href = url;
+        return a.hostname;
+    }
+
+
+})();
+</script>
+
+
+
+
+VSL com Delay
+<script>
+    function utms() {
+        const parametros = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+        const urlParamsCapt = new URLSearchParams(window.location.search);
+        const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+        
+        let utms = {};
+        let scks = urlParamsCapt.get('sck') ? urlParamsCapt.get('sck').split('|') : [];
+
+
+        document.querySelectorAll('a:not([data-processed])').forEach(button => { // Somente processa links não processados
+            const buttonParams = new URLSearchParams(button.href.split('?')[1] || '');
+            
+            parametros.forEach(el => {
+                if (!buttonParams.has(el)) {
+                    if (el === "utm_source") {
+                        utms[el] = urlParamsCapt.get(el) ?? (document.referrer ? (urlParamsCaptReferrer.get(el) ?? new URL(document.referrer).hostname) : "direto");
+                    } else {
+                        utms[el] = urlParamsCapt.get(el) ?? urlParamsCaptReferrer.get(el) ?? "";
+                    }
+                }
+            });
+
+
+            let href = "";
+            for (let el in utms) {
+                if (!button.href.includes(el + "=" + utms[el])) {
+                    utms[el] ? href += el + "=" + utms[el] + "&" : "";
+                }
+            }
+            
+            let currentButtonSck = buttonParams.get('sck');
+            if (!currentButtonSck || !scks.every(val => currentButtonSck.includes(val))) {
+                href += "sck=" + scks.join('|');
+            }
+
+
+            if (href) {
+                button.href.includes("?") ? button.href += "&" + href : button.href += "?" + href;
+            }
+            
+            button.setAttribute('data-processed', 'true'); // Marcar o link como processado
+        });
+    }
+
+
+    window.onload = function() {
+        utms();
+        setInterval(utms, 1000); // A cada 1 segundo
+    };
+</script>
+
+
+
+
+Script 4.0 - SRC
+<script>
+console.log('%cScript de rastreio 4.0 by Comunidade Nova Ordem do Digital - Dericson Calari e Samuel Choairy', 'color: yellow; font-size: 20px;');
+
+
+(function () {
+    // Função para obter o valor de um parâmetro da URL
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+
+    // Função para definir um cookie
+    function setCookie(cookieName, cookieValue, expirationTime) {
+        var cookiePath = "/";
+        expirationTime = expirationTime * 1000; // Converter tempo de expiração para milissegundos
+        var date = new Date();
+        var dateTimeNow = date.getTime();
+        date.setTime(dateTimeNow + expirationTime);
+        var expirationDate = date.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + "; expires=" + expirationDate + "; path=" + cookiePath;
+    }
+
+
+    // Função para obter o valor de um cookie pelo nome
+    function getCookieValue(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+
+    // Vetor de parâmetros que indicam origem de anúncios
+    const adParams = ['fbclid', 'gclid'];
+
+
+    // Verificar se algum dos parâmetros de anúncio está presente na URL
+    const urlParams = new URLSearchParams(window.location.search);
+    let isAdClick = false;
+    adParams.forEach(param => {
+        if (urlParams.has(param)) {
+            isAdClick = true;
+        }
+    });
+
+
+    // Criar cookies para UTMs se o clique for proveniente de anúncio
+    if (isAdClick) {
+        const utmSource = getParameterByName('utm_source');
+        const utmMedium = getParameterByName('utm_medium');
+        const utmCampaign = getParameterByName('utm_campaign');
+        const utmContent = getParameterByName('utm_content');
+        const utmTerm = getParameterByName('utm_term');
+
+
+        if (utmSource) setCookie('cookieUtmSource', utmSource, 63072000);
+        if (utmMedium) setCookie('cookieUtmMedium', utmMedium, 63072000);
+        if (utmCampaign) setCookie('cookieUtmCampaign', utmCampaign, 63072000);
+        if (utmContent) setCookie('cookieUtmContent', utmContent, 63072000);
+        if (utmTerm) setCookie('cookieUtmTerm', utmTerm, 63072000);
+    }
+
+
+    // Coletar valores das UTMs e cookies para manipulação dos links
+    let parametros = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    const urlParamsCapt = new URLSearchParams(window.location.search);
+    const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+    let utms = {};
+
+
+    // Obter valores dos cookies UTM, se existirem
+    const cookieUtmSource = getCookieValue('cookieUtmSource');
+    const cookieUtmMedium = getCookieValue('cookieUtmMedium');
+    const cookieUtmCampaign = getCookieValue('cookieUtmCampaign');
+    const cookieUtmContent = getCookieValue('cookieUtmContent');
+    const cookieUtmTerm = getCookieValue('cookieUtmTerm');
+
+
+    parametros.forEach(el => {
+        if (el === "utm_source") {
+            utms[el] = urlParamsCapt.get(el) ?? (document.referrer ? (urlParamsCaptReferrer.get(el) ?? new URL(document.referrer).hostname) : "direto");
+        } else {
+            utms[el] = urlParamsCapt.get(el) ?? (urlParamsCaptReferrer.get(el) ?? "");
+        }
+    });
+
+
+    let scks = Object.values(utms).filter(value => value !== "");
+
+
+    let currentSckValues = [];
+    if (urlParamsCapt.get('sck')) {
+        currentSckValues = urlParamsCapt.get('sck').split('|');
+    }
+    scks = scks.filter(value => !currentSckValues.includes(value));
+
+
+    let srcValues = [cookieUtmSource, cookieUtmMedium, cookieUtmCampaign, cookieUtmContent, cookieUtmTerm].filter(value => value !== null && value !== "");
+
+
+    const updateLinks = (el, elURL) => {
+        const elSearchParams = new URLSearchParams(elURL.search);
+        let modified = false;
+
+
+        // Preservar todos os parâmetros existentes da URL original
+        urlParams.forEach((value, key) => {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, value);
+                modified = true;
+            }
+        });
+
+
+        // Adicionar valores das UTMs coletadas ou do referrer
+        for (let key in utms) {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, utms[key]);
+                modified = true;
+            }
+        }
+
+
+        // Adicionar valores dos cookies UTM na URL, se existirem
+        if (cookieUtmSource) elSearchParams.append('cookieUtmSource', cookieUtmSource);
+        if (cookieUtmMedium) elSearchParams.append('cookieUtmMedium', cookieUtmMedium);
+        if (cookieUtmCampaign) elSearchParams.append('cookieUtmCampaign', cookieUtmCampaign);
+        if (cookieUtmContent) elSearchParams.append('cookieUtmContent', cookieUtmContent);
+        if (cookieUtmTerm) elSearchParams.append('cookieUtmTerm', cookieUtmTerm);
+
+
+        // Adicionar o parâmetro sck
+        if (!elSearchParams.has('sck') && scks.length > 0) {
+            elSearchParams.append('sck', scks.join('|'));
+            modified = true;
+        }
+
+
+        // Adicionar o parâmetro src
+        if (!elSearchParams.has('src') && srcValues.length > 0) {
+            elSearchParams.append('src', srcValues.join('|'));
+            modified = true;
+        }
+
+
+        if (modified) {
+            return elURL.origin + elURL.pathname + "?" + elSearchParams.toString();
+        }
+        return el.href;
+    };
+
+
+    document.querySelectorAll('a').forEach(el => {
+        try {
+            const elURL = new URL(el.href, window.location.origin); // Base para URLs relativas
+            if (!elURL.hash) {
+                el.href = updateLinks(el, elURL);
+            }
+        } catch (e) {
+            console.warn('Erro ao processar URL no link:', el.href);
+        }
+    });
+
+
+    document.querySelectorAll('iframe').forEach(iframe => {
+        let actualSrc = iframe.hasAttribute('data-src') ? iframe.getAttribute('data-src') : iframe.src;
+        if (actualSrc) {
+            try {
+                const iframeURL = new URL(actualSrc, window.location.origin); // Base para URLs relativas
+                if (iframe.hasAttribute('data-src')) {
+                    iframe.setAttribute('data-src', updateLinks(iframe, iframeURL));
+                } else {
+                    iframe.src = updateLinks(iframe, iframeURL);
+                }
+            } catch (e) {
+                console.warn('Erro ao processar URL no iframe:', actualSrc);
+            }
+        }
+    });
+
+
+})();
+</script>
+
+
+Script 4.0 - REVO
+console.log('%c[REVO Advisory] Módulo UTM ativo.', 'color: #6C63FF; font-weight: bold;');
+
+
+(function () {
+    // ── Utilitário: Extrai parâmetro da URL por nome ──────────────────────────
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+
+    // ── Utilitário: Define cookie com tempo de expiração em segundos ──────────
+    function setCookie(cookieName, cookieValue, expirationTime) {
+        var cookiePath = "/";
+        expirationTime = expirationTime * 1000;
+        var date = new Date();
+        var dateTimeNow = date.getTime();
+        date.setTime(dateTimeNow + expirationTime);
+        var expirationDate = date.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + "; expires=" + expirationDate + "; path=" + cookiePath;
+    }
+
+
+    // ── Utilitário: Lê valor de cookie por nome ───────────────────────────────
+    function getCookieValue(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+
+    // ── Detecção de clique vindo de anúncio (Facebook ou Google) ─────────────
+    const adParams = ['fbclid', 'gclid'];
+    const urlParams = new URLSearchParams(window.location.search);
+    let isAdClick = false;
+
+
+    adParams.forEach(param => {
+        if (urlParams.has(param)) {
+            isAdClick = true;
+        }
+    });
+
+
+    // ── Persistência de UTMs via cookie (2 anos) quando vem de anúncio ───────
+    if (isAdClick) {
+        const utmSource   = getParameterByName('utm_source');
+        const utmMedium   = getParameterByName('utm_medium');
+        const utmCampaign = getParameterByName('utm_campaign');
+        const utmContent  = getParameterByName('utm_content');
+        const utmTerm     = getParameterByName('utm_term');
+
+
+        if (utmSource)   setCookie('cookieUtmSource',   utmSource,   63072000);
+        if (utmMedium)   setCookie('cookieUtmMedium',   utmMedium,   63072000);
+        if (utmCampaign) setCookie('cookieUtmCampaign', utmCampaign, 63072000);
+        if (utmContent)  setCookie('cookieUtmContent',  utmContent,  63072000);
+        if (utmTerm)     setCookie('cookieUtmTerm',     utmTerm,     63072000);
+    }
+
+
+    // ── Coleta UTMs da URL atual, do referrer ou define "direto" ─────────────
+    let parametros = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    const urlParamsCapt         = new URLSearchParams(window.location.search);
+    const urlParamsCaptReferrer = new URLSearchParams(document.referrer.split('?')[1] || '');
+    let utms = {};
+
+
+    // Recupera cookies UTM previamente gravados
+    const cookieUtmSource   = getCookieValue('cookieUtmSource');
+    const cookieUtmMedium   = getCookieValue('cookieUtmMedium');
+    const cookieUtmCampaign = getCookieValue('cookieUtmCampaign');
+    const cookieUtmContent  = getCookieValue('cookieUtmContent');
+    const cookieUtmTerm     = getCookieValue('cookieUtmTerm');
+
+
+    parametros.forEach(el => {
+        if (el === "utm_source") {
+            utms[el] = urlParamsCapt.get(el) ?? (document.referrer ? (urlParamsCaptReferrer.get(el) ?? new URL(document.referrer).hostname) : "direto");
+        } else {
+            utms[el] = urlParamsCapt.get(el) ?? (urlParamsCaptReferrer.get(el) ?? "");
+        }
+    });
+
+
+    // ── Monta parâmetros sck (source chain) sem duplicatas ───────────────────
+    let scks = Object.values(utms).filter(value => value !== "");
+    let currentSckValues = [];
+    if (urlParamsCapt.get('sck')) {
+        currentSckValues = urlParamsCapt.get('sck').split('|');
+    }
+    scks = scks.filter(value => !currentSckValues.includes(value));
+
+
+    // ── Monta parâmetro src a partir dos cookies UTM ──────────────────────────
+    let srcValues = [cookieUtmSource, cookieUtmMedium, cookieUtmCampaign, cookieUtmContent, cookieUtmTerm]
+        .filter(value => value !== null && value !== "");
+
+
+    // ── Função principal: atualiza href/src de elementos com UTMs e rastreio ──
+    const updateLinks = (el, elURL) => {
+        const elSearchParams = new URLSearchParams(elURL.search);
+        let modified = false;
+
+
+        // Preserva todos os parâmetros já existentes na URL de destino
+        urlParams.forEach((value, key) => {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, value);
+                modified = true;
+            }
+        });
+
+
+        // Injeta UTMs coletados (URL atual ou referrer)
+        for (let key in utms) {
+            if (!elSearchParams.has(key)) {
+                elSearchParams.append(key, utms[key]);
+                modified = true;
+            }
+        }
+
+
+        // Injeta cookies UTM para atribuição cross-session
+        if (cookieUtmSource)   elSearchParams.append('cookieUtmSource',   cookieUtmSource);
+        if (cookieUtmMedium)   elSearchParams.append('cookieUtmMedium',   cookieUtmMedium);
+        if (cookieUtmCampaign) elSearchParams.append('cookieUtmCampaign', cookieUtmCampaign);
+        if (cookieUtmContent)  elSearchParams.append('cookieUtmContent',  cookieUtmContent);
+        if (cookieUtmTerm)     elSearchParams.append('cookieUtmTerm',     cookieUtmTerm);
+
+
+        // Injeta sck (cadeia de origens)
+        if (!elSearchParams.has('sck') && scks.length > 0) {
+            elSearchParams.append('sck', scks.join('|'));
+            modified = true;
+        }
+
+
+        // Injeta src (origens dos cookies)
+        if (!elSearchParams.has('src') && srcValues.length > 0) {
+            elSearchParams.append('src', srcValues.join('|'));
+            modified = true;
+        }
+
+
+        if (modified) {
+            return elURL.origin + elURL.pathname + "?" + elSearchParams.toString();
+        }
+        return el.href;
+    };
+
+
+    // ── Aplica rastreio em todos os links <a> da página ───────────────────────
+    document.querySelectorAll('a').forEach(el => {
+        try {
+            const elURL = new URL(el.href, window.location.origin);
+            if (!elURL.hash) {
+                el.href = updateLinks(el, elURL);
+            }
+        } catch (e) {
+            console.warn('[REVO] Erro ao processar link:', el.href);
+        }
+    });
+
+
+    // ── Aplica rastreio em todos os iframes da página ─────────────────────────
+    document.querySelectorAll('iframe').forEach(iframe => {
+        let actualSrc = iframe.hasAttribute('data-src') ? iframe.getAttribute('data-src') : iframe.src;
+        if (actualSrc) {
+            try {
+                const iframeURL = new URL(actualSrc, window.location.origin);
+                if (iframe.hasAttribute('data-src')) {
+                    iframe.setAttribute('data-src', updateLinks(iframe, iframeURL));
+                } else {
+                    iframe.src = updateLinks(iframe, iframeURL);
+                }
+            } catch (e) {
+                console.warn('[REVO] Erro ao processar iframe:', actualSrc);
+            }
+        }
+    });
+
+
+})();
+
+
+Teste A/B
+Como configurar:
+1 - Basta na variável links definir os links das suas páginas.
+2 - Na variável probabilidade definir a % pra cada página em sua ordem respectiva, no exemplo -> google.com tem 30% de probabilidade, youtube.com tem 40% e facebook.com tem 30%
+
+
+<script>
+let probabilidade = [30, 40, 30]
+const links = ['https://www.google.com', 'https://www.youtube.com', 'https://www.facebook.com']
+const parametros = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
+
+
+r = new URL(window.top.location.href);
+let scks = []
+let utms = {}
+
+
+probabilidade = probabilidade.sort(function (a, b) { return a - b })
+let probabilidadeTotal = []
+
+
+probabilidade.forEach(function (el, i) {
+    let soma = 0
+    for (let j = i; j > 0; j--) {
+        soma += probabilidade[j]
+    }
+    probabilidadeTotal[i] = soma
+    probabilidadeTotal.push(100)
+})
+
+
+parametros.forEach(el => {
+    if (el.includes("source")) {
+        scks[scks.length] = r.searchParams.get(el) ? r.searchParams.get(el) : (document.referrer ? new URL(document.referrer).hostname : "direto")
+        utms[el] = r.searchParams.get(el) ? r.searchParams.get(el) : (document.referrer ? new URL(document.referrer).hostname : "direto")
+    }
+    else {
+        scks[scks.length] = r.searchParams.get(el) ? r.searchParams.get(el) : ""
+        utms[el] = r.searchParams.get(el) ? r.searchParams.get(el) : ""
+    }
+})
+
+
+scks = scks.filter(function (el) {
+    return el != "";
+});
+
+
+let sck = "sck=" + scks.join('|')
+let href = ""
+
+
+for (el in utms) {
+    utms[el] ? href += el + "=" + utms[el] + "&" : ""
+}
+href += sck
+
+
+const aleatorio = Math.floor(Math.random() * 100)
+for (let i = 0; i < probabilidadeTotal.length - 1; i++) {
+    if (probabilidadeTotal[i] < aleatorio && aleatorio < probabilidadeTotal[i + 1]) {
+        window.location.href = links[i] + '/?' + href;
+    }
+}
+
+
+</script>
+
+
+Webhook - Google Forms
+  
+
+Onde está “webhook”, entre as aspas, vai a url em que você quer enviar as informações.
+
+
+var POST_URL = "webhook";
+function onSubmit(e) {
+    var form = FormApp.getActiveForm();
+    var allResponses = form.getResponses();
+    var latestResponse = allResponses[allResponses.length - 1];
+    var response = latestResponse.getItemResponses();
+    var payload = {};
+    for (var i = 0; i < response.length; i++) {
+        var question = response[i].getItem().getTitle();
+        var answer = response[i].getResponse();
+        payload[question] = answer;
+    }
+  
+    var options = {
+        "method": "post",
+        "contentType": "application/json",
+        "payload": JSON.stringify(payload)
+    };
+UrlFetchApp.fetch(POST_URL, options);
+};
+
+
+
+
+Dashboard
+CASE
+WHEN Idade < 18 THEN "Menor de 18 anos"
+WHEN Idade <= 24 THEN "18 - 24 anos"
+WHEN Idade <= 34 THEN "25 - 34 anos"
+WHEN Idade<= 44 THEN "35 - 44 anos"
+WHEN Idade<= 54 THEN "45 - 54 anos"
+WHEN Idade<= 64 THEN "55 - 64 anos"
+ELSE "Acima de 65 anos"
+END
+
+
+—----------------------—----------------------—----------------------—------------------—-----------—----------------------------
+
+
+=ARRAYFORMULA(IFS(G2:G="";"";G2:G<=50;"Entre 45 - 50kg";
+G2:G<=55;"Entre 51 - 55kg";G2:G<=60;"Entre 56 - 60kg";
+G2:G<=65;"Entre 61 - 65kg";G2:G<=70;"Entre 66 - 70kg";
+G2:G<=75;"Entre 71 - 75kg";G2:G<=80;"Entre 76 - 80kg";
+G2:G<=85;"Entre 81 - 85kg";G2:G<=90;"Entre 86 - 90kg";
+G2:G<=95;"Entre 91 - 95kg";G2:G<=100;"Entre 96 - 100kg";
+G2:G<=105;"Entre 101 - 105kg";G2:G<=110;"Entre 106 - 110kg";
+G2:G<=115;"Entre 111 - 115kg";G2:G<=120;"Entre 116 - 120kg"))
+
+
+
+
+CASE 
+  WHEN Peso <= 50 THEN "Entre 45 - 50kg"
+  WHEN Peso <= 55 THEN "Entre 51 - 55kg"
+  WHEN Peso <= 60 THEN "Entre 56 - 60kg"
+  WHEN Peso <= 65 THEN "Entre 61 - 65kg"
+  WHEN Peso <= 70 THEN "Entre 66 - 70kg"
+  WHEN Peso <= 75 THEN "Entre 71 - 75kg"
+  WHEN Peso <= 80 THEN "Entre 76 - 80kg"
+  WHEN Peso <= 85 THEN "Entre 81 - 85kg"
+  WHEN Peso <= 90 THEN "Entre 86 - 90kg"
+  WHEN Peso <= 95 THEN "Entre 91 - 95kg"
+  WHEN Peso <= 100 THEN "Entre 96 - 100kg"
+  WHEN Peso <= 105 THEN "Entre 101 - 105kg"
+  WHEN Peso <= 110 THEN "Entre 106 - 110kg"
+  WHEN Peso <= 115 THEN "Entre 111 - 115kg"
+  WHEN Peso <= 120 THEN "Entre 116 - 120kg"
+  ELSE "Acima de 120kg"
+END
+
+
+
+
+Aulas Dericson
+Config Meta Ads
+https://www.youtube.com/watch?v=S4z-6dongC8
+
+
+Configurando Dash
+https://www.youtube.com/watch?v=biirmziiZKU
+
+
+Possíveis Problemas
+https://www.youtube.com/watch?v=hA_Z2mV6IuM
+
+
+Como agregar diferentes métricas em uma só dentro do Data Studio
+https://www.youtube.com/watch?v=nOWqPKblBGM
+
+
+Combinação de Dados:
+https://www.youtube.com/watch?v=3QbHhLu3g-M nos 38min, ele mostra como combinar 2 métricas com filtros
+
+
+Parâmetros Tráfego
+utm_source={{adset.name}}&utm_medium={{placement}}&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{ad.name}}|{{ad.id}}

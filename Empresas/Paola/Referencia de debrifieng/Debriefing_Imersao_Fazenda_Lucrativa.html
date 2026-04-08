@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debriefing | Imersão Fazenda Lucrativa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #14141f;
+            --surface-2: #1c1c2e;
+            --border: rgba(255, 255, 255, 0.06);
+            --gold: #c5a880;
+            --gold-dim: rgba(197, 168, 128, 0.15);
+            --teal: #45a29e;
+            --teal-dim: rgba(69, 162, 158, 0.15);
+            --text: #c5c6c7;
+            --text-light: #ffffff;
+            --text-muted: #6b7280;
+            --green: #34d399;
+            --green-dim: rgba(52, 211, 153, 0.12);
+            --red: #f87171;
+            --red-dim: rgba(248, 113, 113, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* === COVER === */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-dim) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--teal-dim) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cover-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--text-light);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h1 span {
+            color: var(--gold);
+        }
+
+        .cover-sub {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-date {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === CONTENT === */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* === HERO KPIs === */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .hero-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--teal));
+        }
+
+        .hero-card.accent-green::before {
+            background: linear-gradient(90deg, var(--green), var(--teal));
+        }
+
+        .hero-card.accent-gold::before {
+            background: linear-gradient(90deg, var(--gold), #e8c591);
+        }
+
+        .hero-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .hero-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-light);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .hero-sub {
+            font-size: 0.82rem;
+            color: var(--teal);
+        }
+
+        /* === PANELS === */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .metric-value.positive {
+            color: var(--green);
+        }
+
+        .metric-value.negative {
+            color: var(--red);
+        }
+
+        /* === FULL WIDTH PANEL === */
+        .panel-full {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-top: 20px;
+        }
+
+        /* === TABLE === */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .data-table .num {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* === META BADGE === */
+        .meta-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .meta-badge.conservadora {
+            background: var(--green-dim);
+            color: var(--green);
+        }
+
+        .meta-badge.moderada {
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .meta-badge.arrojada {
+            background: var(--red-dim);
+            color: var(--red);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==================== COVER ==================== -->
+    <section class="cover">
+        <div class="cover-badge">REVO Advisory &bull; Debriefing</div>
+        <h1>Imersão<br><span>Fazenda Lucrativa</span></h1>
+        <p class="cover-sub">Debriefing de Lançamento Pago<br>NaFazendaPontoCom</p>
+        <p class="cover-date">Dez 2025 &mdash; Jan 2026</p>
+    </section>
+
+    <!-- ==================== CONTENT ==================== -->
+    <div class="content">
+
+        <!-- HERO KPIs -->
+        <section class="section">
+            <p class="section-label">Visão Geral</p>
+            <h2 class="section-title">Resultados Consolidados</h2>
+
+            <div class="hero-grid">
+                <div class="hero-card accent-gold">
+                    <div class="hero-label">Faturamento Total</div>
+                    <div class="hero-value">R$ 82.229</div>
+                    <div class="hero-sub">Front-end + Back-end</div>
+                </div>
+                <div class="hero-card accent-green">
+                    <div class="hero-label">Lucro Líquido</div>
+                    <div class="hero-value">R$ 50.057</div>
+                    <div class="hero-sub">Após investimento e taxas</div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-label">Investimento Total</div>
+                    <div class="hero-value">R$ 28.525</div>
+                    <div class="hero-sub">Tráfego + API Oficial</div>
+                </div>
+                <div class="hero-card accent-green">
+                    <div class="hero-label">ROAS Líquido</div>
+                    <div class="hero-value">2,75x</div>
+                    <div class="hero-sub">Retorno sobre investimento</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETALHAMENTO FINANCEIRO -->
+        <section class="section">
+            <p class="section-label">Detalhamento</p>
+            <h2 class="section-title">Análise Financeira</h2>
+
+            <div class="panel-grid">
+                <div class="panel">
+                    <div class="panel-title">Receita</div>
+                    <div class="metric">
+                        <span class="metric-label">Faturamento Bruto</span>
+                        <span class="metric-value">R$ 82.229,00</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Comissão Líquida</span>
+                        <span class="metric-value">R$ 78.581,84</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Faturamento Front-end (Ingressos + OB)</span>
+                        <span class="metric-value">R$ 25.092,00</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Faturamento Ingressos (Puro)</span>
+                        <span class="metric-value">R$ 8.033,69</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Faturamento Order Bumps</span>
+                        <span class="metric-value">R$ 16.339,00</span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Investimento</div>
+                    <div class="metric">
+                        <span class="metric-label">Investimento Total</span>
+                        <span class="metric-value">R$ 28.524,89</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tráfego Captação</span>
+                        <span class="metric-value">R$ 24.152,46</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tráfego Distribuição</span>
+                        <span class="metric-value">R$ 3.065,29</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">API Oficial (Captação)</span>
+                        <span class="metric-value">R$ 1.307,14</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Lucro Líquido</span>
+                        <span class="metric-value positive">R$ 50.056,95</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUNIL FRONT-END -->
+        <section class="section">
+            <p class="section-label">Funil Front-End</p>
+            <h2 class="section-title">Performance de Ingressos</h2>
+
+            <div class="hero-grid">
+                <div class="hero-card">
+                    <div class="hero-label">Ingressos Vendidos</div>
+                    <div class="hero-value">234</div>
+                    <div class="hero-sub">Total aprovado</div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-label">Leads Gerados</div>
+                    <div class="hero-value">336</div>
+                    <div class="hero-sub">Tráfego + Orgânico</div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-label">CPA Ingresso (Tráfego)</div>
+                    <div class="hero-value">R$ 193,22</div>
+                    <div class="hero-sub">Custo por venda via ads</div>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-label">Ticket Médio Ingresso</div>
+                    <div class="hero-value">R$ 34,33</div>
+                    <div class="hero-sub">Preço médio do ingresso puro</div>
+                </div>
+            </div>
+
+            <div class="panel-grid">
+                <div class="panel">
+                    <div class="panel-title">Conversão Front-End</div>
+                    <div class="metric">
+                        <span class="metric-label">Taxa de Conversão (Leads &rarr; Ingresso)</span>
+                        <span class="metric-value">74,4%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Ticket Médio Captação (com OBs)</span>
+                        <span class="metric-value">R$ 199,38</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">CPV Geral</span>
+                        <span class="metric-value">R$ 114,10</span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Geração de Ingressos (Origem)</div>
+                    <div class="metric">
+                        <span class="metric-label">Tráfego Pago</span>
+                        <span class="metric-value">125 <span
+                                style="color:var(--text-muted);font-weight:400">(49,6%)</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Base (Orgânico)</span>
+                        <span class="metric-value">101 <span
+                                style="color:var(--text-muted);font-weight:400">(40,1%)</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Conteúdo</span>
+                        <span class="metric-value">21 <span
+                                style="color:var(--text-muted);font-weight:400">(8,3%)</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Outros</span>
+                        <span class="metric-value">5 <span
+                                style="color:var(--text-muted);font-weight:400">(2,0%)</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORDER BUMPS -->
+        <section class="section">
+            <p class="section-label">Monetização Adicional</p>
+            <h2 class="section-title">Order Bumps</h2>
+
+            <div class="panel-full">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order Bump</th>
+                            <th>Produto</th>
+                            <th class="num">Faturamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OB 1</td>
+                            <td>Gravação</td>
+                            <td class="num">R$ 2.301,00</td>
+                        </tr>
+                        <tr>
+                            <td>OB 2</td>
+                            <td>Ebook: 10 Erros que Matam o Lucro</td>
+                            <td class="num">R$ 705,00</td>
+                        </tr>
+                        <tr>
+                            <td>OB 3</td>
+                            <td>Planilha Controle Suplementação</td>
+                            <td class="num">R$ 1.710,00</td>
+                        </tr>
+                        <tr>
+                            <td>OB 4</td>
+                            <td>Combo (Oferta Especial)</td>
+                            <td class="num">R$ 11.623,00</td>
+                        </tr>
+                        <tr style="border-top: 2px solid var(--border);">
+                            <td colspan="2" style="font-weight:600;color:var(--text-light)">Total Order Bumps</td>
+                            <td class="num" style="font-weight:700;color:var(--gold)">R$ 16.339,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- METAS -->
+        <section class="section">
+            <p class="section-label">Análise Estratégica</p>
+            <h2 class="section-title">Performance vs Metas</h2>
+
+            <div class="panel-full">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th class="num">Conservadora</th>
+                            <th class="num">Moderada</th>
+                            <th class="num">Arrojada</th>
+                            <th class="num">Arrojada +</th>
+                            <th class="num">Resultado Real</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vendas</td>
+                            <td class="num">24</td>
+                            <td class="num">29</td>
+                            <td class="num">36</td>
+                            <td class="num">47</td>
+                            <td class="num" style="color:var(--green);font-weight:700">234 &#x2714;</td>
+                        </tr>
+                        <tr>
+                            <td>Faturamento</td>
+                            <td class="num">R$ 59.928</td>
+                            <td class="num">R$ 72.413</td>
+                            <td class="num">R$ 89.892</td>
+                            <td class="num">R$ 117.359</td>
+                            <td class="num" style="color:var(--gold);font-weight:700">R$ 82.229</td>
+                        </tr>
+                        <tr>
+                            <td>Conversão</td>
+                            <td class="num">10%</td>
+                            <td class="num">12%</td>
+                            <td class="num">15%</td>
+                            <td class="num">20%</td>
+                            <td class="num" style="font-weight:600">74,4%</td>
+                        </tr>
+                        <tr>
+                            <td>ROAS</td>
+                            <td class="num">2,10x</td>
+                            <td class="num">2,54x</td>
+                            <td class="num">3,15x</td>
+                            <td class="num">4,11x</td>
+                            <td class="num" style="color:var(--gold);font-weight:700">2,75x</td>
+                        </tr>
+                        <tr>
+                            <td>Lucro Líquido</td>
+                            <td class="num">R$ 31.403</td>
+                            <td class="num">R$ 43.888</td>
+                            <td class="num">R$ 61.367</td>
+                            <td class="num">R$ 88.834</td>
+                            <td class="num" style="color:var(--green);font-weight:700">R$ 50.057 &#x2714;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:16px;font-size:0.85rem;color:var(--text-muted)">
+                    Resultado posicionado entre a meta <span class="meta-badge moderada">Moderada</span> e <span
+                        class="meta-badge arrojada">Arrojada</span> em faturamento e lucro. Volume de ingressos superou
+                    todas as projeções.
+                </p>
+            </div>
+        </section>
+
+        <!-- INVESTIMENTO DIÁRIO (HIGHLIGHTS) -->
+        <section class="section">
+            <p class="section-label">Distribuição</p>
+            <h2 class="section-title">Investimento em Tráfego</h2>
+
+            <div class="panel-grid">
+                <div class="panel">
+                    <div class="panel-title">Breakdown do Investimento</div>
+                    <div class="metric">
+                        <span class="metric-label">Captação (Tráfego Pago)</span>
+                        <span class="metric-value">R$ 24.152 <span
+                                style="color:var(--text-muted);font-weight:400">(84,7%)</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Distribuição de Conteúdo</span>
+                        <span class="metric-value">R$ 3.065 <span
+                                style="color:var(--text-muted);font-weight:400">(10,7%)</span></span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">API Oficial (WhatsApp)</span>
+                        <span class="metric-value">R$ 1.307 <span
+                                style="color:var(--text-muted);font-weight:400">(4,6%)</span></span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Captação (Planejado vs Real)</div>
+                    <div class="metric">
+                        <span class="metric-label">Ingressos Planejados</span>
+                        <span class="metric-value">477</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Ingressos Realizados</span>
+                        <span class="metric-value">232</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Atingimento</span>
+                        <span class="metric-value negative">48,6%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Nota</span>
+                        <span class="metric-value" style="font-size:0.82rem;color:var(--text-muted)">Volume abaixo do
+                            planejado mas ticket e OBs compensaram</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        REVO Advisory &bull; The Data Advisory Boutique &bull; Debriefing gerado em Mar/2026
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+{
+  "cliente": {
+    "nome_curto": "Matheus",
+    "nome_empresa": "Nome da Empresa S.A.",
+    "avatar_iniciais": "M"
+  },
+  "rotina": {
+    "google_meet_link": "https://meet.google.com/xxx-xxxx-xxx"
+  },
+  "menu": {
+    "drive": "https://drive.google.com/drive/folders/SEU_ID_AQUI",
+    "planilha_geral": "https://docs.google.com/spreadsheets/d/SEU_ID_AQUI",
+    "planilha_perpetuo": "https://docs.google.com/spreadsheets/d/SEU_ID_AQUI",
+    "planilhas_lancamentos": "https://drive.google.com/drive/folders/SEU_ID_AQUI",
+    "dna_cliente": "https://docs.google.com/document/d/SEU_ID_AQUI",
+    "momento_atual": "https://docs.google.com/document/d/SEU_ID_AQUI"
+  },
+  "dashboard": {
+    "looker_studio_url": "https://lookerstudio.google.com/reporting/SEU_ID_AQUI"
+  },
+  "metas": {
+    "faturamento_alvo": "R$ 0",
+    "mrr_atual": "R$ 0",
+    "kpis": [
+      { "label": "Taxa de Conversão", "valor": "0%", "meta": "0%" },
+      { "label": "Leads Qualificados/mês", "valor": "0", "meta": "0" },
+      { "label": "Custo por Lead", "valor": "R$ 0", "meta": "R$ 0" }
+    ]
+  },
+  "cronograma": {
+    "entregas": [
+      { "titulo": "Item de exemplo", "status": "em_execucao", "prazo": "2026-03-15", "responsavel": "REVO" }
+    ]
+  }
+}

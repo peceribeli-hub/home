@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia de Uso — Prompt de Clareza e Execução | REVO Advisory</title>
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:       #E50915;
+      --red-dark:  #B8060F;
+      --red-light: #FFF0F0;
+      --dark:      #111111;
+      --mid:       #555555;
+      --light:     #888888;
+      --bg:        #F7F7F7;
+      --white:     #FFFFFF;
+      --border:    #E0E0E0;
+      --code-bg:   #F4F4F4;
+
+      --step0: #FEE2E2; --step0c: #C41A23;
+      --step1: #FEF3C7; --step1c: #B45309;
+      --step2: #DCFCE7; --step2c: #15803D;
+      --step3: #DBEAFE; --step3c: #1D4ED8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--dark);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    nav .inner {
+      max-width: 860px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo {
+      width: 28px; height: 28px;
+      background: var(--red);
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 13px; color: white; letter-spacing: -1px;
+    }
+    .nav-title { color: white; font-size: 14px; font-weight: 600; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a {
+      color: #aaa; text-decoration: none; font-size: 13px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: white; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--dark);
+      padding: 72px 0 60px;
+      border-bottom: 4px solid var(--red);
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--red); }
+    .hero p {
+      font-size: 18px;
+      color: #aaa;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .lead {
+      font-size: 16px;
+      color: var(--mid);
+      margin-bottom: 28px;
+      max-width: 680px;
+    }
+
+    /* ── STEP CARDS ── */
+    .steps { display: flex; flex-direction: column; gap: 12px; }
+    .step-card {
+      display: grid;
+      grid-template-columns: 72px 180px 1fr;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: white;
+    }
+    .step-num {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px; font-weight: 900;
+      padding: 20px 0;
+    }
+    .step-name {
+      display: flex; align-items: center;
+      padding: 20px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      border-right: 1px solid var(--border);
+    }
+    .step-desc {
+      padding: 20px 24px;
+      font-size: 15px;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+    }
+
+    .step-card:nth-child(1) .step-num { background: var(--step0); color: var(--step0c); }
+    .step-card:nth-child(1) .step-name { background: var(--step0); color: var(--step0c); }
+    .step-card:nth-child(2) .step-num { background: var(--step1); color: var(--step1c); }
+    .step-card:nth-child(2) .step-name { background: var(--step1); color: var(--step1c); }
+    .step-card:nth-child(3) .step-num { background: var(--step2); color: var(--step2c); }
+    .step-card:nth-child(3) .step-name { background: var(--step2); color: var(--step2c); }
+    .step-card:nth-child(4) .step-num { background: var(--step3); color: var(--step3c); }
+    .step-card:nth-child(4) .step-name { background: var(--step3); color: var(--step3c); }
+
+    .step-arrow {
+      text-align: center;
+      color: var(--border);
+      font-size: 20px;
+      margin: -2px 0;
+    }
+
+    /* ── FUNIS TABLE ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      background: var(--dark);
+      color: white;
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      color: var(--mid);
+    }
+    tbody tr:nth-child(odd) td { background: white; }
+    tbody tr:nth-child(even) td { background: #FAFAFA; }
+    tbody tr td:first-child {
+      font-weight: 600;
+      color: var(--dark);
+      white-space: nowrap;
+    }
+    tbody tr td:nth-child(2) {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .tag {
+      display: inline-block;
+      background: var(--red-light);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-right: 4px;
+      margin-top: 2px;
+    }
+    .tag-modal {
+      background: #F0F0F0;
+      color: var(--mid);
+    }
+
+    /* ── COMO USAR ── */
+    .steps-list { counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+    .step-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .step-item-num {
+      counter-increment: step;
+      min-width: 32px; height: 32px;
+      background: var(--red);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      flex-shrink: 0;
+    }
+    .step-item-text { font-size: 15px; color: var(--mid); padding-top: 4px; }
+    .step-item-text strong { color: var(--dark); }
+
+    /* ── CODE BLOCKS ── */
+    .code-block {
+      position: relative;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--red);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #EEEEEE;
+      border-bottom: 1px solid var(--border);
+    }
+    .code-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--mid);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .copy-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      font-family: inherit;
+    }
+    .copy-btn:hover { background: var(--red); }
+    .copy-btn:active { transform: scale(.97); }
+    .copy-btn.copied { background: #15803D; }
+    pre {
+      padding: 20px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #1A1A1A;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow: visible;
+    }
+
+    /* ── EXAMPLES ── */
+    .examples { display: flex; flex-direction: column; gap: 20px; }
+    .example-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+    }
+
+    /* ── PROMPT SECTION ── */
+    .prompt-section {
+      background: var(--dark);
+      padding: 56px 0;
+    }
+    .prompt-section .section-label { color: #E50915; }
+    .prompt-section h2 { color: white; }
+    .prompt-section .lead { color: #aaa; }
+    .prompt-section .code-block {
+      border-left-color: var(--red);
+      background: #1E1E1E;
+      border-color: #333;
+    }
+    .prompt-section .code-header {
+      background: #2A2A2A;
+      border-bottom-color: #333;
+    }
+    .prompt-section .code-label { color: #aaa; }
+    .prompt-section pre { color: #E8E8E8; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: var(--red-light);
+      border: 1px solid #FECACA;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--red-dark);
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    .info-box strong { color: var(--red); }
+
+    /* ── FUNIL DETAIL ── */
+    .funil-note {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .badge {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--mid);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #555;
+      text-align: center;
+      padding: 28px 0;
+      font-size: 13px;
+    }
+    footer span { color: #777; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .step-card { grid-template-columns: 56px 1fr; }
+      .step-name { display: none; }
+      .step-desc { padding: 16px; font-size: 14px; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <div class="nav-brand">
+      <div class="nav-logo">RE</div>
+      <span class="nav-title">REVO Advisory — Guia Interno</span>
+    </div>
+    <div class="nav-links">
+      <a href="#fluxo">Fluxo</a>
+      <a href="#funis">Funis</a>
+      <a href="#como-usar">Como usar</a>
+      <a href="#exemplos">Exemplos</a>
+      <a href="#prompt">O Prompt</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-tag">Guia de Uso · Março 2026</div>
+    <h1>Prompt de <span>Clareza</span><br>e Execução</h1>
+    <p>Como transformar reuniões, transcrições e textos longos em ações claras, passo a passo — sem retrabalho.</p>
+  </div>
+</div>
+
+<!-- SECTION: PARA QUE SERVE -->
+<section style="background: white;">
+  <div class="container">
+    <div class="section-label">Contexto</div>
+    <h2>Para que serve este prompt</h2>
+    <p class="lead">
+      Toda vez que você tiver um conteúdo longo para processar — transcrição de reunião, notas brutas, briefing de cliente — este prompt garante que a IA trabalhe na ordem certa antes de criar qualquer arquivo.
+    </p>
+    <p style="color: var(--mid); margin-bottom: 16px;">
+      O problema mais comum: a IA vai direto para a execução sem entender como as peças se encaixam. Isso gera retrabalho e resultados genéricos.
+    </p>
+    <p style="color: var(--mid);">
+      Com este prompt, a IA primeiro mapeia a lógica do conteúdo, organiza tudo em tabelas, confirma com você e só então executa — com instruções que qualquer pessoa consegue seguir.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION: FLUXO -->
+<section id="fluxo" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-label">Fluxo</div>
+    <h2>4 etapas — sempre nesta ordem</h2>
+    <p class="lead">A IA nunca pula etapas. Você não precisa fazer nada até a Etapa 2.</p>
+
+    <div class="steps">
+
+      <div class="step-card">
+        <div class="step-num">0</div>
+        <div class="step-name">MAPA DE CLAREZA</div>
+        <div class="step-desc">
+          Antes de qualquer tarefa, a IA mostra como as peças se encaixam: quais são os componentes, como um alimenta o outro e qual é a hierarquia.
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-name">EXTRAÇÃO</div>
+        <div class="step-desc">
+          Organiza todo o conteúdo em tabelas: decisões tomadas, tarefas (quem / o quê / quando), números e metas, pessoas e papéis, ambiguidades.
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-name">CONFIRMAÇÃO</div>
+        <div class="step-desc">
+          A IA faz no máximo 5 perguntas. <strong>Você valida o mapa e responde as dúvidas.</strong> Só depois de confirmado qualquer arquivo é criado.
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-name">EXECUÇÃO</div>
+        <div class="step-desc">
+          A IA executa tudo de uma vez: cria os arquivos e entrega as instruções com passo a passo clique por clique, sem novas perguntas no meio.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-box" style="margin-top: 24px;">
+      <strong>Regra importante:</strong> a IA nunca pula etapas. Se você não confirmar na Etapa 2, ela não avança para a Etapa 3.
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: FUNIS -->
+<section id="funis" style="background: white;">
+  <div class="container">
+    <div class="section-label">Referência</div>
+    <h2>Estrutura de Funis Padrão REVO</h2>
+    <p class="lead">
+      Cada cliente usa um conjunto de funis de acordo com o tipo de negócio. O conjunto ativo é o que gera o resultado final.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de negócio</th>
+            <th>Funil</th>
+            <th>Engrenagens</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag">Todos</span></td>
+            <td>Crescimento no Instagram</td>
+            <td>Posts + Tráfego Pago</td>
+            <td>Novos seguidores qualificados</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Serviço</span></td>
+            <td>Agendamento de Reuniões</td>
+            <td>Posts + Tráfego Pago + Página de captura</td>
+            <td>Reuniões agendadas</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Infoprodutor</span></td>
+            <td>Perpétuo</td>
+            <td>Posts + Tráfego Pago + Página de vendas</td>
+            <td>Vendas contínuas</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Infoprodutor</span></td>
+            <td>
+              Lançamento
+              <div style="margin-top: 8px;">
+                <span class="tag tag-modal">Lançamento Pago</span>
+                <span class="tag tag-modal">Lançamento Gratuito</span>
+                <span class="tag tag-modal">Lançamento Meteórico</span>
+              </div>
+            </td>
+            <td>Posts + Tráfego Pago + Sequência de aquecimento</td>
+            <td>Vendas em janela de tempo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="funil-note" style="margin-top: 20px;">
+      <p style="font-size: 13px; color: var(--light); width: 100%; margin-bottom: 6px;">Cada funil ativo tem:</p>
+      <span class="badge">Métricas próprias</span>
+      <span class="badge">Meta própria</span>
+      <span class="badge">Responsável próprio</span>
+      <span class="badge">Relatório semanal</span>
+      <span class="badge">Relatório mensal</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: COMO USAR -->
+<section id="como-usar" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-label">Uso</div>
+    <h2>Como usar o prompt</h2>
+    <p class="lead">Siga os passos abaixo toda vez que precisar processar um conteúdo longo.</p>
+
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-item-num">1</div>
+        <div class="step-item-text">Abra o <strong>Cowork (Claude)</strong> em uma nova aba.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">2</div>
+        <div class="step-item-text">Vá até a seção <strong>"O Prompt Completo"</strong> nesta página e clique em <strong>Copiar Prompt</strong>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">3</div>
+        <div class="step-item-text">Cole no campo de mensagem do Cowork.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">4</div>
+        <div class="step-item-text">Substitua <strong>[TIPO DE ENTRADA]</strong> pelo tipo do seu conteúdo — por exemplo: <em>transcrição de reunião</em>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">5</div>
+        <div class="step-item-text">Substitua <strong>[OBJETIVO FINAL]</strong> pelo que você quer como saída — por exemplo: <em>redistribuir tarefas no ClickUp</em>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">6</div>
+        <div class="step-item-text">Cole o seu conteúdo no final, após a linha <strong>[COLE SEU CONTEÚDO AQUI]</strong>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">7</div>
+        <div class="step-item-text">Envie e aguarde. A IA vai mostrar o <strong>Mapa de Clareza</strong> primeiro. Leia com atenção.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">8</div>
+        <div class="step-item-text">Se algo no mapa estiver errado, <strong>corrija antes de confirmar</strong>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">9</div>
+        <div class="step-item-text">Responda as perguntas da <strong>Etapa 2</strong>.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-item-num">10</div>
+        <div class="step-item-text">Aguarde a <strong>execução completa</strong> com os arquivos entregues e o passo a passo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: EXEMPLOS -->
+<section id="exemplos" style="background: white;">
+  <div class="container">
+    <div class="section-label">Exemplos</div>
+    <h2>Como preencher o prompt</h2>
+    <p class="lead">Veja como substituir os campos para cada situação.</p>
+
+    <div class="examples">
+
+      <div>
+        <div class="example-title">Reunião com estrutura complexa</div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-label">Exemplo 1</span>
+            <button class="copy-btn" onclick="copyCode(this)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copiar
+            </button>
+          </div>
+          <pre>Tipo de entrada: transcrição de reunião
+Objetivo final: entender como os funis se conectam
+              e redistribuir tarefas no ClickUp
+
+[COLE A TRANSCRIÇÃO AQUI]</pre>
+        </div>
+      </div>
+
+      <div>
+        <div class="example-title">Planejamento estratégico</div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-label">Exemplo 2</span>
+            <button class="copy-btn" onclick="copyCode(this)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copiar
+            </button>
+          </div>
+          <pre>Tipo de entrada: notas brutas de sessão de planejamento
+Objetivo final: criar documento de metas e KPIs por cliente
+
+[COLE AS NOTAS AQUI]</pre>
+        </div>
+      </div>
+
+      <div>
+        <div class="example-title">Briefing de cliente</div>
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-label">Exemplo 3</span>
+            <button class="copy-btn" onclick="copyCode(this)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copiar
+            </button>
+          </div>
+          <pre>Tipo de entrada: texto longo de briefing recebido
+Objetivo final: montar plano de ação e lista de próximos passos
+
+[COLE O BRIEFING AQUI]</pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VARIAÇÃO RÁPIDA -->
+    <div style="margin-top: 48px;">
+      <div class="section-label">Variação</div>
+      <h2 style="margin-bottom: 8px;">Versão rápida</h2>
+      <p style="color: var(--mid); margin-bottom: 20px; font-size: 15px;">
+        Use quando a estrutura já for conhecida e você só precisar das tarefas.
+      </p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-label">Prompt curto</span>
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+        </div>
+        <pre>Leia o conteúdo abaixo. Extraia em tabelas:
+decisões, tarefas (quem/o quê/quando) e pontos ambíguos.
+Faça no máximo 3 perguntas.
+Aguarde minha confirmação para executar.
+Objetivo: [DESCREVA AQUI]
+
+[CONTEÚDO]</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: O PROMPT COMPLETO (dark) -->
+<section id="prompt" class="prompt-section">
+  <div class="container">
+    <div class="section-label">Para copiar</div>
+    <h2>O Prompt Completo</h2>
+    <p class="lead">
+      Copie tudo abaixo desta linha — do início até [COLE SEU CONTEÚDO AQUI] — e cole direto no Cowork.
+      Depois substitua os campos indicados com <strong style="color: white;">[colchetes]</strong>.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">Prompt completo</span>
+        <button class="copy-btn" id="main-copy-btn" onclick="copyPrompt(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar Prompt
+        </button>
+      </div>
+      <pre id="full-prompt">MODO: Mapa de Clareza → Análise → Confirmação → Execução
+
+Tipo de entrada: [transcrição de reunião / notas brutas / documento / texto longo]
+Objetivo final: [ex: redistribuir tarefas / criar KPIs / montar plano de ação / outro]
+
+---
+
+ETAPA 0 — MAPA DE CLAREZA (antes de qualquer tarefa ou arquivo)
+
+Leia tudo. Antes de listar tarefas, me mostre como as peças se encaixam.
+
+Produza um mapa com este formato:
+
+COMPONENTES IDENTIFICADOS
+Liste cada peça do sistema mencionada no conteúdo
+(funis, processos, papéis, etapas, documentos).
+
+COMO SE CONECTAM
+Para cada conexão, escreva uma linha:
+→ [Peça A] alimenta [Peça B] porque [motivo simples]
+→ [Peça B] depende de [Peça A] para funcionar
+
+HIERARQUIA
+Monte uma estrutura visual em texto mostrando o que vem antes e o que vem depois:
+
+[Nível 1 — base / origem]
+  └── [Nível 2 — alimentado pelo nível 1]
+        └── [Nível 3 — resultado final]
+
+ONDE A LÓGICA AINDA NÃO ESTÁ CLARA
+Liste qualquer ponto onde a conexão entre peças ficou vaga ou contraditória.
+
+Regra: use linguagem simples. Escreva como se fosse explicar para alguém
+que nunca viu este projeto.
+
+---
+
+ETAPA 1 — EXTRAÇÃO (não crie nenhum arquivo ainda)
+
+Após o mapa, extraia e apresente como tabelas estruturadas:
+
+| Categoria       | O que extrair                                   |
+|-----------------|-------------------------------------------------|
+| Decisões        | O que foi decidido, por quem                    |
+| Tarefas         | Quem | O quê | Até quando | Prioridade          |
+| Números / metas | Valores, datas, percentuais mencionados         |
+| Pessoas         | Nomes, papéis, responsabilidades citadas        |
+| Contexto-chave  | Problemas identificados, riscos, oportunidades  |
+| Ambiguidades    | O que ficou vago, contraditório ou incompleto   |
+
+Seja direto. Sem parágrafos explicativos — só tabelas e listas.
+
+---
+
+ETAPA 2 — CONFIRMAÇÃO
+
+Após as tabelas, faça no máximo 5 perguntas. Apenas sobre:
+- Pontos do mapa de clareza que precisam de validação
+- Ambiguidades que bloqueiam a execução
+- Decisões que dependem da minha preferência (não assuma)
+
+Formato das perguntas: numeradas, uma linha cada, sem contexto longo.
+
+Encerre com:
+"Confirme o mapa e responda as perguntas. Só depois vou executar."
+
+---
+
+ETAPA 3 — EXECUÇÃO
+
+Aguardar confirmação. Após minha resposta:
+- Atualize o mapa se necessário
+- Execute tudo de uma vez
+- Sem novas perguntas durante a execução
+- Para cada ação, escreva:
+  ✅ O que fazer (uma frase)
+  📍 Onde fazer (ex: Abra o ClickUp → clique em Tarefas → selecione o projeto X)
+  👆 Passo a passo numerado com cliques exatos
+  ✔️ Como saber que deu certo (o que vai aparecer na tela)
+- Entregue os arquivos ao final
+
+---
+
+[COLE SEU CONTEÚDO AQUI]</pre>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>REVO Advisory · Documento interno · Março 2026</span>
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      const orig = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copiado!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = orig;
+      }, 2000);
+    });
+  }
+
+  function copyPrompt(btn) {
+    const text = document.getElementById('full-prompt').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copiado!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = orig;
+      }, 2500);
+    });
+  }
+</script>
+
+</body>
+</html>

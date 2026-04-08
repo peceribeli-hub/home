@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>REVO Advisory — Proposta Estratégica · Derick Nodari</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:   #E50915;
+    --card:  #7A3328;
+    --bg:    #111111;
+    --white: #FFFFFF;
+    --cream: #F2D9C3;
+    --dark:  #1A1A1A;
+    --green: #4ade80;
+    --pad:   96px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow: hidden;
+    width: 100vw; height: 100vh;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(17,17,17,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #2a2a2a;
+    height: 52px; gap: 2px; padding: 0 40px;
+    flex-wrap: nowrap; overflow-x: auto;
+  }
+  .nav-section {
+    display: flex; align-items: center; gap: 2px;
+    padding: 0 8px; border-right: 1px solid #2a2a2a;
+  }
+  .nav-section:last-child { border-right: none; }
+  .nav-label {
+    font-size: 9px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #555; padding: 0 6px; white-space: nowrap;
+  }
+  .nav-btn {
+    background: none; border: none; color: #666; font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+    cursor: pointer; padding: 5px 10px; border-radius: 6px; transition: all .2s; white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--white); background: #1e1e1e; }
+  .nav-btn.active { color: var(--white); background: var(--red); }
+
+  /* ── SLIDES ── */
+  #deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    padding: 72px var(--pad) 56px;
+    display: none; flex-direction: column;
+    opacity: 0; transition: opacity .35s;
+  }
+  .slide.active { display: flex; opacity: 1; }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+  .slide-title { font-size: 38px; font-weight: 900; line-height: 1.1; color: var(--white); margin-bottom: 28px; }
+  .slide-title span { color: var(--red); }
+  .section-divider {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--red); border: 1px solid var(--red); border-radius: 4px;
+    padding: 3px 10px; margin-bottom: 8px;
+  }
+
+  /* ── CARDS ── */
+  .cards-row { display: flex; gap: 20px; flex: 1; }
+  .card {
+    background: var(--card); border-radius: 16px; padding: 24px 24px 20px; flex: 1;
+    display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.06);
+  }
+  .card-dark { background: #1c1c1c; border-color: #2a2a2a; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cream); margin-bottom: 14px; }
+  .card-body { font-size: 14px; line-height: 1.75; color: #ddd; flex: 1; }
+  .card-body .arrow { color: var(--red); font-weight: 700; margin-right: 4px; }
+  .card-body .up   { color: var(--green); }
+  .card-body .down { color: var(--red); }
+  .card-body .price { color: var(--cream); font-weight: 700; }
+  .card-body strong { color: var(--white); }
+
+  /* ── HIGHLIGHT BARS ── */
+  .highlight {
+    background: linear-gradient(90deg, rgba(229,9,21,.15), transparent);
+    border-left: 3px solid var(--red);
+    padding: 12px 18px; border-radius: 0 10px 10px 0;
+    font-size: 15px; font-weight: 600; color: var(--white); margin-top: 16px;
+  }
+  .highlight-gold {
+    background: linear-gradient(90deg, rgba(242,217,195,.12), transparent);
+    border-left: 3px solid var(--cream);
+    padding: 14px 20px; border-radius: 0 10px 10px 0;
+    font-size: 15px; font-weight: 700; color: var(--cream);
+    margin-top: 20px; font-style: italic;
+  }
+  .highlight-green {
+    background: linear-gradient(90deg, rgba(74,222,128,.12), transparent);
+    border-left: 3px solid var(--green);
+    padding: 12px 18px; border-radius: 0 10px 10px 0;
+    font-size: 14px; font-weight: 600; color: var(--green); margin-top: 14px;
+  }
+
+  /* ── TABLES ── */
+  .revo-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .revo-table thead tr { border-bottom: 2px solid var(--red); }
+  .revo-table th { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--red); padding: 8px 14px; text-align: left; }
+  .revo-table td { padding: 9px 14px; color: #ddd; border-bottom: 1px solid #222; }
+  .revo-table tr:hover td { background: #1a1a1a; }
+  .revo-table .real { color: var(--cream); font-weight: 600; }
+  .revo-table .target { color: var(--green); font-weight: 600; }
+  .revo-table .gap { color: var(--red); font-weight: 600; }
+  .revo-table .ok { color: var(--green); font-weight: 600; }
+  .revo-table .partial { color: #ffd700; font-weight: 600; }
+  .revo-table .highlight-row td { background: rgba(229,9,21,.06); }
+
+  /* ── TWO COLS ── */
+  .two-cols { display: flex; gap: 20px; flex: 1; }
+  .col-green { background: rgba(74,222,128,.05); border: 1px solid rgba(74,222,128,.18); border-radius: 16px; padding: 24px; flex: 1; }
+  .col-red   { background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 24px; flex: 1; }
+  .col-cream { background: rgba(242,217,195,.05); border: 1px solid rgba(242,217,195,.15); border-radius: 16px; padding: 24px; flex: 1; }
+  .col-title { font-size: 11px; font-weight: 700; letter-spacing:.1em; text-transform:uppercase; margin-bottom: 14px; }
+  .col-green .col-title { color: var(--green); }
+  .col-red   .col-title { color: var(--red); }
+  .col-cream .col-title { color: var(--cream); }
+  .col-item { font-size: 14px; line-height: 1.75; color: #ddd; margin-bottom: 4px; }
+  .col-item .arrow { font-weight: 700; margin-right: 4px; }
+  .col-green .col-item .arrow { color: var(--green); }
+  .col-red   .col-item .arrow { color: var(--red); }
+  .col-cream .col-item .arrow { color: var(--cream); }
+
+  /* ── PRODUCT CARDS ── */
+  .product-card {
+    background: #1c1c1c; border-radius: 16px; padding: 28px 24px;
+    flex: 1; border: 1px solid #2a2a2a; position: relative; overflow: hidden;
+  }
+  .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--red); }
+  .product-card.featured::before { background: linear-gradient(90deg, var(--red), var(--cream)); }
+  .product-num { font-size: 42px; font-weight: 900; color: rgba(229,9,21,.2); line-height: 1; margin-bottom: 6px; }
+  .product-name { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+  .product-price { font-size: 20px; font-weight: 900; color: var(--cream); margin-bottom: 16px; }
+  .product-items { font-size: 13px; line-height: 1.8; color: #ccc; }
+  .product-items .arrow { color: var(--red); font-weight: 700; }
+
+  /* ── GAP TAGS ── */
+  .gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; flex: 1; }
+  .gap-card {
+    background: #1a1a1a; border-radius: 14px; padding: 18px 20px;
+    border: 1px solid rgba(229,9,21,.2); border-left: 3px solid var(--red);
+  }
+  .gap-number { font-size: 28px; font-weight: 900; color: rgba(229,9,21,.15); line-height: 1; margin-bottom: 4px; }
+  .gap-title { font-size: 13px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .gap-desc { font-size: 12px; line-height: 1.65; color: #999; }
+  .gap-opp { font-size: 11px; font-weight: 700; color: var(--green); margin-top: 8px; letter-spacing: .04em; }
+
+  /* ── OBJEÇÃO CARDS ── */
+  .obj-list { display: flex; flex-direction: column; gap: 14px; flex: 1; overflow-y: auto; }
+  .obj-card {
+    background: #1a1a1a; border-radius: 12px; padding: 18px 20px;
+    border: 1px solid #2a2a2a; display: flex; gap: 20px;
+  }
+  .obj-q { flex: 0 0 38%; font-size: 13px; font-weight: 700; color: var(--cream); line-height: 1.5; }
+  .obj-a { flex: 1; font-size: 13px; color: #ccc; line-height: 1.65; }
+  .obj-a strong { color: var(--white); }
+
+  /* ── CONCORRENTES ── */
+  .comp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; flex: 1; }
+  .comp-card {
+    background: #1a1a1a; border-radius: 14px; padding: 18px 20px;
+    border: 1px solid #2a2a2a;
+  }
+  .comp-name { font-size: 14px; font-weight: 800; color: var(--cream); margin-bottom: 3px; }
+  .comp-handle { font-size: 10px; font-weight: 600; letter-spacing: .08em; color: #666; margin-bottom: 10px; text-transform: uppercase; }
+  .comp-row { font-size: 12px; line-height: 1.7; color: #ccc; margin-bottom: 2px; }
+  .comp-row .lbl { color: #666; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; margin-right: 6px; }
+  .comp-row .val { color: #ddd; }
+  .comp-row .gap { color: var(--red); font-weight: 700; }
+  .comp-row .ok { color: var(--green); font-weight: 700; }
+
+  /* ── COVER ── */
+  .cover-layout { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--red); border: 1px solid rgba(229,9,21,.4); border-radius: 6px;
+    padding: 5px 12px; margin-bottom: 28px; width: fit-content;
+  }
+  .cover-title {
+    font-size: 64px; font-weight: 900; line-height: 1.0;
+    color: var(--white); margin-bottom: 24px; max-width: 900px;
+  }
+  .cover-title span { color: var(--red); }
+  .cover-sub { font-size: 18px; color: #888; font-weight: 400; margin-bottom: 40px; max-width: 680px; line-height: 1.65; }
+  .cover-meta { display: flex; gap: 48px; }
+  .cover-meta-item { }
+  .cover-meta-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #555; margin-bottom: 4px; }
+  .cover-meta-value { font-size: 15px; font-weight: 700; color: var(--cream); }
+  .cover-line {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 4px;
+    background: linear-gradient(to bottom, transparent, var(--red), transparent);
+  }
+
+  /* ── RESUMO 1-PAGER ── */
+  .resumo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; flex: 1; }
+  .resumo-block {
+    background: #1a1a1a; border-radius: 14px; padding: 20px;
+    border: 1px solid #2a2a2a; display: flex; flex-direction: column;
+  }
+  .resumo-block-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+  .resumo-item { font-size: 13px; line-height: 1.7; color: #ccc; margin-bottom: 4px; }
+  .resumo-item .dot { display: inline-block; width: 5px; height: 5px; background: var(--red); border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+
+  /* ── FRAMING ── */
+  .framing-cols { display: flex; gap: 20px; flex: 1; }
+  .framing-card {
+    flex: 1; border-radius: 16px; padding: 28px 28px 24px;
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+  }
+  .framing-conservador { background: rgba(255,255,255,.02); border: 1px solid #333; }
+  .framing-agressivo { background: rgba(229,9,21,.05); border: 1px solid rgba(229,9,21,.25); }
+  .framing-badge {
+    display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: .12em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; width: fit-content;
+  }
+  .badge-conserv { background: #2a2a2a; color: #aaa; }
+  .badge-agressivo { background: rgba(229,9,21,.2); color: #ff8888; }
+  .framing-headline { font-size: 22px; font-weight: 900; color: var(--white); margin-bottom: 14px; line-height: 1.2; }
+  .framing-body { font-size: 14px; line-height: 1.8; color: #ccc; flex: 1; }
+  .framing-cta { font-size: 13px; font-weight: 700; color: var(--cream); margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.08); }
+
+  /* ── GARANTIA ── */
+  .garantia-wrap {
+    flex: 1; display: flex; flex-direction: column; gap: 20px;
+  }
+  .garantia-card {
+    background: rgba(74,222,128,.04); border: 1px solid rgba(74,222,128,.2); border-radius: 16px;
+    padding: 28px 32px; flex: 1; display: flex; flex-direction: column; justify-content: center;
+  }
+  .garantia-title { font-size: 20px; font-weight: 900; color: var(--green); margin-bottom: 12px; }
+  .garantia-desc { font-size: 15px; line-height: 1.8; color: #ccc; }
+  .garantia-desc strong { color: var(--white); }
+  .garantia-note { font-size: 12px; color: #666; margin-top: 12px; font-style: italic; }
+
+  /* ── KPI ROW ── */
+  .kpi-row { display: flex; gap: 16px; margin-bottom: 20px; }
+  .kpi-card { flex: 1; background: #1a1a1a; border-radius: 12px; padding: 18px 20px; border: 1px solid #2a2a2a; text-align: center; }
+  .kpi-value { font-size: 28px; font-weight: 900; color: var(--cream); }
+  .kpi-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #666; margin-top: 4px; }
+
+  /* ── CHECKLIST ── */
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; color: #ddd; margin-bottom: 8px; }
+  .checklist-item .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-top: 7px; flex-shrink: 0; }
+
+  /* ── FOOTER DOTS ── */
+  #footer {
+    position: fixed; bottom: 16px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 6px; z-index: 100;
+  }
+  .dot-btn { width: 7px; height: 7px; border-radius: 50%; border: none; cursor: pointer; transition: all .2s; background: #444; }
+  .dot-btn.active { background: var(--red); transform: scale(1.3); }
+
+  /* ── NEXT STEP ── */
+  .next-layout { flex: 1; display: flex; gap: 24px; align-items: stretch; }
+  .next-main { flex: 2; display: flex; flex-direction: column; gap: 16px; }
+  .next-side { flex: 1; background: rgba(229,9,21,.06); border: 1px solid rgba(229,9,21,.2); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; justify-content: center; }
+  .step-card {
+    background: #1a1a1a; border-radius: 12px; padding: 18px 20px;
+    border: 1px solid #2a2a2a; display: flex; align-items: center; gap: 16px;
+  }
+  .step-num { font-size: 32px; font-weight: 900; color: rgba(229,9,21,.25); line-height: 1; flex-shrink: 0; width: 48px; }
+  .step-content { flex: 1; }
+  .step-title { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 3px; }
+  .step-desc { font-size: 12px; color: #888; line-height: 1.5; }
+
+  /* ── PROFILE ANALYSIS ── */
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; }
+  .profile-block { background: #1a1a1a; border-radius: 14px; padding: 20px; border: 1px solid #2a2a2a; }
+  .profile-block-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+  .profile-item { font-size: 13px; line-height: 1.7; color: #ccc; margin-bottom: 5px; }
+  .profile-item .arrow { color: var(--red); font-weight: 700; margin-right: 5px; }
+  .profile-item .green { color: var(--green); font-weight: 700; }
+  .profile-item .cream { color: var(--cream); font-weight: 700; }
+  .badge-level {
+    display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .badge-warn { background: rgba(255,200,0,.15); color: #ffd700; }
+  .badge-danger { background: rgba(229,9,21,.2); color: #ff9999; }
+  .badge-ok { background: rgba(74,222,128,.15); color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <span class="nav-label">Análise</span>
+  <div class="nav-section">
+    <button class="nav-btn active" onclick="goTo(0)">00 · Capa</button>
+    <button class="nav-btn" onclick="goTo(1)">01 · Resumo</button>
+    <button class="nav-btn" onclick="goTo(2)">02 · Perfil</button>
+    <button class="nav-btn" onclick="goTo(3)">03 · GAPs</button>
+  </div>
+  <span class="nav-label">Mercado</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(4)">04 · Concorrentes</button>
+    <button class="nav-btn" onclick="goTo(5)">05 · Oportunidades</button>
+  </div>
+  <span class="nav-label">Proposta</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(6)">06 · Produto</button>
+    <button class="nav-btn" onclick="goTo(7)">07 · Entregáveis</button>
+    <button class="nav-btn" onclick="goTo(8)">08 · Investimento</button>
+    <button class="nav-btn" onclick="goTo(9)">09 · Garantia</button>
+    <button class="nav-btn" onclick="goTo(10)">10 · Framing</button>
+    <button class="nav-btn" onclick="goTo(11)">11 · Objeções</button>
+    <button class="nav-btn" onclick="goTo(12)">12 · Próximo Passo</button>
+  </div>
+</nav>
+
+<div id="deck">
+
+<!-- ══════════════════════════════════════════
+     SLIDE 00 · CAPA
+═══════════════════════════════════════════ -->
+<section class="slide active" id="s0">
+  <div class="cover-line"></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="cover-tag">
+      <span style="width:6px;height:6px;background:var(--red);border-radius:50%;"></span>
+      Proposta Estratégica · Confidencial
+    </div>
+    <div class="cover-title">
+      De dados à<br><span>direção real.</span>
+    </div>
+    <div class="cover-sub">
+      Análise estratégica completa e proposta de Diagnóstico + Acompanhamento Inicial para Derick Nodari — especialista em Sono e Performance.
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Cliente Alvo</div>
+        <div class="cover-meta-value">Derick Nodari · @dericknodari</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Elaborado por</div>
+        <div class="cover-meta-value">REVO Advisory</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Data</div>
+        <div class="cover-meta-value">Março/2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Produto Proposto</div>
+        <div class="cover-meta-value">Diagnóstico + Acompanhamento</div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:70px;left:var(--pad);font-size:11px;color:#444;letter-spacing:.06em;">
+    REVO Advisory · 2026 · Use as setas do teclado ou a navegação acima para avançar
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 01 · RESUMO EXECUTIVO
+═══════════════════════════════════════════ -->
+<section class="slide" id="s1">
+  <div class="section-divider">Visão Geral</div>
+  <div class="slide-label">01 — Resumo Executivo</div>
+  <div class="slide-title">O que encontramos. <span>O que propomos.</span></div>
+  <div class="resumo-grid">
+    <div class="resumo-block">
+      <div class="resumo-block-title">🔍 Diagnóstico do Perfil</div>
+      <div class="resumo-item"><span class="dot"></span> Nicho em expansão: sono + performance é um dos subnichos mais lucrativos de 2025-26 no Brasil</div>
+      <div class="resumo-item"><span class="dot"></span> Bio genérica — "Sono e Performance" descreve um tema, não uma proposta de valor única</div>
+      <div class="resumo-item"><span class="dot"></span> Ausência de mecanismo proprietário visível (sem "Método X" ou "Protocolo Y")</div>
+      <div class="resumo-item"><span class="dot"></span> CTA e funil implícitos — não há clareza sobre o que acontece após o follow</div>
+      <div class="resumo-item"><span class="dot"></span> Posicionamento ainda em nível de "Problema-Consciente" — sem chegar ao "Solution-Aware" em escala</div>
+      <div class="resumo-item"><span class="dot"></span> Derick veio atrás da REVO: sinal de dor real — ele já sabe que precisa de direção</div>
+    </div>
+    <div class="resumo-block">
+      <div class="resumo-block-title">⚔️ Análise de Mercado</div>
+      <div class="resumo-item"><span class="dot"></span> Nenhum player dominante no espaço "sono científico para alta performance" no Brasil</div>
+      <div class="resumo-item"><span class="dot"></span> Concorrentes (Joel Jota, Paulo Vieira) cobrem performance holística — não são especialistas em sono</div>
+      <div class="resumo-item"><span class="dot"></span> Concorrentes acadêmicos (Academia Brasileira do Sono) não têm posicionamento aspiracional</div>
+      <div class="resumo-item"><span class="dot"></span> Bruno Borges (SLEEP/Hotmart) prova que existe mercado para produto digital de sono</div>
+      <div class="resumo-item"><span class="dot"></span> Janela de oportunidade aberta: quem dominar o nicho nos próximos 12-18 meses ganha a categoria</div>
+    </div>
+    <div class="resumo-block">
+      <div class="resumo-block-title">🎯 Produto Proposto</div>
+      <div class="resumo-item"><span class="dot"></span> <strong style="color:var(--cream);">Diagnóstico Estratégico REVO</strong> + Acompanhamento Inicial (30+30 dias)</div>
+      <div class="resumo-item"><span class="dot"></span> Foco: funil completo, aquisição, conversão, tracking, CRM, criativos e mensagens</div>
+      <div class="resumo-item"><span class="dot"></span> Resultado: clareza total + GAPs priorizados + plano de ação prático</div>
+      <div class="resumo-item"><span class="dot"></span> Investimento: <strong style="color:var(--cream);">R$5.000</strong> (dentro do range R$4k–7k do produto Diagnóstico REVO)</div>
+      <div class="resumo-item"><span class="dot"></span> Garantia: 100% de crédito no próximo contrato (Advisory ou Implementação)</div>
+      <div class="resumo-item"><span class="dot"></span> Caminho natural para Advisory mensal R$4k–R$12k/mês</div>
+    </div>
+  </div>
+  <div class="highlight-gold">
+    Derick não precisa de mais conteúdo — ele precisa saber o que dos seus dados está gerando resultado real. É exatamente isso que a REVO entrega.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 02 · ANÁLISE DO PERFIL
+═══════════════════════════════════════════ -->
+<section class="slide" id="s2">
+  <div class="section-divider">Análise Estratégica</div>
+  <div class="slide-label">02 — Perfil do Instagram @dericknodari</div>
+  <div class="slide-title">O que o perfil <span>comunica hoje.</span></div>
+  <div class="profile-grid">
+    <div class="profile-block">
+      <div class="profile-block-title">📌 Posicionamento Explícito & Implícito</div>
+      <div class="profile-item"><span class="arrow">→</span> Bio: <span class="cream">"Sono e Performance💤⚡️"</span> — nicho específico, não proposta de valor única</div>
+      <div class="profile-item"><span class="arrow">→</span> Implícito: especialista em recuperação + rendimento — público de alta performance</div>
+      <div class="profile-item"><span class="arrow">→</span> Marca pessoal com nome real = credibilidade latente, mas requer ancoragem de autoridade</div>
+      <div class="profile-item"><span class="arrow">→</span> Sem diferenciador claro: "porque eu e não outro especialista?"</div>
+      <div style="margin-top:10px;">
+        <span class="badge-level badge-warn">Nível: Problema-Consciente</span>
+      </div>
+    </div>
+    <div class="profile-block">
+      <div class="profile-block-title">🔄 Tipo de Conteúdo Predominante</div>
+      <div class="profile-item"><span class="arrow">→</span> <span class="cream">Educativo/Atração</span> (Reels de dicas sobre sono e performance)</div>
+      <div class="profile-item"><span class="arrow">→</span> Baixo volume de conteúdo de <span style="color:#ffd700;">Conversão</span> e <span style="color:#ffd700;">Prova Social</span> aparente</div>
+      <div class="profile-item"><span class="arrow">→</span> Conteúdo de bastidor e autoridade — não identificados como presença forte</div>
+      <div class="profile-item"><span class="arrow">→</span> Desequilíbrio: volume de atração sem funil de captura e conversão estruturado</div>
+      <div style="margin-top:10px;">
+        <span class="badge-level badge-danger">Gap: Topo pesado, fundo vazio</span>
+      </div>
+    </div>
+    <div class="profile-block">
+      <div class="profile-block-title">🔧 Mecanismo & CTA</div>
+      <div class="profile-item"><span class="arrow">→</span> Sem mecanismo proprietário identificado ("Protocolo X" ou "Método Y")</div>
+      <div class="profile-item"><span class="arrow">→</span> Hormozi: sem mecanismo único, a oferta compete por preço e não por categoria</div>
+      <div class="profile-item"><span class="arrow">→</span> CTA implícito — o que acontece depois do follow? Qual o próximo passo do lead?</div>
+      <div class="profile-item"><span class="arrow">→</span> Funil provável: Seguidor → Link na bio → ??? (gap de conversão)</div>
+      <div style="margin-top:10px;">
+        <span class="badge-level badge-danger">Gap crítico: sem mecanismo</span>
+      </div>
+    </div>
+    <div class="profile-block">
+      <div class="profile-block-title">📊 Prova Social & Narrativa</div>
+      <div class="profile-item"><span class="arrow">→</span> Prova social não identificada como estruturada (depoimentos, casos, resultados)</div>
+      <div class="profile-item"><span class="arrow">→</span> Schwartz: sem prova mensurável, o público fica na dúvida se a solução funciona</div>
+      <div class="profile-item"><span class="arrow">→</span> Narrativa de origem (por que ele é especialista em sono?) — não está clara no perfil</div>
+      <div class="profile-item"><span class="arrow">→</span> <span class="green">Potencial alto:</span> neurofisiologia + performance é combinação aspiracional e escassa no Brasil</div>
+      <div style="margin-top:10px;">
+        <span class="badge-level badge-warn">Gap: prova não estruturada</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 03 · GAPs ESTRATÉGICOS
+═══════════════════════════════════════════ -->
+<section class="slide" id="s3">
+  <div class="section-divider">Análise Estratégica</div>
+  <div class="slide-label">03 — GAPs Identificados no Perfil</div>
+  <div class="slide-title">Onde o dinheiro <span>está escapando.</span></div>
+  <div class="gap-grid">
+    <div class="gap-card">
+      <div class="gap-number">01</div>
+      <div class="gap-title">Sem Mecanismo Proprietário</div>
+      <div class="gap-desc">Qualquer um pode falar de sono e performance. Sem um nome único para o método, Derick compete no mar vermelho da commodity. (Referência: Hormozi — criar uma categoria, não entrar em uma)</div>
+      <div class="gap-opp">→ Oportunidade: nomear e codificar o método próprio de intervenção de sono</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-number">02</div>
+      <div class="gap-title">Bio sem Proposta de Valor Clara</div>
+      <div class="gap-desc">"Sono e Performance" é descrição de nicho, não de transformação. O visitante não sabe: para quem é, o que muda, por que agora. Schwartz: a copy precisa atacar o estágio de consciência correto.</div>
+      <div class="gap-opp">→ Oportunidade: reescrever bio com ICP, transformação e CTA direto</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-number">03</div>
+      <div class="gap-title">Funil de Conversão Ausente ou Opaco</div>
+      <div class="gap-desc">Não há clareza sobre o que acontece após o follow: lead magnet? consulta? produto? Sem funil estruturado, o conteúdo atrai e não monetiza. O tráfego orgânico está sendo desperdiçado.</div>
+      <div class="gap-opp">→ Oportunidade: mapear e estruturar funil de captura → conversão → oferta</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-number">04</div>
+      <div class="gap-title">Prova Social Não Estruturada</div>
+      <div class="gap-desc">Resultados de clientes, depoimentos mensuráveis e cases de transformação não estão aparentes. Sem prova social real, a audiência resolve a dúvida "funciona para mim?" com inação.</div>
+      <div class="gap-opp">→ Oportunidade: criar sistema de coleta e publicação de provas sociais mensurável</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-number">05</div>
+      <div class="gap-title">Ausência de Rastreio & Dados</div>
+      <div class="gap-desc">Sem rastreio estruturado, é impossível saber: qual conteúdo converte, de onde vêm os leads que pagam, qual CTA funciona. Decisões baseadas em feeling = desperdício. (Core da proposta REVO)</div>
+      <div class="gap-opp">→ Oportunidade: implementar Padrão REVO de dados para tomar decisões reais</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-number">06</div>
+      <div class="gap-title">Narrativa de Autoridade Sem Ancoragem</div>
+      <div class="gap-desc">Por que Derick é o especialista? Formação, experiência, resultados próprios? A credibilidade de especialista precisa ser comunicada explicitamente. Vincenzi: autoridade é declarada, não apenas percebida.</div>
+      <div class="gap-opp">→ Oportunidade: construir e comunicar a narrativa de origem e autoridade no nicho</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 04 · ANÁLISE DE CONCORRENTES
+═══════════════════════════════════════════ -->
+<section class="slide" id="s4">
+  <div class="section-divider">Análise de Mercado</div>
+  <div class="slide-label">04 — Concorrentes Diretos & Indiretos</div>
+  <div class="slide-title">Quem está no <span>mesmo espaço.</span></div>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-name">Joel Jota</div>
+      <div class="comp-handle">@joeljota · 3º Podcast mais ouvido BR/2025</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val">Alta performance integral (liderança, negócios, mentalidade)</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val ok">Sim — método próprio de coaching</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val ok">Altíssima — Podcast, livros, cases empresariais</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val">Mentoria grupo, cursos, palestras corporativas</span></div>
+      <div class="comp-row"><span class="lbl">Gap p/ Derick</span><span class="gap">Não é especialista em sono — abre espaço no subnicho</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Paulo Vieira</div>
+      <div class="comp-handle">@paulovcoach · ~6M seguidores</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val">Coaching transformacional (Método CIS, mindset, sucesso)</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val ok">Sim — Método CIS é proprietário e reconhecido</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val ok">Altíssima — livros bestseller, eventos, mídia</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val">Formação coaching, palestras, cursos em massa</span></div>
+      <div class="comp-row"><span class="lbl">Gap p/ Derick</span><span class="gap">Genérico demais — não fala de sono como alavanca de performance</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Academia Brasileira do Sono</div>
+      <div class="comp-handle">@absono · ~30k seguidores</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val">Autoridade científica/médica em sono</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val ok">Sim — selo acadêmico + certificação</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val ok">Alta — institucional, médica</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val">Cursos para profissionais de saúde, não para público geral</span></div>
+      <div class="comp-row"><span class="lbl">Gap p/ Derick</span><span class="gap">Não é aspiracional. Não fala de performance, resultado, dinheiro, energia</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Bruno de Melo (SLEEP)</div>
+      <div class="comp-handle">Curso na Hotmart</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val">Dormir bem e ter recuperação eficiente todos os dias</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val" style="color:#ffd700;">Parcial — produto digital, mas sem mecanismo nomeado</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val" style="color:#ffd700;">Mediana — depoimentos da página do produto</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val">Curso digital de sono</span></div>
+      <div class="comp-row"><span class="lbl">Gap p/ Derick</span><span class="gap">Prova que o mercado compra — mas sem posicionamento de autoridade forte</span></div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-name">Robson Martins</div>
+      <div class="comp-handle">@sono_brasil_consultoria · ~1.3k seguidores</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val">Mentoria em Polissonografia e Sono (clínico)</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val gap">Fraco — muito técnico, sem linguagem de resultado</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val gap">Baixa — perfil pequeno</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val">Mentoria para profissionais de sono</span></div>
+      <div class="comp-row"><span class="lbl">Gap p/ Derick</span><span class="gap">Nicho ultrapequeno e técnico — Derick joga em escala maior</span></div>
+    </div>
+    <div class="comp-card" style="border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.03);">
+      <div class="comp-name" style="color:var(--green);">Derick Nodari — Posição Ideal</div>
+      <div class="comp-handle" style="color:rgba(74,222,128,.5);">@dericknodari · Posicionamento a construir</div>
+      <div class="comp-row"><span class="lbl">Proposta</span><span class="val ok">Sono como alavanca de performance e resultado financeiro</span></div>
+      <div class="comp-row"><span class="lbl">Mecanismo</span><span class="val" style="color:#ffd700;">A criar — com dados REVO, identificar o que realmente converte</span></div>
+      <div class="comp-row"><span class="lbl">Prova Social</span><span class="val" style="color:#ffd700;">A estruturar — com sistema de coleta de resultados</span></div>
+      <div class="comp-row"><span class="lbl">Oferta</span><span class="val ok">Programa de transformação de sono para empreend./executivos</span></div>
+      <div class="comp-row"><span class="lbl">Vantagem</span><span class="val ok">Primeiro a ocupar o nicho "sono para alta performance" com clareza</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 05 · OPORTUNIDADES
+═══════════════════════════════════════════ -->
+<section class="slide" id="s5">
+  <div class="section-divider">Análise de Mercado</div>
+  <div class="slide-label">05 — Oportunidades de Autoridade & Diferenciação</div>
+  <div class="slide-title">O espaço que <span>ninguém ocupou ainda.</span></div>
+  <div class="two-cols">
+    <div class="col-green">
+      <div class="col-title">✅ Oportunidades Identificadas</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Dono da categoria:</strong> "O especialista em sono para alta performance no Brasil" — posição desocupada</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Mecanismo proprietário:</strong> criar e nomear o protocolo próprio (ex: "Protocolo SNP", "Método Nodari") dá exclusividade irreproduzível</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Audiência-alvo diferenciada:</strong> empreendedores e executivos que perdem dinheiro por dormir mal — dor de resultado financeiro, não de saúde</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Conteúdo baseado em dados:</strong> contraponto raro ao conteúdo genérico de sono — dados reais de clientes geram prova social mensurável</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Mercado comprovado:</strong> Joel Jota (#3 podcast BR), Bruno Borges (SLEEP/Hotmart), Sendo e Performance crescendo em buscas — demanda existe, oferta posicionada escassa</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Nicho em tendência:</strong> salto de 16% em infoprodutos de saúde preventiva e performance em 2024-25 (GoExplosion)</div>
+    </div>
+    <div class="col-red">
+      <div class="col-title">⚠️ Riscos se Não Agir</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Commoditização:</strong> sem mecanismo claro, o perfil vira mais um "especialista de sono" num oceano de conteúdo genérico</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Janela fecha:</strong> mercado de high-performance atraindo grandes players — quem chegar primeiro define a categoria</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Tráfego sem conversão:</strong> sem funil estruturado, crescimento de audiência não se converte em faturamento previsível</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Decisões no chute:</strong> sem rastreio, não há como saber qual conteúdo converte, qual oferta funciona, onde está o gargalo</div>
+      <div class="col-item"><span class="arrow">→</span> <strong>Autoridade percebida vs. real:</strong> sem prova social estruturada, a percepção de autoridade não escala com o crescimento do perfil</div>
+      <div style="margin-top:16px;padding:14px 16px;background:rgba(229,9,21,.08);border-radius:10px;border-left:3px solid var(--red);">
+        <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Diagnóstico REVO resolve</div>
+        <div style="font-size:13px;color:#ddd;line-height:1.65;">O Diagnóstico mapeia exatamente onde estão os vazamentos, o que está gerando resultado real e o que priorizar para crescer com previsibilidade.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 06 · PRODUTO IDEAL
+═══════════════════════════════════════════ -->
+<section class="slide" id="s6">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">06 — Produto Ideal · Validação</div>
+  <div class="slide-title">Por que <span>Diagnóstico + Acompanhamento</span> é o produto certo.</div>
+  <div class="cards-row">
+    <div class="card card-dark">
+      <div class="card-title">🧠 Validação da Escolha</div>
+      <div class="card-body">
+        <div><span class="arrow">→</span> Derick <strong>veio atrás da REVO</strong> — ele já sente a dor, mas não sabe nomear o problema</div>
+        <div><span class="arrow">→</span> Sem dados estruturados, qualquer implementação é construir em terreno desconhecido</div>
+        <div><span class="arrow">→</span> O Diagnóstico dá a ele o que a REVO faz melhor: <strong>transformar dados em direção prática</strong></div>
+        <div><span class="arrow">→</span> ICP perfeito: faturamento provável R$20–100k, solo/1 gestor, dor "não sei o que está funcionando"</div>
+        <div class="highlight">Implementar antes do Diagnóstico é como reformar uma casa sem ver a planta. O Diagnóstico é o raio-X antes da cirurgia.</div>
+      </div>
+    </div>
+    <div class="card card-dark">
+      <div class="card-title">📈 Caminho Natural de Evolução</div>
+      <div class="card-body">
+        <div><span class="arrow">→</span> <strong style="color:var(--cream);">Diagnóstico (mês 1-2)</strong> → clareza total do negócio</div>
+        <div><span class="arrow">→</span> <strong style="color:var(--cream);">Acompanhamento Inicial (mês 2-3)</strong> → direção semanal com dados reais</div>
+        <div><span class="arrow">→</span> <strong style="color:var(--green);">Advisory Mensal (mês 3+)</strong> → R$4k–12k/mês de recorrência</div>
+        <div><span class="arrow">→</span> <strong style="color:var(--green);">Implementação (quando necessário)</strong> → R$12k–18k quando a base está clara</div>
+        <div class="highlight-green">Se Derick fechar Advisory em até 90 dias, 100% do Diagnóstico vira crédito. Isso elimina a objeção de preço e acelera o compromisso.</div>
+      </div>
+    </div>
+    <div class="card card-dark">
+      <div class="card-title">🎯 O que a REVO vai encontrar no Diagnóstico</div>
+      <div class="card-body">
+        <div><span class="arrow">→</span> De onde vêm os leads que realmente pagam (e quais são "seguidores gratuitos")</div>
+        <div><span class="arrow">→</span> Qual conteúdo converte vs. qual apenas viraliza sem resultado financeiro</div>
+        <div><span class="arrow">→</span> Onde estão os vazamentos entre seguidor → lead → venda</div>
+        <div><span class="arrow">→</span> Qual é o ciclo real entre primeiro contato e fechamento</div>
+        <div><span class="arrow">→</span> Se existe CRM e rastreio — ou se está tudo no "instinto"</div>
+        <div><span class="arrow">→</span> Qual oferta tem maior potencial de escala com menor custo de aquisição</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 07 · ENTREGÁVEIS
+═══════════════════════════════════════════ -->
+<section class="slide" id="s7">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">07 — Estrutura do Produto</div>
+  <div class="slide-title">O que você <span>recebe, exatamente.</span></div>
+  <div class="two-cols" style="flex:1;gap:24px;">
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:2px;">FASE 01 — DIAGNÓSTICO (30 dias)</div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Mapeamento do Funil Completo</strong> — cada etapa da jornada do lead, de onde entra até onde compra (ou some)</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Análise de Aquisição</strong> — quais canais trazem leads qualificados, qual é o CAC real por canal</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Análise de Conteúdo</strong> — quais posts, reels e stories geram resultado financeiro real vs. vaidade de alcance</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Análise de Conversão</strong> — onde os leads estão saindo do funil, qual é o gargalo principal</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Diagnóstico de CRM & Rastreio</strong> — existe estrutura? O que está sendo perdido por falta de acompanhamento?</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Análise do Ciclo Lead → Venda</strong> — qual é o tempo médio, onde fica travado, o que acelera</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Análise de Criativos & Mensagens</strong> — qual linguagem ressoa com o ICP e converte mais</div></div>
+      <div class="checklist-item"><div class="dot"></div><div><strong>Relatório Executivo com GAPs Priorizados</strong> — o que atacar primeiro para ter resultado rápido</div></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);margin-bottom:2px;">FASE 02 — ACOMPANHAMENTO INICIAL (30 dias)</div>
+      <div class="checklist-item"><div class="dot" style="background:var(--cream);"></div><div><strong>2 Calls Estratégicas com Regis</strong> — sessões focadas em decisão e direção, não em reunião de vaidade</div></div>
+      <div class="checklist-item"><div class="dot" style="background:var(--cream);"></div><div><strong>Definição de Prioridades Semanais</strong> — o que atacar essa semana para mover o ponteiro</div></div>
+      <div class="checklist-item"><div class="dot" style="background:var(--cream);"></div><div><strong>Relatório Executivo Simples</strong> — dados reais, sem complexidade desnecessária</div></div>
+      <div class="checklist-item"><div class="dot" style="background:var(--cream);"></div><div><strong>Projeções Baseadas em Dados Reais</strong> — não em benchmarks genéricos, mas nos dados do próprio negócio do Derick</div></div>
+      <div class="checklist-item"><div class="dot" style="background:var(--cream);"></div><div><strong>Plano de Ação Prático</strong> — ações priorizadas por impacto e facilidade de execução</div></div>
+      <div style="margin-top:8px;padding:14px 18px;background:rgba(229,9,21,.06);border-radius:12px;border-left:3px solid var(--red);">
+        <div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Nosso foco não é técnico</div>
+        <div style="font-size:13px;color:#ddd;line-height:1.7;">Clareza · Lucro · Previsibilidade · Redução de Desperdício · Posicionamento · Autoridade. Cada entregável serve a um desses seis resultados. Nada além disso.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 08 · INVESTIMENTO
+═══════════════════════════════════════════ -->
+<section class="slide" id="s8">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">08 — Investimento & Estrutura</div>
+  <div class="slide-title">O que <span>custa e o que entrega.</span></div>
+  <div class="cards-row">
+    <div class="product-card featured" style="flex:1.4;">
+      <div class="product-num">REVO</div>
+      <div class="product-name">Diagnóstico Estratégico + Acompanhamento Inicial</div>
+      <div class="product-price">R$ 5.000 <span style="font-size:13px;font-weight:400;color:#888;">· pagamento único</span></div>
+      <div class="product-items">
+        <div><span class="arrow">→</span> 60 dias de duração (30 Diagnóstico + 30 Acompanhamento)</div>
+        <div><span class="arrow">→</span> Mapeamento completo do funil, aquisição, conversão, CRM e rastreio</div>
+        <div><span class="arrow">→</span> 2 calls estratégicas com Regis Povolati</div>
+        <div><span class="arrow">→</span> Relatório executivo com GAPs priorizados</div>
+        <div><span class="arrow">→</span> Plano de ação prático com projeções baseadas em dados reais</div>
+        <div><span class="arrow">→</span> Direção semanal de prioridades</div>
+        <div><span class="arrow">→</span> Análise de criativos, mensagens e conteúdo de conversão</div>
+      </div>
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;">ICP</div>
+        <div style="font-size:12px;color:#ccc;">Infoprodutor/Creator R$20–100k/mês · Solo ou 1 gestor · Dor: "Não sei o que está funcionando de verdade"</div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:16px;">
+      <div class="kpi-card">
+        <div class="kpi-value">R$5k</div>
+        <div class="kpi-label">Investimento total · pagamento único</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">60 dias</div>
+        <div class="kpi-label">Duração total do produto</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">100%</div>
+        <div class="kpi-label">Crédito no próximo contrato (garantia)</div>
+      </div>
+      <div style="background:#1a1a1a;border-radius:12px;padding:18px 20px;border:1px solid #2a2a2a;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:8px;">Próximo Passo Natural</div>
+        <div style="font-size:13px;color:#ddd;line-height:1.7;">
+          <div style="margin-bottom:4px;"><span style="color:var(--green);font-weight:700;">Advisory Mensal</span> → R$4k–R$12k/mês</div>
+          <div style="margin-bottom:4px;"><span style="color:var(--cream);font-weight:700;">Implementação</span> → R$12k–R$18k</div>
+          <div style="font-size:11px;color:#666;margin-top:8px;">Em ambos os casos, os R$5k viram crédito integral. O risco do primeiro passo é inteiramente da REVO.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 09 · GARANTIA
+═══════════════════════════════════════════ -->
+<section class="slide" id="s9">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">09 — Garantia & Redução de Risco</div>
+  <div class="slide-title">Não é desconto. <span>É confiança com estrutura.</span></div>
+  <div class="garantia-wrap">
+    <div class="garantia-card">
+      <div class="garantia-title">🛡️ Garantia de Progressão REVO</div>
+      <div class="garantia-desc">
+        Se o Derick fechar qualquer serviço <strong>recorrente mensal</strong> com a REVO (Advisory) ou realizar <strong>upgrade para Implementação</strong> ou qualquer outro próximo passo estratégico dentro da REVO em até 90 dias do início do Diagnóstico — <strong>100% do valor pago no Diagnóstico</strong> será devolvido como crédito integral no próximo contrato.
+      </div>
+      <div class="garantia-note">Isso não é desconto. É a REVO assumindo o risco do primeiro passo junto com o Derick. Se entregamos o que prometemos — e vamos entregar — o Diagnóstico se paga sozinho antes de terminar.</div>
+    </div>
+    <div style="display:flex;gap:20px;">
+      <div style="flex:1;background:#1a1a1a;border-radius:14px;padding:22px;border:1px solid #2a2a2a;">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">Por que isso funciona (Hormozi)</div>
+        <div style="font-size:14px;color:#ddd;line-height:1.75;">
+          <div style="margin-bottom:8px;"><span style="color:var(--red);font-weight:700;">→</span> Inverte o risco: o medo de "e se não funcionar" sai do Derick e vai para a REVO</div>
+          <div style="margin-bottom:8px;"><span style="color:var(--red);font-weight:700;">→</span> Cria urgência de avanço: quanto mais rápido ele avança, maior a recompensa pelo crédito</div>
+          <div><span style="color:var(--red);font-weight:700;">→</span> Sinaliza confiança: só quem acredita no próprio trabalho oferece crédito integral de volta</div>
+        </div>
+      </div>
+      <div style="flex:1;background:#1a1a1a;border-radius:14px;padding:22px;border:1px solid #2a2a2a;">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);margin-bottom:12px;">Como comunicar (Vincenzi)</div>
+        <div style="font-size:14px;color:#ddd;line-height:1.75;">
+          <div style="margin-bottom:8px;"><span style="color:var(--cream);font-weight:700;">→</span> Não apresentar como "se não gostar, devolvemos" — isso posiciona errado</div>
+          <div style="margin-bottom:8px;"><span style="color:var(--cream);font-weight:700;">→</span> Apresentar como: "o Diagnóstico é o passo 1. O crédito é a ponte para o passo 2."</div>
+          <div><span style="color:var(--cream);font-weight:700;">→</span> A garantia não é saída — é acelerador do relacionamento</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 10 · FRAMING (2 VERSÕES)
+═══════════════════════════════════════════ -->
+<section class="slide" id="s10">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">10 — 2 Versões de Framing</div>
+  <div class="slide-title">Como abrir <span>a conversa.</span></div>
+  <div class="framing-cols">
+    <div class="framing-card framing-conservador">
+      <span class="framing-badge badge-conserv">Framing Conservador</span>
+      <div class="framing-headline">Antes de acelerar, você precisa saber onde está pisando.</div>
+      <div class="framing-body">
+        Derick, você está construindo algo real num nicho que tem espaço para um líder claro. O problema não é esforço — você claramente está produzindo. O problema é que sem dados estruturados, não tem como saber qual parte do seu trabalho está gerando resultado de verdade.
+        <br><br>
+        O <strong style="color:var(--white);">Diagnóstico Estratégico REVO</strong> é um raio-X completo do seu negócio digital: funil, aquisição, conversão e monetização. Em 60 dias, você sai com clareza total sobre o que está funcionando, o que está vazando e o que priorizar para crescer com previsibilidade.
+        <br><br>
+        Não é mentoria. Não é gestão de tráfego. É <strong style="color:var(--white);">inteligência de negócio aplicada ao seu contexto específico</strong>. Com dados reais, não com achismo de consultor.
+      </div>
+      <div class="framing-cta">
+        → Investimento: R$5.000 · 100% vira crédito se você avançar para Advisory ou Implementação<br>
+        → Próxima ação: call de 30 min para entender o momento atual e confirmar o fit
+      </div>
+    </div>
+    <div class="framing-card framing-agressivo">
+      <span class="framing-badge badge-agressivo">Framing Direto / Agressivo</span>
+      <div class="framing-headline">Você está deixando dinheiro na mesa. Todos os dias. E não sabe quanto.</div>
+      <div class="framing-body">
+        Derick, a maioria dos criadores no seu nicho opera no chute. Posta porque "parece que funciona". Muda oferta porque "achei que estava errada". Aumenta tráfego porque "precisa de mais leads". Sem dados.
+        <br><br>
+        Nós operamos de outro jeito. <strong style="color:var(--white);">Em 30 dias, a REVO vai mapear cada centímetro do seu funil</strong> — de onde vêm os leads que pagam, onde estão vazando os que não pagam, qual conteúdo converte de verdade e qual só gera alcance sem retorno.
+        <br><br>
+        Depois, em mais 30 dias, a gente transforma isso em <strong style="color:var(--white);">direção prática semanal</strong>. Sem reunião de vaidade. Sem relatório bonito pra nada. Só o que move o ponteiro do faturamento.
+        <br><br>
+        O mercado de sono + performance no Brasil ainda não tem dono. <strong style="color:var(--white);">Quem estruturar o funil primeiro ganha a categoria.</strong>
+      </div>
+      <div class="framing-cta">
+        → R$5.000. Se você fechar Advisory ou Implementação em seguida, 100% vira crédito. O risco é nosso.<br>
+        → Você veio atrás da REVO porque já sabe que precisa disso. O próximo passo é uma call.
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:#555;text-align:center;">
+    Use o Framing Conservador se o Derick demonstrar cautela ou estiver em momento de incerteza financeira · Use o Framing Direto se ele demonstrar ambição e urgência
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 11 · OBJEÇÕES
+═══════════════════════════════════════════ -->
+<section class="slide" id="s11">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">11 — Objeções Prováveis & Respostas</div>
+  <div class="slide-title">O que ele vai <span>perguntar.</span></div>
+  <div class="obj-list">
+    <div class="obj-card">
+      <div class="obj-q">💬 "Não sei se preciso disso agora. Ainda estou construindo."</div>
+      <div class="obj-a">Você veio atrás da REVO — isso já é a resposta. O "não sei se preciso" é exatamente a dor que o Diagnóstico resolve: você vai saber, com dados, <strong>o que está funcionando agora</strong> e o que está bloqueando o crescimento. Construir sem essa clareza é mais lento e mais caro no longo prazo.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-q">💬 "R$5.000 é caro para o momento em que estou."</div>
+      <div class="obj-a">Quanto você está gastando por mês em ações que podem não estar funcionando? Tráfego pago, ferramentas, horas de produção de conteúdo sem conversão? O Diagnóstico não é custo — é o preço de <strong>parar de desperdiçar</strong>. E 100% vira crédito se você avançar. O custo real de não fazer é continuar no chute.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-q">💬 "Posso mapear isso sozinho. Tenho uma equipe."</div>
+      <div class="obj-a">Você pode. Mas você já cria o conteúdo, desenvolve os produtos, faz vendas e atendimento. <strong>Quem está olhando para os dados com frieza e sem viés de criador?</strong> A REVO traz uma visão externa, estruturada e livre do "estou envolvido demais pra enxergar com clareza" — que é o problema de qualquer fundador analisando o próprio negócio.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-q">💬 "Preciso de implementação, não de análise."</div>
+      <div class="obj-a">Implementar sem Diagnóstico é construir em terreno desconhecido. Você pode investir R$12k–18k na Implementação e descobrir na metade do caminho que o gargalo não estava onde você pensava. <strong>O Diagnóstico garante que cada real investido na Implementação vai para onde realmente importa</strong> — e o valor vira crédito integral quando você avançar.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-q">💬 "E se eu não tiver dados suficientes para o diagnóstico funcionar?"</div>
+      <div class="obj-a">A ausência de dados já é um dado. Ela nos diz: <strong>o problema está na estrutura de rastreio</strong>. Isso entra no relatório como prioridade 1 — e já indica qual é o caminho para a Implementação. Nunca saímos sem direcionamento. O pior cenário é você saber exatamente o que montar primeiro.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-q">💬 "Prefiro começar com algo menor, uma consultoria pontual."</div>
+      <div class="obj-a">Uma consultoria pontual dá perspectiva, mas não tem a profundidade para mapear o funil completo nem o acompanhamento para validar as hipóteses com dados reais. <strong>O Diagnóstico é o menor investimento que gera resultado permanente</strong> — e com a garantia de crédito, é essencialmente o produto de menor risco que a REVO oferece.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 12 · PRÓXIMO PASSO
+═══════════════════════════════════════════ -->
+<section class="slide" id="s12">
+  <div class="section-divider">A Proposta REVO</div>
+  <div class="slide-label">12 — Próximo Passo</div>
+  <div class="slide-title">Simples. <span>Direto. Sem ruído.</span></div>
+  <div class="next-layout">
+    <div class="next-main">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Call de Diagnóstico Inicial (30 min)</div>
+          <div class="step-desc">Entender o momento atual do Derick: faturamento, funis ativos, estrutura de conteúdo e dor principal. Confirmar o fit e alinhar expectativas antes de fechar.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Envio do Contrato + Onboarding</div>
+          <div class="step-desc">Contrato simples, pagamento e início do Onboarding REVO — coleta dos acessos, dados e materiais necessários para o Diagnóstico.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Início do Diagnóstico (30 dias)</div>
+          <div class="step-desc">Mapeamento completo do funil, análise de dados, criativos, conversão e CRM. Entrega do Relatório Executivo com GAPs priorizados e plano de ação.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Acompanhamento Inicial (30 dias)</div>
+          <div class="step-desc">2 calls estratégicas, direção semanal de prioridades, relatório executivo e projeções baseadas nos dados reais coletados na fase anterior.</div>
+        </div>
+      </div>
+    </div>
+    <div class="next-side">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:16px;">Lembre: o risco é nosso</div>
+      <div style="font-size:22px;font-weight:900;color:var(--white);margin-bottom:12px;line-height:1.2;">R$5.000 agora.<br>R$5.000 de crédito<br><span style="color:var(--red);">no próximo passo.</span></div>
+      <div style="font-size:14px;color:#aaa;line-height:1.7;margin-bottom:20px;">Se o Derick fechar Advisory ou Implementação em até 90 dias, 100% do valor do Diagnóstico vira crédito no próximo contrato. Isso não é desconto — é a REVO apostando no próprio trabalho.</div>
+      <div style="padding:16px;background:rgba(229,9,21,.1);border-radius:10px;border:1px solid rgba(229,9,21,.25);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">REVO Advisory</div>
+        <div style="font-size:12px;color:#ccc;line-height:1.65;">Transformamos dados em direção prática que gera lucro. Não fazemos reunião de vaidade. Não entregamos relatório bonito para nada. Entregamos clareza, previsibilidade e resultado.</div>
+      </div>
+      <div style="margin-top:20px;font-size:13px;color:#666;text-align:center;line-height:1.6;">
+        Preparado por Regis Povolati<br>
+        <span style="color:var(--red);">REVO Advisory · Mar/2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<!-- FOOTER DOTS -->
+<div id="footer">
+  <button class="dot-btn active" onclick="goTo(0)"></button>
+  <button class="dot-btn" onclick="goTo(1)"></button>
+  <button class="dot-btn" onclick="goTo(2)"></button>
+  <button class="dot-btn" onclick="goTo(3)"></button>
+  <button class="dot-btn" onclick="goTo(4)"></button>
+  <button class="dot-btn" onclick="goTo(5)"></button>
+  <button class="dot-btn" onclick="goTo(6)"></button>
+  <button class="dot-btn" onclick="goTo(7)"></button>
+  <button class="dot-btn" onclick="goTo(8)"></button>
+  <button class="dot-btn" onclick="goTo(9)"></button>
+  <button class="dot-btn" onclick="goTo(10)"></button>
+  <button class="dot-btn" onclick="goTo(11)"></button>
+  <button class="dot-btn" onclick="goTo(12)"></button>
+</div>
+
+<script>
+  const total = 13;
+  let cur = 0;
+
+  function goTo(n) {
+    document.getElementById('s'+cur).classList.remove('active');
+    document.querySelectorAll('.nav-btn')[n].classList.add('active');
+    document.querySelectorAll('.nav-btn')[cur].classList.remove('active');
+    document.querySelectorAll('.dot-btn')[cur].classList.remove('active');
+    cur = n;
+    document.getElementById('s'+cur).classList.add('active');
+    document.querySelectorAll('.dot-btn')[cur].classList.add('active');
+    // scroll nav button into view
+    document.querySelectorAll('.nav-btn')[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(cur+1, total-1));
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(Math.max(cur-1, 0));
+  });
+</script>
+</body>
+</html>

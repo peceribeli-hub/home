@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debriefing Final | Lanzamiento Marzo | Martin Trader × REVO Advisory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-master-dark: #050505;
+            --revo-red-base: rgb(224, 0, 0);
+            --revo-red-dark: rgb(168, 14, 0);
+            --revo-red-glow: rgba(224, 0, 0, 0.4);
+            --text-white: #FFFFFF;
+            --text-gray-light: #CCCCCC;
+            --text-gray-dark: #666666;
+            --font-main: 'Inter', sans-serif;
+            --primary: var(--revo-red-base);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-master-dark);
+            color: var(--text-white);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* BACKGROUND ELEMENTS */
+        .bg-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background-color: var(--bg-master-dark);
+        }
+
+        .falling-pattern-anim {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 2;
+            opacity: 0.85;
+            background-image:
+                radial-gradient(4px 100px at 0px 235px, var(--primary), transparent),
+                radial-gradient(4px 100px at 300px 235px, var(--primary), transparent),
+                radial-gradient(2px 2px at 150px 117.5px, var(--primary) 100%, transparent 150%),
+                radial-gradient(4px 100px at 0px 252px, var(--primary), transparent),
+                radial-gradient(4px 100px at 300px 252px, var(--primary), transparent),
+                radial-gradient(2px 2px at 150px 126px, var(--primary) 100%, transparent 150%),
+                radial-gradient(4px 100px at 0px 150px, var(--primary), transparent),
+                radial-gradient(4px 100px at 300px 150px, var(--primary), transparent),
+                radial-gradient(2px 2px at 150px 75px, var(--primary) 100%, transparent 150%);
+            background-size:
+                300px 235px, 300px 235px, 300px 235px,
+                300px 252px, 300px 252px, 300px 252px,
+                300px 150px, 300px 150px, 300px 150px;
+            background-position: 0px 220px, 3px 220px, 151.5px 337.5px, 25px 24px, 28px 24px, 176.5px 150px, 50px 16px, 53px 16px, 201.5px 91px;
+            animation: fall 150s linear infinite;
+        }
+
+        @keyframes fall {
+            100% {
+                background-position: 0px 6800px, 3px 6800px, 151.5px 6917.5px, 25px 13632px, 28px 13632px, 176.5px 13758px, 50px 5416px, 53px 5416px, 201.5px 5491px;
+            }
+        }
+
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.65);
+            z-index: 4;
+        }
+
+        /* NAV */
+        .site-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 50px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .nav-logo-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray-dark);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-white);
+        }
+
+        /* HERO */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 200px 40px 80px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(224, 0, 0, 0.3);
+            color: var(--revo-red-base);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            align-self: flex-start;
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .top-subtitle {
+            font-size: 11px;
+            color: var(--revo-red-base);
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-size: clamp(56px, 7vw, 92px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 32px;
+            color: var(--text-white);
+        }
+
+        .page-title span {
+            color: var(--revo-red-base);
+        }
+
+        .page-description {
+            font-size: 16px;
+            color: var(--text-gray-light);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        /* BUTTON */
+        .bottom-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-anim-wrapper {
+            position: relative;
+            display: inline-flex;
+            border-radius: 80px;
+            padding: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            overflow: hidden;
+            background: #070707;
+            z-index: 20;
+        }
+
+        @keyframes spinLED {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-anim-border {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0) 240deg, var(--revo-red-dark) 300deg, var(--revo-red-base) 360deg);
+            z-index: 1;
+            animation: spinLED 3s linear infinite;
+        }
+
+        .btn-anim-wrapper:hover .btn-anim-border {
+            animation: spinLED 1.5s linear infinite;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0) 200deg, var(--revo-red-base) 300deg, #ff4040 360deg);
+        }
+
+        .btn-anim-inner {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(88deg, var(--revo-red-base) -25%, rgb(38, 4, 4) 100%);
+            border-radius: 78px;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .btn-anim-wrapper:hover .btn-anim-inner {
+            box-shadow: inset 0 0 20px rgba(224, 0, 0, 0.4), 0 10px 20px rgba(224, 0, 0, 0.3);
+        }
+
+        .btn-text-main {
+            font-family: var(--font-main);
+            color: #FFF;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .action-hint {
+            color: var(--text-gray-dark);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* CONTENT BLOCKS */
+        .content-block {
+            padding: 120px 40px;
+            position: relative;
+            z-index: 10;
+            background-color: transparent;
+        }
+
+        .block-header {
+            margin-bottom: 60px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-wrapper {
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        /* METRIC CARDS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metric-card {
+            background: #090909;
+            border: 1px solid rgba(224, 0, 0, 0.2);
+            box-shadow: 0 0 30px rgba(224, 0, 0, 0.1), inset 0 0 15px rgba(224, 0, 0, 0.03);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 50px rgba(224, 0, 0, 0.2), inset 0 0 20px rgba(224, 0, 0, 0.05);
+            border-color: rgba(224, 0, 0, 0.4);
+        }
+
+        .metric-card.highlight-red {
+            border-color: rgba(224, 0, 0, 0.4);
+            box-shadow: 0 0 30px rgba(224, 0, 0, 0.1), inset 0 0 15px rgba(224, 0, 0, 0.05);
+            background: linear-gradient(180deg, rgba(224, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .metric-card.highlight-red:hover {
+            box-shadow: 0 0 40px rgba(224, 0, 0, 0.2), inset 0 0 20px rgba(224, 0, 0, 0.08);
+            border-color: rgba(224, 0, 0, 0.6);
+        }
+
+        .metric-card.highlight-red .metric-value {
+            color: var(--revo-red-base);
+        }
+
+        .metric-card.highlight {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(168, 14, 0, 0.1) 100%);
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+
+        .metric-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-gray-dark);
+            margin-bottom: 12px;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            color: var(--text-white);
+        }
+
+        .metric-card.highlight .metric-value {
+            color: #4ADE80;
+        }
+
+        .metric-description {
+            font-size: 13px;
+            color: var(--text-gray-light);
+            line-height: 1.5;
+        }
+
+        /* TABLES */
+        .table-container {
+            background: #090909;
+            border: 1px solid rgba(224, 0, 0, 0.3);
+            box-shadow: 0 0 50px rgba(224, 0, 0, 0.15), inset 0 0 20px rgba(224, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin-bottom: 40px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .revo-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .revo-table th {
+            color: var(--text-gray-dark);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        .revo-table td {
+            padding: 20px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            vertical-align: middle;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .revo-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .revo-table .highlight-row {
+            background: rgba(224, 0, 0, 0.05);
+        }
+
+        .revo-table .highlight-row td {
+            color: var(--revo-red-base);
+            font-weight: 800;
+        }
+
+        /* INSIGHT BOX */
+        .insight-box {
+            background: #0A0A0A;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--revo-red-base);
+            padding: 20px 24px;
+            border-radius: 8px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .insight-box.success {
+            border-left-color: #22c55e;
+        }
+
+        .insight-box.warning {
+            border-left-color: #EAB308;
+        }
+
+        .insight-text {
+            font-size: 14px;
+            color: var(--text-gray-light);
+            line-height: 1.6;
+        }
+
+        .insight-text strong {
+            color: var(--text-white);
+            font-weight: 700;
+        }
+
+        /* CREATIVE CARDS */
+        .creatives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .creative-card {
+            background: #090909;
+            border: 1px solid rgba(224, 0, 0, 0.2);
+            box-shadow: 0 0 30px rgba(224, 0, 0, 0.1), inset 0 0 15px rgba(224, 0, 0, 0.03);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .creative-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 50px rgba(224, 0, 0, 0.2), inset 0 0 20px rgba(224, 0, 0, 0.05);
+            border-color: rgba(224, 0, 0, 0.4);
+        }
+
+        .creative-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .creative-rank {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--revo-red-base) 0%, var(--revo-red-dark) 100%);
+            color: white;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .creative-title {
+            flex: 1;
+        }
+
+        .creative-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-white);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .creative-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray-light);
+        }
+
+        .creative-type.video {
+            background: rgba(224, 0, 0, 0.1);
+            color: var(--revo-red-base);
+            border-color: rgba(224, 0, 0, 0.2);
+        }
+
+        .creative-type.estatico {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .creative-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-gray-dark);
+        }
+
+        .stat-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-white);
+        }
+
+        .stat-value.highlight {
+            color: var(--revo-red-base);
+        }
+
+        .stat-value.success {
+            color: #22c55e;
+        }
+
+        .creative-action {
+            margin-top: 8px;
+        }
+
+        .btn-view-creative {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--revo-red-base);
+            background: rgba(224, 0, 0, 0.05);
+            border: 1px solid rgba(224, 0, 0, 0.2);
+            transition: all 0.2s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-view-creative:hover {
+            background: rgba(224, 0, 0, 0.15);
+            border-color: var(--revo-red-base);
+            box-shadow: 0 0 15px rgba(224, 0, 0, 0.2);
+            color: #FFF;
+        }
+
+        .btn-view-creative:disabled,
+        .btn-view-creative.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .progress-item {
+            margin-bottom: 24px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-gray-light);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--revo-red-base) 0%, var(--revo-red-dark) 100%);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #000000;
+            padding: 60px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(224, 0, 0, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            color: var(--text-gray-dark);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .footer p strong {
+            color: var(--text-white);
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 48px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .creatives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .creative-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .container {
+                padding: 160px 20px 80px;
+            }
+
+            .content-block {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BACKGROUND (Hero only) -->
+    <div style="min-height: 100vh; position: relative; overflow: hidden;">
+        <div class="bg-container">
+            <div class="falling-pattern-anim"></div>
+            <div class="bg-overlay"></div>
+        </div>
+
+        <!-- NAV -->
+        <nav class="site-nav">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">
+                    <img src="https://revoadvisory.com.br/wp-content/uploads/2026/03/LOGO.png" alt="REVO"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#visao-geral">Visão Geral</a></li>
+                <li><a href="#criativos">Criativos</a></li>
+                <li><a href="#funil">Funil</a></li>
+            </ul>
+        </nav>
+
+        <!-- HERO -->
+        <div class="container">
+            <div class="top-badge">DEBRIEFING FINAL</div>
+            <div class="top-subtitle">Martin Trader × REVO Advisory</div>
+            <div class="page-title">Expert Trader<br><span>Marzo.</span><br><div style="font-size: 0.35em; opacity: 0.7; font-weight: 500; letter-spacing: normal; text-transform: none; color: #ccc; margin-top: 5px;">Lanzamiento Marzo 2026</div></div>
+            <div class="page-description">
+                Análise completa do lançamento de Março de 2026.
+            </div>
+            <div class="bottom-actions">
+                <a href="#visao-geral" class="btn-anim-wrapper">
+                    <div class="btn-anim-border"></div>
+                    <div class="btn-anim-inner">
+                        <i class="fas fa-chart-line" style="font-size: 14px; color: #FFF;"></i>
+                        <p class="btn-text-main">Ver Resultados</p>
+                    </div>
+                </a>
+                <div class="action-hint">Explore os dados completos do lançamento</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id='visao-geral' class='content-block'>
+        <div class='block-header'>
+            <div class='top-badge'>Resultados</div>
+            <div class='top-subtitle'>Expert Trader - Março 2026</div>
+            <div class='page-title' style='font-size: 56px; margin-bottom: 20px;'>1. Visão <span>Executiva.</span></div>
+            <div class='page-description' style='margin-bottom: 0;'>
+                Panorama financeiro e operacional consolidado do lançamento.
+            </div>
+        </div>
+
+        <div class='metrics-grid'>
+            <div class='metric-card highlight-red'>
+                <div class='metric-label'>Faturamento</div>
+                <div class='metric-value'>$ 249.461,00</div>
+            </div>
+            <div class='metric-card'>
+                <div class='metric-label'>ROAS</div>
+                <div class='metric-value'>6,98x</div>
+                <div style='font-size: 11px; opacity: 0.6; margin-top: 8px;'>Incl. Sinais/Acesso Parcial: ~7,11x</div>
+            </div>
+            <div class='metric-card'>
+                <div class='metric-label'>Investimento</div>
+                <div class='metric-value'>$ 34.721,50</div>
+                <div style='font-size: 11px; opacity: 0.6; margin-top: 8px;'>Total com API: $ 35.715,75</div>
+            </div>
+            <div class='metric-card'>
+                <div class='metric-label'>Leads Gerados</div>
+                <div class='metric-value'>26.398</div>
+            </div>
+            <div class='metric-card'>
+                <div class='metric-label'>CPL Médio</div>
+                <div class='metric-value'>$ 1,35</div>
+            </div>
+            <div class='metric-card highlight'>
+                <div class='metric-label'>Vendas Totais</div>
+                <div class='metric-value'>313</div>
+            </div>
+        </div>
+    </div>
+
+    <div id='detalhamento' class='content-block'>
+        <div class='block-header'>
+            <div class='top-badge' style='background: rgba(224,0,0,0.2); color: var(--revo-red-base);'>Financeiro</div>
+            <div class='top-subtitle'>Fluxo de Investimento</div>
+            <div class='page-title' style='font-size: 40px; margin-bottom: 20px;'>2. Detalhamento <span>Financeiro.</span></div>
+            <div class='page-description'>Distribuição estratégica do investimento por fases operacionais.</div>
+        </div>
+
+        <div class='metrics-grid' style='grid-template-columns: repeat(3, 1fr); gap: 20px;'>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>CAPTAÇÃO</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 30.008,27</div>
+                <div style='font-size: 10px; opacity: 0.4;'>08/02 a 06/03</div>
+            </div>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>AQUECIMENTO</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 1.374,18</div>
+                <div style='font-size: 10px; opacity: 0.4;'>27/02 a 06/03</div>
+            </div>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>LEMBRETE</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 1.884,45</div>
+                <div style='font-size: 10px; opacity: 0.4;'>06/03 a 09/03</div>
+            </div>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>EVENTO</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 1.018,04</div>
+                <div style='font-size: 10px; opacity: 0.4;'>09/03 a 12/03</div>
+            </div>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>CARRINHO</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 290,13</div>
+                <div style='font-size: 10px; opacity: 0.4;'>12/03 a 17/03</div>
+            </div>
+            <div class='metric-card' style='background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--revo-red-base);'>
+                <div class='metric-label' style='letter-spacing: 1px; opacity: 0.7;'>LISTA</div>
+                <div class='metric-value' style='color: var(--revo-red-base); font-size: 32px;'>$ 146,43</div>
+                <div style='font-size: 10px; opacity: 0.4;'>14/03 a 15/03</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id='funil' class='content-block'>
+        <div class='block-header'>
+            <div class='top-badge'>Conversão</div>
+            <div class='top-subtitle'>Status de Pagamento</div>
+            <div class='page-title' style='font-size: 40px; margin-bottom: 20px;'>3. Funil de <span>Conversão.</span></div>
+            <div class='page-description'>
+                Detalhamento dos leads por status de fechamento.
+            </div>
+        </div>
+
+        <div class='section-wrapper'>
+            <div class='table-container'>
+                <table class='revo-table'>
+                    <thead>
+                        <tr>
+                            <th>Status de Pagamento</th>
+                            <th style='text-align: center;'>Quantidade</th>
+                            <th style='text-align: right;'>Representatividade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class='highlight-row'>
+                            <td><strong>Completo</strong></td>
+                            <td style='text-align: center;'>313</td>
+                            <td style='text-align: right;'>82,6%</td>
+                        </tr>
+                        <tr><td>Seña</td><td style='text-align: center;'>31</td><td style='text-align: right;'>8,2%</td></tr>
+                        <tr><td>Pendiente</td><td style='text-align: center;'>16</td><td style='text-align: right;'>4,2%</td></tr>
+                        <tr><td>Devolucion</td><td style='text-align: center;'>12</td><td style='text-align: right;'>3,2%</td></tr>
+                        <tr><td>Acceso Parcial</td><td style='text-align: center;'>6</td><td style='text-align: right;'>1,6%</td></tr>
+                        <tr><td>No Contesta</td><td style='text-align: center;'>1</td><td style='text-align: right;'>0,3%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id='criativos' class='content-block'>
+        <div class='block-header'>
+            <div class='top-badge'>Performance</div>
+            <div class='top-subtitle'>Criativos Top Performers</div>
+            <div class='page-title' style='font-size: 40px; margin-bottom: 20px;'>5. Criativos <span>Meta Ads.</span></div>
+        </div>
+
+        <div class='creatives-grid'>
+            <div class='creative-card'>
+                <div class='creative-header'><div class='creative-rank'>1º</div><div class='creative-title'><div class='creative-name'>Anuncio23</div><span class='creative-type video'>Vídeo</span></div></div>
+                <div class='creative-stats'>
+                    <div class='stat-item'><div class='stat-label'>Vendas</div><div class='stat-value'>91</div></div>
+                    <div class='stat-item'><div class='stat-label'>Invest.</div><div class='stat-value'>$ 12.166</div></div>
+                    <div class='stat-item'><div class='stat-label'>ROAS</div><div class='stat-value highlight'>5,96x</div></div>
+                </div>
+                <!-- Highlighted Revenue Block -->
+                <div style='background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;'>
+                    <div style='font-size: 10px; font-weight: 700; color: #4ADE80; text-transform: uppercase; margin-bottom: 4px;'>Faturamento Gerado</div>
+                    <div style='font-size: 18px; font-weight: 900; color: #FFF;'>$ 72.527,00</div>
+                </div>
+                <div class='creative-action'>
+                    <a href='https://www.instagram.com/p/DU3RzXHDDoa/' target='_blank' class='btn-view-creative'>
+                        <i class='fas fa-play-circle'></i> Ver Criativo
+                    </a>
+                </div>
+            </div>
+            <div class='creative-card'>
+                <div class='creative-header'><div class='creative-rank'>2º</div><div class='creative-title'><div class='creative-name'>Anuncio01</div><span class='creative-type video'>Vídeo</span></div></div>
+                <div class='creative-stats'>
+                    <div class='stat-item'><div class='stat-label'>Vendas</div><div class='stat-value'>47</div></div>
+                    <div class='stat-item'><div class='stat-label'>Invest.</div><div class='stat-value'>$ 6.025</div></div>
+                    <div class='stat-item'><div class='stat-label'>ROAS</div><div class='stat-value highlight'>6,22x</div></div>
+                </div>
+                <div style='background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;'>
+                    <div style='font-size: 10px; font-weight: 700; color: #4ADE80; text-transform: uppercase; margin-bottom: 4px;'>Faturamento Gerado</div>
+                    <div style='font-size: 18px; font-weight: 900; color: #FFF;'>$ 37.459,00</div>
+                </div>
+                <div class='creative-action'>
+                    <a href='https://www.instagram.com/p/DUgCYvZjNYE/' target='_blank' class='btn-view-creative'>
+                        <i class='fas fa-play-circle'></i> Ver Criativo
+                    </a>
+                </div>
+            </div>
+            <div class='creative-card'>
+                <div class='creative-header'><div class='creative-rank'>3º</div><div class='creative-title'><div class='creative-name'>Anuncio18</div><span class='creative-type video'>Vídeo</span></div></div>
+                <div class='creative-stats'>
+                    <div class='stat-item'><div class='stat-label'>Vendas</div><div class='stat-value'>30</div></div>
+                    <div class='stat-item'><div class='stat-label'>Invest.</div><div class='stat-value'>$ 1.916</div></div>
+                    <div class='stat-item'><div class='stat-label'>ROAS</div><div class='stat-value highlight'>12,48x</div></div>
+                </div>
+                <div style='background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;'>
+                    <div style='font-size: 10px; font-weight: 700; color: #4ADE80; text-transform: uppercase; margin-bottom: 4px;'>Faturamento Gerado</div>
+                    <div style='font-size: 18px; font-weight: 900; color: #FFF;'>$ 23.910,00</div>
+                </div>
+                <div class='creative-action'>
+                    <a href='https://www.instagram.com/p/DU3RzSpDEsV/' target='_blank' class='btn-view-creative'>
+                        <i class='fas fa-play-circle'></i> Ver Criativo
+                    </a>
+                </div>
+            </div>
+            <div class='creative-card'>
+                <div class='creative-header'><div class='creative-rank'>4º</div><div class='creative-title'><div class='creative-name'>Anuncio03</div><span class='creative-type video'>Vídeo</span></div></div>
+                <div class='creative-stats'>
+                    <div class='stat-item'><div class='stat-label'>Vendas</div><div class='stat-value'>18</div></div>
+                    <div class='stat-item'><div class='stat-label'>Invest.</div><div class='stat-value'>$ 1.398</div></div>
+                    <div class='stat-item'><div class='stat-label'>ROAS</div><div class='stat-value highlight'>10,25x</div></div>
+                </div>
+                <div style='background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;'>
+                    <div style='font-size: 10px; font-weight: 700; color: #4ADE80; text-transform: uppercase; margin-bottom: 4px;'>Faturamento Gerado</div>
+                    <div style='font-size: 18px; font-weight: 900; color: #FFF;'>$ 14.346,00</div>
+                </div>
+                <div class='creative-action'>
+                    <a href='https://www.instagram.com/p/DUgCcPGjK1z/' target='_blank' class='btn-view-creative'>
+                        <i class='fas fa-play-circle'></i> Ver Criativo
+                    </a>
+                </div>
+            </div>
+            <div class='creative-card'>
+                <div class='creative-header'><div class='creative-rank'>5º</div><div class='creative-title'><div class='creative-name'>Anuncio09</div><span class='creative-type video'>Vídeo</span></div></div>
+                <div class='creative-stats'>
+                    <div class='stat-item'><div class='stat-label'>Vendas</div><div class='stat-value'>16</div></div>
+                    <div class='stat-item'><div class='stat-label'>Invest.</div><div class='stat-value'>$ 1.743</div></div>
+                    <div class='stat-item'><div class='stat-label'>ROAS</div><div class='stat-value highlight'>7,31x</div></div>
+                </div>
+                <div style='background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;'>
+                    <div style='font-size: 10px; font-weight: 700; color: #4ADE80; text-transform: uppercase; margin-bottom: 4px;'>Faturamento Gerado</div>
+                    <div style='font-size: 18px; font-weight: 900; color: #FFF;'>$ 12.752,00</div>
+                </div>
+                <div class='creative-action'>
+                    <a href='https://www.instagram.com/p/DUgCaljjPXq/' target='_blank' class='btn-view-creative'>
+                        <i class='fas fa-play-circle'></i> Ver Criativo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id='vendas-pais' class='content-block' style='background: rgba(224, 0, 0, 0.02);'>
+        <div class='block-header'>
+            <div class='top-badge'>Geográfico</div>
+            <div class='top-subtitle'>Vendas & Funil</div>
+            <div class='page-title' style='font-size: 40px; margin-bottom: 20px;'>6. Segmentação <span>Geográfica e por Funil.</span></div>
+            <div class='page-description'>Comparativo regional e por tipo de público (Trader vs General).</div>
+        </div>
+
+        <div class='section-wrapper'>
+            <!-- 6.1. País Geral -->
+            <div class='top-subtitle' style='margin-bottom: 15px; font-size: 14px;'>6.1. Comparativo Geral por País</div>
+            <div class='table-container shadow-vibrant'>
+                <table class='revo-table'>
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th style='text-align: center;'>Leads</th>
+                            <th style='text-align: center;'>CPL</th>
+                            <th style='text-align: center;'>Vendas</th>
+                            <th style='text-align: center;'>Conv. %</th>
+                            <th style='text-align: center;'>Representatividade</th>
+                            <th style='text-align: center;'>ROAS</th>
+                            <th style='text-align: center;'>Investimento</th>
+                            <th style='text-align: right;'>Faturamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Argentina</strong></td><td style='text-align: center;'>18.206</td><td style='text-align: center;'>$ 0,71</td><td style='text-align: center;'>176</td><td style='text-align: center;'>0,97%</td><td style='text-align: center;'>56,23%</td><td style='text-align: center;'>10,88x</td><td style='text-align: center;'>$ 12.893,40</td><td style='text-align: right;'>$ 140.272</td></tr>
+                        <tr><td><strong>Uruguay</strong></td><td style='text-align: center;'>7.980</td><td style='text-align: center;'>$ 1,75</td><td style='text-align: center;'>133</td><td style='text-align: center;'>1,67%</td><td style='text-align: center;'>42,49%</td><td style='text-align: center;'>7,61x</td><td style='text-align: center;'>$ 13.933,90</td><td style='text-align: right;'>$ 106.001</td></tr>
+                        <tr><td><strong>Outros</strong></td><td style='text-align: center;'>212</td><td style='text-align: center;'>$ 22,23</td><td style='text-align: center;'>4</td><td style='text-align: center;'>1,89%</td><td style='text-align: center;'>1,28%</td><td style='text-align: center;'>0,68x</td><td style='text-align: center;'>$ 4.713,23</td><td style='text-align: right;'>$ 3.188</td></tr>
+                        <tr class='highlight-row'><td><strong>TOTAL</strong></td><td style='text-align: center;'><strong>26.398</strong></td><td style='text-align: center;'><strong>$ 1,19</strong></td><td style='text-align: center;'><strong>313</strong></td><td style='text-align: center;'><strong>1,19%</strong></td><td style='text-align: center;'><strong>100%</strong></td><td style='text-align: center;'><strong>7,83x</strong></td><td style='text-align: center;'><strong>$ 31.540,56</strong></td><td style='text-align: right;'><strong>$ 249.461</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 6.2. Funil -->
+            <div class='top-subtitle' style='margin-bottom: 15px; font-size: 14px; margin-top: 50px;'>6.2. COMPARATIVO POR FUNIL (TRADER VS. GENERAL)</div>
+            <div class='table-container shadow-vibrant'>
+                <table class='revo-table'>
+                    <thead>
+                        <tr>
+                            <th>Funil</th>
+                            <th style='text-align: center;'>Leads</th>
+                            <th style='text-align: center;'>CPL</th>
+                            <th style='text-align: center;'>Vendas</th>
+                            <th style='text-align: center;'>Conv. %</th>
+                            <th style='text-align: center;'>Representatividade</th>
+                            <th style='text-align: center;'>ROAS</th>
+                            <th style='text-align: center;'>Investimento</th>
+                            <th style='text-align: right;'>Faturamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Público Trader</strong></td><td style='text-align: center;'>4.817</td><td style='text-align: center;'>$ 1,66</td><td style='text-align: center;'>106</td><td style='text-align: center;'>2,20%</td><td style='text-align: center;'>33,87%</td><td style='text-align: center;'>10,59x</td><td style='text-align: center;'>$ 7.974,57</td><td style='text-align: right;'>$ 84.482</td></tr>
+                        <tr><td><strong>Público General</strong></td><td style='text-align: center;'>21.581</td><td style='text-align: center;'>$ 1,09</td><td style='text-align: center;'>175</td><td style='text-align: center;'>0,81%</td><td style='text-align: center;'>55,91%</td><td style='text-align: center;'>5,92x</td><td style='text-align: center;'>$ 23.565,99</td><td style='text-align: right;'>$ 139.475</td></tr>
+                        <tr><td><strong>Sem Rastreio</strong></td><td style='text-align: center;'>-</td><td style='text-align: center;'>-</td><td style='text-align: center;'>32</td><td style='text-align: center;'>-</td><td style='text-align: center;'>10,22%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: right;'>$ 25.504</td></tr>
+                        <tr class='highlight-row'><td><strong>TOTAL</strong></td><td style='text-align: center;'><strong>26.398</strong></td><td style='text-align: center;'><strong>$ 1,19</strong></td><td style='text-align: center;'><strong>313</strong></td><td style='text-align: center;'><strong>1,19%</strong></td><td style='text-align: center;'><strong>100%</strong></td><td style='text-align: center;'><strong>7,83x</strong></td><td style='text-align: center;'><strong>$ 31.540,56</strong></td><td style='text-align: right;'><strong>$ 249.461</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 6.3. País detalhado -->
+            <div class='top-subtitle' style='margin-bottom: 15px; font-size: 14px; margin-top: 50px;'>6.3. DETALHAMENTO: PAÍS DENTRO DO FUNIL</div>
+            <div class='table-container shadow-vibrant'>
+                <table class='revo-table'>
+                    <thead>
+                        <tr>
+                            <th>País</th>
+                            <th>Funil</th>
+                            <th style='text-align: center;'>Leads</th>
+                            <th style='text-align: center;'>CPL</th>
+                            <th style='text-align: center;'>Vendas</th>
+                            <th style='text-align: center;'>Conv. %</th>
+                            <th style='text-align: center;'>Representatividade</th>
+                            <th style='text-align: center;'>ROAS</th>
+                            <th style='text-align: center;'>Investimento</th>
+                            <th style='text-align: right;'>Faturamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Argentina</strong></td><td>Trader</td><td style='text-align: center;'>3.500</td><td style='text-align: center;'>$ 1,39</td><td style='text-align: center;'>75</td><td style='text-align: center;'>2,14%</td><td style='text-align: center;'>23,96%</td><td style='text-align: center;'>12,25x</td><td style='text-align: center;'>$ 4.880,14</td><td style='text-align: right;'>$ 59.775</td></tr>
+                        <tr><td><strong>Argentina</strong></td><td>General</td><td style='text-align: center;'>14.706</td><td style='text-align: center;'>$ 0,55</td><td style='text-align: center;'>81</td><td style='text-align: center;'>0,55%</td><td style='text-align: center;'>25,88%</td><td style='text-align: center;'>8,06x</td><td style='text-align: center;'>$ 8.013,26</td><td style='text-align: right;'>$ 64.557</td></tr>
+                        <tr><td><strong>Argentina</strong></td><td>Sem Rastreio</td><td style='text-align: center;'>-</td><td style='text-align: center;'>-</td><td style='text-align: center;'>20</td><td style='text-align: center;'>-</td><td style='text-align: center;'>6,39%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: right;'>$ 15.940</td></tr>
+                        
+                        <tr><td><strong>Uruguay</strong></td><td>Trader</td><td style='text-align: center;'>1.185</td><td style='text-align: center;'>$ 2,61</td><td style='text-align: center;'>30</td><td style='text-align: center;'>2,53%</td><td style='text-align: center;'>9,58%</td><td style='text-align: center;'>7,73x</td><td style='text-align: center;'>$ 3.094,43</td><td style='text-align: right;'>$ 23.910</td></tr>
+                        <tr><td><strong>Uruguay</strong></td><td>General</td><td style='text-align: center;'>6.795</td><td style='text-align: center;'>$ 1,60</td><td style='text-align: center;'>93</td><td style='text-align: center;'>1,37%</td><td style='text-align: center;'>29,71%</td><td style='text-align: center;'>6,84x</td><td style='text-align: center;'>$ 10.839,48</td><td style='text-align: right;'>$ 74.121</td></tr>
+                        <tr><td><strong>Uruguay</strong></td><td>Sem Rastreio</td><td style='text-align: center;'>-</td><td style='text-align: center;'>-</td><td style='text-align: center;'>10</td><td style='text-align: center;'>-</td><td style='text-align: center;'>3,19%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: right;'>$ 7.970</td></tr>
+
+                        <tr><td><strong>Outros</strong></td><td>Trader</td><td style='text-align: center;'>132</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: center;'>1</td><td style='text-align: center;'>0,76%</td><td style='text-align: center;'>0,32%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: right;'>$ 797</td></tr>
+                        <tr><td><strong>Outros</strong></td><td>General</td><td style='text-align: center;'>80</td><td style='text-align: center;'>$ 58,92</td><td style='text-align: center;'>1</td><td style='text-align: center;'>1,25%</td><td style='text-align: center;'>0,32%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 4.713,23</td><td style='text-align: right;'>$ 797</td></tr>
+                        <tr><td><strong>Outros</strong></td><td>Sem Rastreio</td><td style='text-align: center;'>-</td><td style='text-align: center;'>-</td><td style='text-align: center;'>2</td><td style='text-align: center;'>-</td><td style='text-align: center;'>0,64%</td><td style='text-align: center;'>-</td><td style='text-align: center;'>$ 0,00</td><td style='text-align: right;'>$ 1.594</td></tr>
+                        
+                        <tr class='highlight-row'><td colspan='2'><strong>TOTAL</strong></td><td style='text-align: center;'><strong>26.398</strong></td><td style='text-align: center;'><strong>$ 1,19</strong></td><td style='text-align: center;'><strong>313</strong></td><td style='text-align: center;'><strong>1,19%</strong></td><td style='text-align: center;'><strong>100%</strong></td><td style='text-align: center;'><strong>7,83x</strong></td><td style='text-align: center;'><strong>$ 31.540,56</strong></td><td style='text-align: right;'><strong>$ 249.461</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style='font-size: 12px; opacity: 0.5; margin-top: 20px;'>*Vendas e faturamento agregados para bater com o total global do debriefing.</p>
+        </div>
+    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Debriefing elaborado por REVO Advisory</strong></p>
+            <p>Março/2026 | Metodologia: Dados de Vendas, Tráfego e Pesquisa da Lanzamiento Marzo
+                (Dez/2025–Fev/2026)</p>
+            <p style="margin-top: 20px; opacity: 0.5;">Martin Trader × REVO Advisory</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

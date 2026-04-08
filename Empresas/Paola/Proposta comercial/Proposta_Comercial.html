@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Performance: Meta Ads | Paola Ceribeli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Cores Dark Premium solicitadas */
+            --bg-body: #2a2a2a; /* Cinza próximo de 2a2a2a */
+            --bg-card: #222222;
+            --bg-card-hover: #1e1e1e;
+            --text-main: #e2e8f0; /* Off-white */
+            --text-muted: #9ca3af; /* Cinza para textos secundários */
+            --primary: #1e3a8a; /* Azul Escuro Premium (Navy) */
+            --primary-light: #3b82f6; /* Azul de destaque */
+            --accent: #10b981; /* Verde (Incluso) */
+            --danger: #ef4444; /* Vermelho (Não Incluso) */
+            --border: rgba(255, 255, 255, 0.08);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 80px 0 60px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+        .header-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-light);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+        .header p {
+            font-size: 20px;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+        .header p strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* INTRO BOX */
+        .intro-box {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #1a1a1a 100%);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary-light);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            font-size: 18px;
+            color: var(--text-main);
+            font-weight: 300;
+        }
+        .intro-box p { margin-bottom: 16px; }
+        .intro-box p:last-child { margin-bottom: 0; }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 80px;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title i {
+            color: var(--primary-light);
+        }
+
+        /* CARDS & LISTS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .scope-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        .scope-card.included { border-top: 4px solid var(--accent); }
+        .scope-card.excluded { border-top: 4px solid var(--danger); }
+        
+        .scope-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+        .scope-card.included h3 i { color: var(--accent); }
+        .scope-card.excluded h3 i { color: var(--danger); }
+
+        .feature-list { list-style: none; }
+        .feature-list li {
+            margin-bottom: 16px;
+            padding-left: 28px;
+            position: relative;
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+        .scope-card.included .feature-list li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        .scope-card.excluded .feature-list li::before {
+            content: "\f00d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--danger);
+        }
+        .feature-list li strong { color: var(--text-main); }
+
+        /* CO-RESPONSIBILITY CARDS */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .flow-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        .flow-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        .flow-card h4 {
+            color: #fff;
+            font-size: 17px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .flow-card h4 i { color: var(--primary-light); }
+        .flow-card p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* TABLES */
+        .table-responsive {
+            overflow-x: auto;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .styled-table th, .styled-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .styled-table th {
+            background: rgba(30, 58, 138, 0.2);
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .styled-table td {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        .styled-table td strong { color: var(--text-main); }
+        .styled-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .styled-table tr:last-child td { border-bottom: none; }
+
+        .styled-table.pricing th { text-align: center; }
+        .styled-table.pricing td { text-align: center; }
+        .styled-table.pricing td:first-child { text-align: left; font-weight: 600; color: #fff; }
+        
+        .price-val { font-size: 24px; font-weight: 800; color: #fff; }
+        .check-icon { color: var(--accent); font-size: 18px; }
+        .times-icon { color: var(--text-muted); opacity: 0.5; font-size: 18px; }
+        .included-icon { color: var(--primary-light); font-weight: 700; }
+
+        .table-notes {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .table-notes li { margin-bottom: 8px; list-style-position: inside; }
+
+        /* SLA & CHECKLIST */
+        .info-list {
+            list-style: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .info-list li {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .info-list li:last-child { border-bottom: none; }
+        .info-list li i { font-size: 20px; color: var(--primary-light); width: 24px; text-align: center; }
+
+        .num-list {
+            counter-reset: custom-counter;
+            list-style: none;
+        }
+        .num-list li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        .num-list li::before {
+            counter-increment: custom-counter;
+            content: counter(custom-counter);
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .num-list li strong { color: var(--text-main); }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 60px 0;
+            margin-top: 80px;
+            border-top: 1px solid var(--border);
+        }
+        .footer h3 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .footer p { color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .flow-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 36px; }
+            .table-responsive { border: none; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-badge">Proposta Oficial</div>
+            <h1>Gestão de Performance: Meta Ads</h1>
+            <p>Especialista em Performance: <strong>Paola Ceribeli</strong></p>
+        </header>
+
+        <!-- 1. INTRO / POSICIONAMENTO -->
+        <div class="intro-box">
+            <p>Atuo como o braço de <strong>Execução e Performance</strong> em parceria com a <strong>REVO</strong>. Meu foco é a operacionalização técnica e a otimização contínua das campanhas no Facebook e Instagram, garantindo que o investimento seja aplicado nos públicos e anúncios de maior retorno.</p>
+            <p>Minha entrega une o rigor técnico na configuração de anúncios com a análise crítica de métricas, garantindo transparência total sobre onde e como o seu orçamento está sendo utilizado.</p>
+        </div>
+
+        <!-- 2. ESCOPO DE TRABALHO -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-crosshairs"></i> Escopo de Trabalho</h2>
+            
+            <div class="grid-2">
+                <div class="scope-card included">
+                    <h3><i class="fas fa-check-circle"></i> O que está incluso</h3>
+                    <ul class="feature-list">
+                        <li>Operacionalização técnica: Configuração e veiculação de anúncios no Meta Ads.</li>
+                        <li><strong>Monitoramento e otimização diária</strong> de públicos e verbas para máxima eficiência.</li>
+                        <li>Relatórios Semanais (Status) e Mensais (Performance com sugestões de melhoria).</li>
+                        <li>Reunião Mensal ou Quinzenal (conforme o plano).</li>
+                        <li>Dashboard dinâmico com os indicadores do tráfego (Plano Premium/Parceiro).</li>
+                    </ul>
+                </div>
+
+                <div class="scope-card excluded">
+                    <h3><i class="fas fa-times-circle"></i> O que NÃO está incluso</h3>
+                    <ul class="feature-list">
+                        <li>Elaboração do planejamento estratégico macro.</li>
+                        <li>Implementação técnica de tags, pixels ou códigos no site.</li>
+                        <li>Produção de criativos (artes e vídeos da campanha).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. FLUXO COLABORATIVO -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-handshake"></i> Exigências do Fluxo Colaborativo</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 16px;">Para que as campanhas atinjam a máxima performance, nossa parceria exige um fluxo colaborativo:</p>
+            
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <h4><i class="fas fa-photo-video"></i> Fornecimento de Criativos</h4>
+                    <p>O tráfego atrai o público, mas a conversão depende diretamente da qualidade e variedade dos anúncios enviados.</p>
+                </div>
+                <div class="flow-card">
+                    <h4><i class="fas fa-bolt"></i> Dependência de Materiais</h4>
+                    <p>A execução do tráfego depende do seu "combustível". O atraso no envio de anúncios (criativos) <strong>impossibilita</strong> a continuidade das otimizações e estagna os resultados da conta.</p>
+                </div>
+                <div class="flow-card">
+                    <h4><i class="fas fa-lightbulb"></i> Melhoria Contínua</h4>
+                    <p>Além de operar, entrego <strong>sugestões práticas</strong> de melhoria (públicos e criativos) baseadas no comportamento real dos dados.</p>
+                </div>
+                <div class="flow-card">
+                    <h4><i class="fas fa-star"></i> Pesquisa de Satisfação</h4>
+                    <p>Ao final de cada mês, solicitamos uma rápida resposta (2 min) para garantirmos a evolução constante do nosso suporte.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DIFERENCIAIS -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-layer-group"></i> Diferenciais de Entrega</h2>
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Plano</th>
+                            <th style="width: 80%;">Foco e Perfil Atendido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Plano BASIC</strong></td>
+                            <td>Focado em execução técnica e constância. Ideal para quem já tem uma estratégia validada e precisa de operação profissional e relatórios de status.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plano PREMIUM</strong></td>
+                            <td>Focado em otimização agressiva e escala. Além da gestão, inclui análise profunda para <strong>sugestões de melhoria</strong> e o Dashboard.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Condição PARCEIRO</strong></td>
+                            <td>Modelo exclusivo para clientes estratégicos da REVO, unindo a gestão completa com suporte prioritário e análise de performance.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. INVESTIMENTOS E PLANOS -->
+        <section class="section">
+            <h2 class="section-title"><i class="fas fa-wallet"></i> Planos e Investimento</h2>
+            <p style="color: var(--text-muted); margin-bottom: 24px;">Recomendamos um período mínimo de 03 meses para maturação e escala das campanhas.</p>
+            
+            <div class="table-responsive">
+                <table class="styled-table pricing">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%; text-align: left;">Benefícios Entregues</th>
+                            <th style="width: 20%;">Plano BASIC</th>
+                            <th style="width: 20%;">Plano PREMIUM</th>
+                            <th style="width: 20%;">Cond. PARCEIRO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Investimento Técnico Mensal</td>
+                            <td><span class="price-val">R$ 1.2k</span></td>
+                            <td><span class="price-val" style="color: var(--primary-light);">R$ 1.5k</span></td>
+                            <td><span class="price-val">R$ 1.0k</span></td>
+                        </tr>
+                        <tr>
+                            <td>Gestão Meta Ads</td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Relatório Mensal</td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Dashboard</td>
+                            <td><i class="fas fa-times times-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+
+                        <tr>
+                            <td>Frequência da Reunião</td>
+                            <td>01 Mensal</td>
+                            <td><strong>02 Mensais</strong></td>
+                            <td><strong>02 Mensais</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <ul class="table-notes">
+                <li><strong>Nota 1:</strong> Valor válido para investimentos de até R$ 5.000,00/mês em anúncios publicitários.</li>
+                <li><strong>Nota 2:</strong> O valor investido em mídia é pago pelo cliente diretamente ao Meta.</li>
+                <li><strong>Nota 3:</strong> Modelo de pagamento pré-pago (faturamento no início do ciclo de 30 dias operacionais).</li>
+            </ul>
+        </section>
+
+        <!-- 6 e 7. DIRETRIZES E CHECKLIST -->
+        <section class="section">
+            <div class="grid-2">
+                
+                <div>
+                    <h2 class="section-title"><i class="fas fa-headset"></i> Diretrizes de Atendimento</h2>
+                    <ul class="info-list">
+                        <li><i class="fas fa-clock"></i> <div><strong>Horário de Atuação:</strong><br>Segunda a Sexta, das 09h às 18h.</div></li>
+                        <li><i class="fas fa-envelope"></i> <div><strong>Canais Oficiais:</strong><br>WhatsApp ou E-mail.</div></li>
+                        <li><i class="fas fa-bolt"></i> <div><strong>Tempo de Resposta (SLA):</strong><br>Em até 2 horas (horário comercial).</div></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h2 class="section-title"><i class="fas fa-rocket"></i> Checklist de Início</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 24px;">Solicitamos o envio em até 24h úteis para darmos início imediato ao setup técnico:</p>
+                    
+                    <ul class="num-list">
+                        <li><strong>Vinculação como Parceiro</strong> no Gerenciador de Negócios (BM).</li>
+                        <li><strong>Conta de Anúncios</strong> vinculada com método de pagamento ativo.</li>
+                        <li><strong>Acesso garantido à Página</strong> do Facebook e ao Perfil corporativo do Instagram.</li>
+                        <li>Confirmação de <strong>rastreamento (Pixel/API)</strong> já configurados pela equipe técnica da REVO.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <h3>Performance & Dados</h3>
+            <p>Execução técnica. Resultados com estratégia.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

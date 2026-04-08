@@ -1,0 +1,26 @@
+{
+    "eval_id": 1,
+    "run_config": "with_skill",
+    "expectations": [
+        {
+            "text": "Sem em-dash",
+            "passed": true,
+            "evidence": "Nenhuma ocorrência do caractere — foi encontrada no output. Substituído por vírgulas e dois pontos em toda a extensão."
+        },
+        {
+            "text": "Sem prescritivo",
+            "passed": true,
+            "evidence": "O formulário não contém frases como 'você deve' ou 'faça isso'. A copy usa linguagem declarativa e de qualificação, nunca prescritiva."
+        },
+        {
+            "text": "Tom data-driven",
+            "passed": true,
+            "evidence": "Termos como 'CPL', 'ROAS', 'Diagnóstico', 'Advisory' e 'Kommo' aparecem nas instruções das perguntas e na copy de apoio."
+        },
+        {
+            "text": "Repulsão Anti-Alvo",
+            "passed": true,
+            "evidence": "Pergunta 3 bloqueia explicitamente quem quer execução (agência operacional). Pergunta 1 bloqueia abaixo de R$20k. Texto de abertura sinaliza que 'não é para todo mundo'."
+        }
+    ]
+}

@@ -1,0 +1,89 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Análise NaFazenda</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; }
+        h3 { color: #34495e; }
+        li { margin-bottom: 8px; }
+        strong { color: #000; }
+        .highlight { padding: 10px; background-color: #f8f9fa; border-left: 4px solid #007bff; margin: 10px 0; }
+    </style>
+</head>
+<body>
+<h1>NaFazenda: Análise do Período Anterior vs Atual</h1>
+<h2>Benchmarks de Referência (Conforme Guia de Gestão de Tráfego)</h2>
+<p>Para entendermos se os resultados do passado e de hoje estão bons, nossa diretiva estipula os seguintes alvos de saúde baseados em comissão líquida:
+* <strong>CTR (Taxa de Clique):</strong> Ideal entre 0.50% e 1.00%. (Abaixo de 0.35% sinaliza forte fadiga de criativo).
+* <strong>CPM (Custo por Mil):</strong> Ideal em torno de R$ 8.00 a R$ 9.00. (CPMs muito altos mostram saturação de público).
+* <strong>Connect Rate:</strong> Ideal entre 70% e 75%. (Abaixo de 60% indica problema grave no carregamento da página).</p>
+<hr />
+<h2>1. Período Anterior (Antes da Revo)</h2>
+<p>Baseado na leitura minuciosa dos relatórios brutos <code>.csv</code> extraídos da Meta:</p>
+<h3>🌽 Formulando na Prática</h3>
+<ul>
+<li><strong>CTR:</strong> 0.75% 🟢 <em>(Bom, dentro da meta de 0.5% - 1%)</em></li>
+<li><strong>CPM:</strong> R$ 19.51 🔴 <em>(Ruim, mais que o dobro da meta de R$8-R$9)</em></li>
+<li><strong>Connect Rate:</strong> 19.65% 🔴 <em>(Terrível. Muito abaixo da margem de risco de 60%)</em><blockquote>
+<p><strong>Diagnóstico:</strong> Os criativos eram bons e chamavam cliques, mas a página não estava convertendo visitas (provável lentidão severa), e o leilão estava muito caro.</p>
+</blockquote>
+</li>
+</ul>
+<h3>🐂 Recria na Prática</h3>
+<ul>
+<li><strong>CTR:</strong> 0.78% 🟢 <em>(Bom, dentro da meta ideal)</em></li>
+<li><strong>CPM:</strong> R$ 21.36 🔴 <em>(Ruim, tráfego muito caro no leilão)</em></li>
+<li><strong>Connect Rate:</strong> 52.12% 🔴 <em>(Ruim, abaixo do alerta de 60%)</em><blockquote>
+<p><strong>Diagnóstico:</strong> Mesma tendência vista acima. Criativos saudáveis, mas a conectividade caindo no meio do funil (48% das pessoas que clicavam desistiam antes de ver a página) e custos altos de impressão.</p>
+</blockquote>
+</li>
+</ul>
+<h3>🛡️ Gestão de Risco (Trava do Boi)</h3>
+<ul>
+<li><strong>CTR:</strong> 1.13% 🟢 <em>(Excelente, acima do teto de 1%)</em></li>
+<li><strong>CPM:</strong> R$ 31.05 🔴 <em>(Péssimo. Público absurdamente restrito/saturado)</em></li>
+<li><strong>Connect Rate:</strong> 47.86% 🔴 <em>(Ruim, quase metade perdidos no clique)</em><blockquote>
+<p><strong>Diagnóstico:</strong> O produto chamava atenção fenomenal, mas competia em um nicho muito caro (alto CPM) e pecava drasticamente no carregamento.</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h2>2. Período Atual (Com a Gestão Revo)</h2>
+<p>Baseado na leitura dos dados consolidados e exportados fielmente do Dashboard (Período de 05/03 a 09/03 de 2026), temos as métricas exatas de desempenho:</p>
+<h3>🌽 Formulando na Prática</h3>
+<ul>
+<li><strong>CTR:</strong> 0.29% 🔴 <em>(Terrível. Queda severa em relação aos 0.75% antigos, indicando forte fadiga de criativo).</em></li>
+<li><strong>CPM:</strong> R$ 9.70 🟢 <em>(Excelente! A gestão atual reduziu o custo de R$19.51 pra menos da metade, alinhado perfeitamente com a meta de R$8-9).</em></li>
+<li><strong>Connect Rate:</strong> 62% 🟡 <em>(Quase no sinal amarelo. O ideal é 70%, o guia manda ligar o alerta abaixo de 60%. Melhor que os 19% antigos, mas exige atenção).</em></li>
+</ul>
+<h3>🐂 Recria na Prática</h3>
+<ul>
+<li><strong>CTR:</strong> 0.60% 🟡 <em>(Caiu um pouco em relação aos 0.78% antigos, mas ainda na margem saudável).</em></li>
+<li><strong>CPM:</strong> R$ 4.81 🟢 <em>(Excepcional! Custo de atenção despencou absurdamente comparado aos R$21.36 antigos. O público é muito barato de atingir).</em></li>
+<li><strong>Connect Rate:</strong> 44% 🔴 <em>(Ruim, bem abaixo do limite de 60%. Mais da metade dos cliques se perde no caminho para a página).</em></li>
+</ul>
+<h3>🛡️ Gestão de Risco (Trava do Boi)</h3>
+<ul>
+<li><strong>CTR:</strong> 0.88% 🟢 <em>(Ótimo. Leve queda perto do 1.13% antigo, mas continua muito saudável e acima de quase tudo).</em></li>
+<li><strong>CPM:</strong> R$ 7.22 🟢 <em>(Perfeito! O custo despencou de R$31.05 do período passado para abaixo da meta ideal fixada no Guia).</em></li>
+<li><strong>Connect Rate:</strong> 53% 🔴 <em>(Ruim, abaixo dos 60%).</em></li>
+</ul>
+<hr />
+<hr />
+<hr />
+<h2>3. Diagnóstico Central: Antes Revo vs Depois Revo</h2>
+<p><strong>A Grande Virada no Leilão (Topo de Funil):</strong>
+A nova gestão de tráfego (Revo) resolveu de forma impressionante a compra de atenção (CPM). Em todos os três produtos, os custos operacionais de entrega saíram de valores elevados (R$20 a R$30) para patamares muito eficientes (R$ 4.80 a R$ 9.70). Sob a nova gestão, as campanhas estão comprando muito mais visibilidade pelo mesmo valor financeiro. O público definido pela Revo é substancialmente mais barato de se alcançar no leilão atual.</p>
+<p><strong>O Gargalo Atual de Vendas e CPA (Meio e Fim de Funil):</strong>
+Mesmo com o tráfego muito mais barato na entrada, os custos por aquisição (CPA) dispararam devido a ineficiências severas nas etapas de conexão e conversão. Nossas análises indicam que as vendas não estão acontecendo pelos seguintes atritos:</p>
+<ol>
+<li><strong>Desgaste de Criativos (Formulando):</strong> O tráfego está barato, mas o interesse na peça despencou. O CTR atual de 0.29% indica que quase ninguém do público barato e amplo clica para ver a oferta.</li>
+<li><strong>Queda Severa na Connect Rate (Trava e Recria):</strong> Nos produtos de ticket maior, o desgaste está na ponte entre o anúncio e o site. Na Recria, 56% das pessoas que clicam desistem antes de a página carregar (Connect Rate 44%). No Trava do Boi, quase metade também é perdida no caminho. Isso faz com que todo o ganho de eficiência conseguido pela agência no leilão (CPM de R$ 4) seja queimado pela lentidão técnica ou fricção antes do checkout.</li>
+</ol>
+<p><strong>Conclusão da Análise:</strong> 
+A gestão Revo melhorou drasticamente a eficiência da "Ponta de Entrada" do funil (Leilão e Visibilidade). O descompasso entre o "Antes" e "Depois" no resultado final de faturamento se dá porque a "Ponta de Saída" (Interesse no Criativo e Carregamento do Site) não está conseguindo reter e converter esse novo volume maciço e barato de visitantes. O erro atual não está na compra de mídia, mas sim na recepção estrutural desse tráfego.</p>
+</body>
+</html>

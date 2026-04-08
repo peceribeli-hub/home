@@ -1,0 +1,26 @@
+{
+    "eval_id": 2,
+    "run_config": "with_skill",
+    "expectations": [
+        {
+            "text": "Sem em-dash",
+            "passed": true,
+            "evidence": "Nenhuma ocorrência do caractere — no output. Substituições corretas com vírgulas, pontos e quebras de linha."
+        },
+        {
+            "text": "Mecânismo Único presente",
+            "passed": true,
+            "evidence": "O script menciona explicitamente o Kommo CRM, os três dashboards (geral, perpétuo e lançamento), CPL, ROAS e o modelo de Advisory como Mecanismo Único de diferenciação."
+        },
+        {
+            "text": "Destruição da Ponte",
+            "passed": true,
+            "evidence": "Cenas 2 e 3 destroem ativamente as crenças da agência tradicional: gestão de botão, feeling, 'o algoritmo mudou', antes de apresentar o modelo de Advisory com dados."
+        },
+        {
+            "text": "Sem jargões proibidos",
+            "passed": true,
+            "evidence": "Nenhuma ocorrência de 'Founder', 'Co-Founder', 'hackzinho', 'fórmula mágica' ou 'guru' em todo o script."
+        }
+    ]
+}

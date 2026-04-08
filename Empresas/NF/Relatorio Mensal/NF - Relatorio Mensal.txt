@@ -1,0 +1,65 @@
+﻿* Formulando
+   * Ações realizadas
+      * Checkout
+         * Cronômetro
+         * 2 order bumps
+   * Ações a fazer
+      * Testar público quente
+         * Envolvimento
+         * Seguidores
+      * Criativos
+         * Mais criativos com base nos que performaram
+         * Buscar CTR de no mínimo 1% com base no Set24
+         * Estáticos com base nos que performaram
+      * Teste de página
+         * VSL na página com as promessas e narrativas parecida com VD001 e Set24 na promessa da página 1
+         * Ajustar página para melhorar CR
+   * Report - planilha
+      * Criativos que performaram no período
+         * VD001 → 6 → https://www.instagram.com/p/DUQfWvhAMn1/ 
+* Recria
+   * Ações realizadas
+      * Testando público quente campanha de escala
+         * Envolvimento 30D
+         * Interesses
+         * Aberto
+      * Checkout
+         * Cronômetro
+         * 2 order bumps
+   * Não realizada
+      * Criativos
+         * incluir vídeos / promessas com melhor CTR
+         * Criativos com base no hook
+         * Reeditar os melhores criativos com moldura/edição diferente
+            * Variar voice over (Estilo Giro do Boi)
+            * Estilo React
+            * Fazer Animação com IA
+      * Tráfego
+         * LaL 1% Alunos Recria
+         * Bidcap 2x
+      * Ajuste de página para melhorar CR e Tx de Conversão
+      * Fazer ação dos leads com interesse no Recria e fazer disparos
+
+
+   * Report - planilha
+      * Investimento
+         * teste → 3.784,42
+         * escala → 1864,56
+      * Criativos que performaram no período
+         * VD001 → 1 → https://www.instagram.com/p/DUQgd_7gPMc/ 
+         * VD011 → 2 →
+         * VD010 → 1 → https://www.instagram.com/p/DVcpj91ADo6/#advertiser
+         * VD007 → 1 →
+* Trava do Boi
+   * Ações Realizadas
+      * Checkout
+         * Cronômetro
+         * 1 Order bump
+   * Não realizado
+      * Criativos estáticos
+         * Estáticos em volume para testar promessa antes de vídeos 
+ou páginas com base no VD004 e suas variações 
+   * Ajustar página para melhorar CR
+   * Report - planilha
+   * Criativos que performaram no período
+   * VD003 → 1 →

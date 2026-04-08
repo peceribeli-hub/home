@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozini Advocacia | Plano de Ação 2026</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            /* REVO Branding Colors */
+            --bg-color: #030305;
+            --surface-color: #0a0a0d;
+            --surface-color-light: #15151a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.65);
+            --accent-glow: rgba(255, 255, 255, 0.1);
+
+            /* Typography */
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin: 0 0 16px 0;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 40px 0 20px 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Lists & Quotes */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: var(--font-display);
+        }
+
+        .script-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        .script-box p {
+            margin: 0;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .script-label {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Accordion for Teleprompter Scripts */
+        .copy-accordion {
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .copy-accordion:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .copy-summary {
+            padding: 20px 24px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            user-select: none;
+        }
+
+        .copy-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .copy-summary-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .copy-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .copy-tag.hook {
+            background: rgba(255, 60, 60, 0.1);
+            color: #ff5555;
+            border: 1px solid rgba(255, 60, 60, 0.2);
+        }
+
+        .copy-content {
+            padding: 0 24px 24px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 12px;
+            padding-top: 24px;
+        }
+
+        .teleprompter {
+            background: #000;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .teleprompter-part {
+            margin-bottom: 24px;
+        }
+
+        .teleprompter-part:last-child {
+            margin-bottom: 0;
+        }
+
+        .teleprompter-label {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .teleprompter-text {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #fff;
+            margin: 0;
+        }
+
+        .teleprompter-text.hook-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(90deg, #ffaaaa, #ffffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .teleprompter-visual {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        details[open] .copy-summary {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* =============================================
+           RESPONSIVE — Tablet (≤ 768px)
+           ============================================= */
+        @media (max-width: 768px) {
+            body {
+                padding: 24px 16px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+                margin: 32px 0 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .card-header {
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                flex-shrink: 0;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            /* AD009 image block — empilha em coluna no mobile */
+            .card [style*="display: flex"][style*="gap: 20px"] {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+            }
+
+            .card [style*="display: flex"][style*="gap: 20px"] img {
+                width: 100% !important;
+                height: 200px !important;
+            }
+
+            /* Accordion */
+            .copy-summary {
+                padding: 16px;
+                font-size: 0.95rem;
+            }
+
+            .copy-content {
+                padding: 16px;
+            }
+
+            /* Teleprompter — maior para facilitar leitura durante gravação */
+            .teleprompter {
+                padding: 20px 16px;
+            }
+
+            .teleprompter-text {
+                font-size: 1.35rem;
+                line-height: 1.6;
+            }
+
+            .teleprompter-text.hook-text {
+                font-size: 1.55rem;
+            }
+
+            .script-box {
+                padding: 16px;
+            }
+        }
+
+        /* =============================================
+           RESPONSIVE — Mobile pequeno (≤ 420px)
+           ============================================= */
+        @media (max-width: 420px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .teleprompter-text {
+                font-size: 1.2rem;
+            }
+
+            .teleprompter-text.hook-text {
+                font-size: 1.35rem;
+            }
+
+            .copy-summary {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* =============================================
+           RESPONSIVE — Tablet largo (≤ 1024px)
+           ============================================= */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            body {
+                padding: 40px 32px;
+            }
+
+            .container {
+                max-width: 700px;
+            }
+
+            .teleprompter-text {
+                font-size: 1.3rem;
+            }
+
+            .teleprompter-text.hook-text {
+                font-size: 1.55rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div
+                style="font-family: var(--font-display); font-size: 24px; font-weight: 800; letter-spacing: 0.15em; color: #fff; margin-bottom: 24px;">
+                REVO<span style="color:#ff5555;">.</span></div>
+            <div class="tag">Confidencial • REVO Advisory</div>
+            <h1>Plano de Ação Estratégico 2026</h1>
+            <p style="font-size: 1.125rem; max-width: 600px; margin: 0 auto;">Baseado nos dados reais de fechamento e
+                gargalos do funil da Mozini Advocacia, estas são as ações com maior potencial de impacto imediato no
+                caixa.</p>
+        </header>
+
+        <h2><i class="ph ph-target"></i> 1. Barreira de Qualificação (MQL)</h2>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="ph ph-funnel"></i></div>
+                <div>
+                    <h3 class="card-title">Estancar o Vazamento de Topo</h3>
+                    <p style="margin:4px 0 0 0; font-size:0.9rem;">26% das perdas ocorrem por leads sem legitimidade
+                        jurídica.</p>
+                </div>
+            </div>
+            <p>O tempo da Bruna é o ativo mais caro da operação. Leads desqualificados não devem chegar ao Kommo
+                livremente. Precisamos implementar um filtro prévio (automação ou formulário).</p>
+            <ul>
+                <li><strong>Ação:</strong> Parametrizar as perguntas de qualificação logo no primeiro contato.</li>
+                <li><strong>Critérios:</strong> Tipo de plano (Individual/Empresarial), Operadora, Valor Base vs
+                    Reajuste.</li>
+                <li><strong>Resultado esperado:</strong> Queda no volume bruto de mensagens, mas aumento radical na taxa
+                    de conversão sobre o tempo investido no CRM.</li>
+            </ul>
+        </div>
+
+        <h2><i class="ph ph-chat-circle-text"></i> 2. Objeção de Preço (Script Bruna)</h2>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="ph ph-currency-dollar-simple"></i></div>
+                <div>
+                    <h3 class="card-title">Ancoragem do Custo de Inação</h3>
+                    <p style="margin:4px 0 0 0; font-size:0.9rem;">Para SQLs que recuam ao ver o valor dos honorários.
+                    </p>
+                </div>
+            </div>
+            <p>Não abaixe o preço. Faça o lide entender que todo mês que passa sem a ação tramitando, o dinheiro extra
+                no reajuste já está perdido de qualquer maneira.</p>
+            <div class="script-box">
+                <span class="script-label">Sugestão de Copy (Kommo)</span>
+                <p>"Entendo perfeitamente, [Nome]. Os honorários são um investimento não planejado. Mas vamos colocar na
+                    caneta: se você não entrar com a ação agora, você vai pagar R$ [Valor a mais] a mais TODOS os meses.
+                    Em 1 ano, terá entregue R$ [Total] sem volta para a [Operadora]. O nosso trabalho se paga
+                    rapidamente e estanca essa sangria. Faz sentido você deixar esse dinheiro na mesa deles?"</p>
+            </div>
+        </div>
+
+        <h2><i class="ph ph-trend-up"></i> 3. Escala e Novos Criativos (Tráfego)</h2>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="ph ph-rocket-launch"></i></div>
+                <div>
+                    <h3 class="card-title">Verticalização em SP/MG e Ângulos Frios</h3>
+                    <p style="margin:4px 0 0 0; font-size:0.9rem;">Foco onde vende e combate à fadiga de anúncios.</p>
+                </div>
+            </div>
+            <p>O Meta Ads deve parar de gastar dinheiro pelo Brasil. 70% das vendas vêm de SP (fortíssimo no DDD 19) e
+                MG. O criativo campeão mapeado nas UTMs foi o <strong>AD009 (Você pagou cerca de...)</strong>, escalar
+                ele regionalizado.</p>
+
+            <div
+                style="margin: 24px 0; padding: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; display: flex; gap: 20px; align-items: center;">
+                <img src="https://scontent.xx.fbcdn.net/v/t15.13418-10/528277271_1416267339670724_8322284779417910778_n.jpg?_nc_cat=107&ccb=1-7&_nc_ohc=e2X4iOa9M1AQ7kNvwGr0JjF&_nc_oc=AdlJhs4JnpBUdZ9Fzz6wxuXR8hiCFEr3U6QW5v3CyaPbDnnQ4Nnl6fQReLElYErwRHQ&_nc_zt=23&_nc_ht=scontent.xx&edm=AOgd6ZUEAAAA&_nc_gid=zLqOFy4OSWVIhl56Q1RW7w&_nc_tpa=Q5bMBQEa66bmhx1MF4-mYMT5WvgmLmYHUV27jcH0P9-iRswD619lijELCTu6-w0ZmXqHPnPTQ-WXhgQV&stp=c0.5000x0.5000f_dst-emg0_q75_tt6&ur=c3b633&_nc_sid=58080a&oh=00_AfxsyfUgy-2k-eM6D8iGmwY0mMqfWpu-E3szgLeCCWjAhw&oe=69AE15A1"
+                    alt="Thumbnail AD009" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                <div>
+                    <span
+                        style="display: inline-block; padding: 4px 12px; background: rgba(255,255,255,0.1); border-radius: 100px; font-size: 0.75rem; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Criativo
+                        Campeão (2025)</span>
+                    <h4 style="margin: 0 0 8px 0; font-size: 1.1rem;">AD009 - Você pagou cerca de...</h4>
+                    <a href="https://www.instagram.com/p/DNCT_T1gVZB/" target="_blank"
+                        style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; opacity: 0.8;"><i
+                            class="ph ph-instagram-logo"></i> Ver no Instagram</a>
+                </div>
+            </div>
+
+            <h4
+                style="font-family: var(--font-display); font-weight: 500; font-size: 1rem; color: #fff; margin: 32px 0 16px 0;">
+                Novos Ângulos Estáticos (Reajuste Abusivo)</h4>
+            <ul>
+                <li><strong>O Falso "Plano Empresarial":</strong> Headline para atingir PMEs e MEIs (<em>"Seu plano no
+                        CNPJ subiu 20%? Eles disfarçam para fugir da ANS..."</em>).</li>
+                <li><strong>A Pegadinha da Faixa Etária:</strong> Foco no público 59+ (<em>"Fez 59 anos e o plano
+                        dobrou? O STF proíbe..."</em>).</li>
+                <li><strong>Direito ao Cálculo Aberto:</strong> Atacar o lado racional (<em>"Eles não mostram o cálculo
+                        do reajuste porque sabem que é ilegal..."</em>).</li>
+            </ul>
+        </div>
+
+        <h2><i class="ph ph-video-camera"></i> 4. Central de Roteiros (Teleprompter)</h2>
+        <div class="card" style="padding-bottom: 8px;">
+            <div class="card-header">
+                <div class="card-icon"><i class="ph ph-clapperboard"></i></div>
+                <div>
+                    <h3 class="card-title">10 Scripts Estratégicos</h3>
+                    <p style="margin:4px 0 0 0; font-size:0.9rem;">Modelos baseados no AD009 e em trends de alta
+                        conversão (2025/2026).</p>
+                </div>
+            </div>
+            <p>Clique sobre cada roteiro para abrir o modo teleprompter. Use um tom de voz direto e focado em apresentar
+                o problema com empatia.</p>
+
+            <h4
+                style="font-family: var(--font-display); font-weight: 500; font-size: 1rem; color: rgba(255,255,255,0.5); margin: 32px 0 16px 0; text-transform: uppercase; letter-spacing: 0.1em;">
+                Bloco 1: Modelagem do Vencedor Atual (AD009)</h4>
+
+            <!-- Roteiro 1 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 01: O Gancho Matemático
+                        <span class="copy-tag hook">Baseado no AD009</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Bruna
+                        com a calculadora do celular na mão, expressão de surpresa.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Se o seu plano de saúde subiu mais de 20%, pare
+                                agora e faz essa conta comigo."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Você provavelmente pagou cerca de R$ 3.000 a mais no último
+                                ano, sem precisar. As operadoras jogam o 'reajuste por sinistralidade' lá pra cima, e
+                                camuflam planos familiares como empresariais só pra fugir do limite da ANS. Isso é
+                                ilegal e você tá deixando dinheiro na mesa todo mês."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Dá pra barrar esse aumento e ainda pedir
+                                reembolso. Clica no botão aqui embaixo e faz uma triagem rápida comigo pelo WhatsApp."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 2 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 02: O Choque do Boleto
+                        <span class="copy-tag hook">Baseado no AD009</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Bruna no
+                        escritório, segurando folhas de sulfite simulando faturas antigas.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Pega a fatura do seu plano de 2024 e compara com a
+                                de agora. Eu te garanto que você tomou um susto."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Você sabia que 8 em cada 10 aumentos que passam de dois
+                                dígitos têm abusividade na justiça? A operadora não pode simplesmente inventar um número
+                                e jogar nas suas costas, principalmente se você tem um plano coletivo por adesão ou via
+                                CNPJ falso."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Se a sua fatura explodiu nos últimos
+                                meses, clica no 'Saiba Mais' e vem falar com nosso time de triagem. A gente barra isso
+                                liminarmente."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 3 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 03: Quebra Falso CNPJ
+                        <span class="copy-tag hook">Baseado no AD009</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Ambiente
+                        sóbrio, câmera no nível dos olhos, tom direto.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Presta muita atenção: se você tem plano empresarial
+                                e foi reajustado em mais de 15%, você foi lesado."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Eles te vendem no CNPJ falando que era mais barato, mas na
+                                hora da renovação a conta não fecha. A boa notícia é que a Justiça entende que falsos
+                                planos empresariais precisam seguir a regra mais baixa da ANS."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Antes de cancelar e perder sua carência,
+                                clica aqui e conversa comigo. Em 3 perguntas eu te digo se o seu reajuste tem base legal
+                                pra ser derrubado."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+
+            <h4
+                style="font-family: var(--font-display); font-weight: 500; font-size: 1rem; color: rgba(255,255,255,0.5); margin: 32px 0 16px 0; text-transform: uppercase; letter-spacing: 0.1em;">
+                Bloco 2: Novos Ângulos Baseados no Mercado</h4>
+
+            <!-- Roteiro 4 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 04: O "Segredo" Guardado (Negativas)
+                        <span class="copy-tag">Curiosidade</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Bruna se
+                        aproximando um pouco da câmera, como se contasse um segredo.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"O que o seu plano de saúde reza todos os dias para
+                                você não descobrir."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Eles apostam no seu cansaço. Sabia que as operadoras negam
+                                coberturas caríssimas, como cirurgias e remédios importados, já contando que apenas 1 em
+                                cada 10 pacientes vai procurar um advogado? Eles lucram com a sua desistência."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Não seja a estatística lucrativa deles.
+                                Recebeu um 'não' do plano? Clica no meu link, a gente entra com uma liminar e salva o
+                                seu tratamento."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 5 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 05: Mito do "Fora do Rol da ANS"
+                        <span class="copy-tag">Argumento Legal</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Bruna
+                        balançando a cabeça negativamente. Tela dividida ou adesivo com "NÃO CONSTA NO ROL".</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"O seu tratamento foi negado porque 'não está no rol
+                                da ANS'? Mentira."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Essa é a desculpa mais batida de 2025. O STJ já decidiu que se
+                                o médico especialista que te acompanha diz que é necessário, o plano *tem* que cobrir. O
+                                rol não é desculpa para brincar com a sua vida, seja para TEA, oncologia ou cirurgia."
+                            </p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Se o seu médico mandou, o plano tem que
+                                arcar. Não aceite essa negativa. Clica aqui e agende sua análise."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 6 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 06: A Dor Focada no Público 59+
+                        <span class="copy-tag">Nicho 59+</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Tom
+                        super acolhedor e revoltado ao mesmo tempo.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Você completou 59 anos e, de repente, o seu plano
+                                virou a parcela de um carro de luxo?"</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Reajuste absurdo no último degrau por mudança de idade é o
+                                golpe mais cruel contra a terceira idade. É a época que você mais precisa, e é quando
+                                eles tentam te expulsar aumentando 80%, 100%. O STF proíbe aumentos discriminatórios
+                                assim."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Se protegeram o plano a vida toda, agora é
+                                sua vez de se proteger. Clica no link e vamos derrubar esse valor abusivo."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 7 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 07: O Médico vs O Plano
+                        <span class="copy-tag">Autoridade Média</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Ambiente
+                        iluminado. Pode segurar um papel simulando um laudo.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"O plano não autoriza o procedimento que o próprio
+                                médico do plano pediu?"</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"É absurdo. O seu cirurgião sabe o que é melhor para o seu
+                                diagnóstico, mas o auditor do plano, que nunca te viu na vida, dá um indeferimento
+                                administrativo. O juiz vai prevalecer e seguir o relatório do seu médico assistente."
+                            </p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Pegou a negativa por escrito? Perfeito, é
+                                só isso que a gente precisa. Clica aqui pra falar com a nossa equipe."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 8 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 08: Objeção do "Demora Anos"
+                        <span class="copy-tag">Quebra de Objeção</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Em pé,
+                        gesticulando para passar agilidade e velocidade.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Ah doutora, mas processar o plano de saúde demora
+                                muito, eu não posso esperar."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"Para. É aí que você se engana. Para questões urgentes de
+                                saúde, entra-se com pedido de tutela antecipada, a famosa liminar. A decisão do juiz
+                                pode sair em questão de horas, obrigando o plano a liberar tudo, sob pena de multa
+                                gigantesca."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"A pressa do plano é negar, a nossa é
+                                resolver. Clica no link e envia o seu caso."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 9 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 09: Acolhimento e Empatia
+                        <span class="copy-tag">Soft Pessoal</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong>
+                        Fisionomia muito calma e serena, olho no olho. Trilha sonora leve no fundo.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-4s)</span>
+                            <p class="teleprompter-text hook-text">"Eu sei que você tá com medo. E além do diagnóstico,
+                                você tá sofrendo uma humilhação por parte do seu plano."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (4-20s)</span>
+                            <p class="teleprompter-text">"Você pagou isso a vida inteira achando que, quando precisasse,
+                                teria paz. Ninguém quer entrar na Justiça, a gente quer saúde. Mas se a operadora virou
+                                as costas pra você, não baixe a cabeça. A lei tá do seu lado. Foca no seu tratamento, a
+                                briga jurídica é nossa."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Me manda uma mensagem através desse
+                                anúncio. Vamos conversar."</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Roteiro 10 -->
+            <details class="copy-accordion">
+                <summary class="copy-summary">
+                    <div class="copy-summary-title">
+                        Roteiro 10: Storytelling ("Fofoca" de Caso)
+                        <span class="copy-tag">Prova Social Indireta</span>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </summary>
+                <div class="copy-content">
+                    <div class="teleprompter-visual"><i class="ph ph-camera"></i> <strong>Visual Dica:</strong> Bruna
+                        mais solta animada, quase contando uma 'fofoca educacional' do escritório.</div>
+                    <div class="teleprompter">
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-push-pin"></i> Hook (0-3s)</span>
+                            <p class="teleprompter-text hook-text">"Ontem nós barramos um aumento que faria o nosso
+                                cliente perder 8 mil reais em um ano."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-text-align-left"></i> Corpo (3-15s)</span>
+                            <p class="teleprompter-text">"O João (nome fictício) chegou desesperado porque o plano de
+                                saúde teve aumento de 22%. O plano era um daquele 'falsos corporativos'. Nós entramos
+                                com ação liminar, e o juiz mandou baixar pro teto da ANS que era de 6.91%, e ainda
+                                recuperar o que ele pagou a mais retroativo."</p>
+                        </div>
+                        <div class="teleprompter-part">
+                            <span class="teleprompter-label"><i class="ph ph-cursor-click"></i> CTA</span>
+                            <p class="teleprompter-text" style="color:#aaa;">"Detalhe: eles continuam usando a
+                                carteirinha normalmente! Quer saber se dá pra fazer isso com a sua fatura? Clica aqui."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <div style="margin-top: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.4); display: flex; gap: 12px;">
+                <i class="ph ph-info"></i>
+                <p style="margin: 0; color: inherit; font-size: inherit;">Pesquisa externa compilada via Aurora baseada
+                    em conversões legais no Instagram/TikTok 2025.</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

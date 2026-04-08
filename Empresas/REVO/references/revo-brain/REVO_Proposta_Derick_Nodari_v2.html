@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REVO Advisory — Proposta · Derick Nodari</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:    #E50915;
+  --bg:     #111111;
+  --dark:   #181818;
+  --card:   #1C1C1C;
+  --white:  #FFFFFF;
+  --cream:  #F2D9C3;
+  --green:  #4ade80;
+  --gray:   #888888;
+  --border: #252525;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT ── */
+.wrap { max-width: 700px; margin: 0 auto; padding: 0 28px; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: rgba(17,17,17,0.96);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-size: 13px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.topbar-meta { font-size: 10px; color: #444; letter-spacing: .08em; text-transform: uppercase; }
+
+/* ── SECTIONS ── */
+.section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+
+/* ── TAG / LABEL ── */
+.tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 18px;
+}
+
+/* ── TYPOGRAPHY ── */
+h1 { font-size: 40px; font-weight: 900; line-height: 1.07; color: var(--white); margin-bottom: 24px; }
+h2 { font-size: 26px; font-weight: 800; line-height: 1.18; color: var(--white); margin-bottom: 20px; }
+h3 {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--cream); margin: 30px 0 12px;
+}
+p { font-size: 16px; color: #b0b0b0; line-height: 1.82; margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--white); font-weight: 700; }
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  border-left: 3px solid var(--red);
+  margin: 30px 0;
+  padding: 18px 24px;
+  background: rgba(229,9,21,.04);
+  border-radius: 0 10px 10px 0;
+  font-size: 20px; font-weight: 700; color: var(--cream); font-style: italic; line-height: 1.5;
+}
+
+/* ── HIGHLIGHT BAR ── */
+.hl {
+  background: rgba(229,9,21,.07);
+  border-left: 3px solid var(--red);
+  padding: 14px 20px;
+  border-radius: 0 8px 8px 0;
+  font-size: 15px; color: #ddd; line-height: 1.72; margin: 22px 0;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 22px 24px; margin-bottom: 14px;
+}
+.card-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+}
+
+/* ── LIST ITEMS ── */
+.item { display: flex; gap: 14px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.05); align-items: flex-start; }
+.item:last-child { border-bottom: none; padding-bottom: 0; }
+.item-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); margin-top: 11px; flex-shrink: 0; }
+.item-text { font-size: 15px; color: #b0b0b0; line-height: 1.68; }
+
+/* ── STATS ── */
+.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 26px 0; }
+.stat {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 14px; text-align: center;
+}
+.stat-value { font-size: 22px; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 11px; color: #555; line-height: 1.45; }
+
+/* ── TIMELINE ── */
+.timeline { padding: 8px 0 0; }
+.t-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+.t-item:not(:last-child)::before {
+  content: ''; position: absolute; left: 19px; top: 42px; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.t-marker {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; color: var(--red); text-align: center; line-height: 1.2; z-index: 1;
+}
+.t-content { flex: 1; padding-top: 8px; }
+.t-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 4px; }
+.t-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+.t-desc { font-size: 13px; color: #888; line-height: 1.68; }
+
+/* ── PRICING ── */
+.pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; }
+.price-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px 22px; position: relative;
+}
+.price-card.featured { border-color: rgba(229,9,21,.35); background: rgba(229,9,21,.03); }
+.price-badge {
+  position: absolute; top: -10px; left: 16px;
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--red); color: var(--white); padding: 3px 10px; border-radius: 4px;
+}
+.price-method { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 10px; }
+.price-value { font-size: 32px; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 8px; }
+.price-note { font-size: 12px; color: #666; line-height: 1.5; }
+.installments { margin-top: 13px; padding-top: 13px; border-top: 1px solid rgba(255,255,255,.07); }
+.inst-item { font-size: 13px; color: #888; margin-bottom: 4px; }
+
+/* ── GUARANTEE ── */
+.guarantee {
+  background: rgba(74,222,128,.03); border: 1px solid rgba(74,222,128,.2);
+  border-radius: 12px; padding: 26px 28px; margin: 24px 0;
+}
+.guarantee-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+.guarantee-text { font-size: 15px; color: #b0b0b0; line-height: 1.8; }
+
+/* ── OBJECTIONS ── */
+.obj {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 22px; margin-bottom: 10px;
+}
+.obj-q { font-size: 14px; font-weight: 700; color: var(--cream); margin-bottom: 9px; }
+.obj-a { font-size: 14px; color: #999; line-height: 1.72; }
+
+/* ── CTA BLOCK ── */
+.cta-block { text-align: center; padding: 20px 0 8px; }
+.cta-h2 { font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 12px; line-height: 1.18; }
+.cta-sub { font-size: 15px; color: #555; margin-bottom: 36px; }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25D366; color: var(--white); text-decoration: none;
+  font-size: 15px; font-weight: 700; padding: 16px 34px;
+  border-radius: 8px; transition: opacity .2s;
+}
+.cta-btn:hover { opacity: .87; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+/* ── NOTE TEXT ── */
+.note { font-size: 12px; color: #444; font-style: italic; margin-top: 6px; line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer { padding: 28px 0; border-top: 1px solid var(--border); }
+footer p { font-size: 11px; color: #333; text-align: center; margin-bottom: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 560px) {
+  .wrap { padding: 0 18px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 21px; }
+  .pull-quote { font-size: 17px; }
+  .stats { grid-template-columns: 1fr; }
+  .pricing { grid-template-columns: 1fr; }
+}
+
+/* ── PRINT ── */
+@media print {
+  .topbar { position: static; }
+  body { background: #fff; color: #111; }
+  p, .item-text, .t-desc, .obj-a, .guarantee-text { color: #333; }
+  h1, h2, h3 { color: #111; }
+  .card, .stat, .price-card, .guarantee, .obj { background: #f5f5f5; border-color: #ddd; }
+  .pull-quote { background: #fef5f5; border-color: #E50915; }
+  .hl { background: #fef5f5; border-color: #E50915; color: #111; }
+  .stat-value, .price-value { color: #6B1010; }
+  .stat-label, .price-note, .price-method, .topbar-meta, .tag, .t-label { color: #666; }
+  .guarantee-text { color: #333; }
+  .logo { color: #E50915; }
+  .cta-btn { background: #E50915 !important; }
+  .section { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="topbar-inner">
+      <div class="logo">REVO Advisory</div>
+      <div class="topbar-meta">Proposta · Derick Nodari · Mar/2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="section" style="padding-top: 72px;">
+  <div class="wrap">
+    <div class="tag">Diagnóstico + Acompanhamento · 60 dias</div>
+    <h1>Você já tem resultado.<br>Esta proposta é sobre o que vem depois.</h1>
+    <p>Derick, você está gerando mais de R$&nbsp;30 mil de lucro no bolso por mês. Esse é o ponto de partida dessa conversa, não o destino.</p>
+    <p>O que a REVO está propondo aqui são 60 dias de trabalho com um objetivo preciso: sair sabendo, com clareza baseada em dados, o que está gerando esse resultado — e o que está consumindo recursos sem retorno proporcional.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CENÁRIO
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">O cenário</div>
+    <h2>O próximo gargalo não é esforço. É clareza.</h2>
+    <p>Você tem funis ativos, leads chegando, vendas acontecendo. Mas existe uma distância entre ter resultado e saber de onde ele vem com precisão. À medida que o negócio cresce, essa distância fica mais cara.</p>
+    <p>O que provavelmente ainda não está respondido:</p>
+    <div class="card">
+      <div class="item"><div class="item-dot"></div><div class="item-text">Qual canal está trazendo os leads que efetivamente compram — e qual está gerando volume sem conversão real?</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Em qual etapa do funil os leads estão saindo — e o que está causando isso?</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">O que, do que você produz hoje, você conseguiria replicar deliberadamente com resultado previsível?</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Qual parte da operação está crescendo mais rápido do que o faturamento — e corroendo a margem sem aparecer?</div></div>
+    </div>
+    <div class="hl">
+      Essas perguntas não têm resposta boa sem dados. E as decisões tomadas sem essas respostas ficam cada vez mais caras à medida que o negócio ganha tamanho.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     A REVO
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">Como trabalhamos</div>
+    <h2>A REVO não opera com achismo.</h2>
+    <div class="pull-quote">"Fé só em Deus. O resto é dado."</div>
+    <p>Não trabalhamos com benchmarks genéricos, intuição de consultor ou no que funcionou para outro cliente em outro contexto. Toda direção que entregamos começa pelos dados do <strong>seu</strong> negócio — os que você já tem e os que vamos estruturar para que você enxergue com clareza.</p>
+    <p>Nossa função é diagnóstico, análise e direção prática. Não fazemos gestão de tráfego, não criamos conteúdo, não entregamos slide com recomendações vagas. Entregamos o que gera decisão — e decisão que gera resultado.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">+R$2M</div>
+        <div class="stat-label">gerados para clientes ao longo do histórico da empresa</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">+R$700k</div>
+        <div class="stat-label">de faturamento para um cliente nos últimos 6 meses</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">2×</div>
+        <div class="stat-label">melhores resultados em Black Friday replicados e dobrados em ciclos recentes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ESCOPO
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">O escopo</div>
+    <h2>O que você recebe — sem omissão, sem surpresa</h2>
+    <p>Abaixo está o que será feito, revisado e entregue. Não é lista de bônus. Não é promessa vaga. É o trabalho.</p>
+
+    <h3>Diagnóstico completo dos seus funis</h3>
+    <div class="card">
+      <div class="item"><div class="item-dot"></div><div class="item-text"><strong>Funil de Mentoria</strong> — análise da jornada de lead, pontos de fricção, ciclo médio de fechamento e onde estão os gargalos de conversão</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text"><strong>Funil de Perpétuo</strong> — análise de aquisição, ativação e recorrência; o que funciona, o que consome recursos sem retorno proporcional</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text"><strong>Conteúdo e aquisição orgânica</strong> — o que está gerando leads qualificados versus o que está gerando alcance sem conversão real</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text"><strong>Mídia paga</strong> — análise por canal, custo e retorno por origem, se houver dados disponíveis</div></div>
+    </div>
+
+    <h3>Análise por canal e por etapa de conversão</h3>
+    <div class="card">
+      <div class="item"><div class="item-dot"></div><div class="item-text">Identificação dos canais que trazem os leads que efetivamente compram</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Taxa de conversão etapa por etapa — onde saem os leads que deveriam fechar e não fecharam</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Leitura de tudo que você já tem sobre leads: origem, histórico, acompanhamento e dados de fechamento</div></div>
+    </div>
+
+    <h3>Organização e qualidade dos dados existentes</h3>
+    <div class="card">
+      <div class="item"><div class="item-dot"></div><div class="item-text">Leitura da estrutura atual de gestão de leads — o que existe, o que falta e o que está gerando ruído</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Avaliação da qualidade e completude das informações que você já tem sobre leads e clientes</div></div>
+    </div>
+
+    <h3>Entrega principal — Plano de Ação Completo</h3>
+    <div class="card">
+      <p style="font-size:13px;color:#666;margin-bottom:16px;font-style:italic;">Não é um resumo executivo. Não é uma apresentação de quatro slides. É um documento completo com:</p>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Diagnóstico consolidado por funil e por etapa, com achados documentados e racionalizados</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Metas e métricas definidas por funil, com base nos dados reais coletados — não em benchmarks de mercado</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Prioridades de ação ordenadas por impacto e viabilidade de execução</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Recomendações de estrutura — <strong>quem contratar, em qual ordem</strong>, o que avaliar em cada posição</div></div>
+      <div class="item"><div class="item-dot"></div><div class="item-text">Apoio direto nas contratações e decisões durante o período de acompanhamento</div></div>
+    </div>
+
+    <p class="note">Implementação técnica (rastreio, dashboards, automações) não está dentro deste escopo. Caso o diagnóstico aponte necessidade, isso será tratado como próximo passo natural — sem surpresa e sem desvio do foco atual.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CRONOGRAMA
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">Como vai acontecer</div>
+    <h2>Cronograma e marcos</h2>
+    <p>60 dias com marcos definidos. Não existe aqui "entraremos em contato quando tivermos algo". Existe data, entrega e próximo passo.</p>
+
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-marker">D+1</div>
+        <div class="t-content">
+          <div class="t-label">Imediatamente após pagamento</div>
+          <div class="t-title">Call de Onboarding — 60 a 90 minutos</div>
+          <div class="t-desc">Coleta estruturada de todas as informações necessárias: acessos, histórico de resultados, estrutura dos funis ativos, ferramentas em uso e contexto comercial. Essa call é agendada imediatamente após a confirmação do pagamento.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-marker">D+15</div>
+        <div class="t-content">
+          <div class="t-label">Marco de alinhamento</div>
+          <div class="t-title">Validação dos achados iniciais</div>
+          <div class="t-desc">Reunião para revisar os achados da primeira quinzena, confirmar hipóteses, identificar dados que ainda faltam e alinhar prioridades antes da entrega principal.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-marker">D+21</div>
+        <div class="t-content">
+          <div class="t-label">Entrega principal</div>
+          <div class="t-title">Plano de Ação Completo</div>
+          <div class="t-desc">Documento robusto com diagnóstico consolidado, métricas, dados, prioridades e plano de execução. Apresentado em call dedicada. Este é o produto central da consultoria.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-marker">D+30<br>D+45</div>
+        <div class="t-content">
+          <div class="t-label">Cadência padrão recomendada</div>
+          <div class="t-title">Checkpoints quinzenais de acompanhamento</div>
+          <div class="t-desc">Duas reuniões de acompanhamento para revisar execução, ajustar prioridades e apoiar nas decisões de contratação e estrutura que surgirem. Formato direto, sem pauta inflada.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-marker">D+60</div>
+        <div class="t-content">
+          <div class="t-label">Encerramento do escopo</div>
+          <div class="t-title">Revisão final e próximos passos</div>
+          <div class="t-desc">Revisão do que foi executado, avaliação dos movimentos feitos e definição clara do próximo passo — se houver.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     INVESTIMENTO
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">Investimento</div>
+    <h2>Condições e formas de pagamento</h2>
+
+    <div class="pricing">
+      <div class="price-card featured">
+        <div class="price-badge">Melhor condição</div>
+        <div class="price-method">Pix</div>
+        <div class="price-value">R$&nbsp;4.500</div>
+        <div class="price-note">Pagamento único. Sem juros. Início imediato após confirmação.</div>
+      </div>
+      <div class="price-card">
+        <div class="price-method">Cartão de Crédito</div>
+        <div class="price-value">R$&nbsp;5.000</div>
+        <div class="price-note">Parcelado conforme as condições da operadora.</div>
+        <div class="installments">
+          <div class="inst-item">3× de R$&nbsp;1.792,31</div>
+          <div class="inst-item">6× de R$&nbsp;922,55</div>
+          <div class="inst-item">12× de R$&nbsp;499,97</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">Parcelamento no cartão segue as condições da operadora. Não há negociação de prazo ou valor além das opções acima.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GARANTIA
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">Garantia</div>
+    <h2>O risco é nosso, não seu.</h2>
+    <p>Esta consultoria tem uma garantia de progressão com prazo definido. Funciona assim:</p>
+    <div class="guarantee">
+      <div class="guarantee-label">Garantia de Progressão — 90 dias</div>
+      <div class="guarantee-text">
+        Se em até 90 dias após o início do Diagnóstico você fechar qualquer outro produto da REVO — seja recorrência mensal (Advisory) ou implementação — <strong style="color:#fff;">100% do valor pago nesta consultoria é devolvido como crédito integral no próximo contrato</strong>, sem restrições de uso.
+      </div>
+    </div>
+    <p>Isso não é desconto. É a REVO assumindo o risco do primeiro passo com você. Se o trabalho for bem feito — e vai ser — você não perde o investimento quando avança. Você aplica ele no nível seguinte.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     OBJEÇÕES
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="tag">Antes de você perguntar</div>
+    <h2>Quatro pontos que provavelmente já passaram pela sua cabeça.</h2>
+
+    <div class="obj">
+      <div class="obj-q">Antes eu pagava R$&nbsp;800. Por que agora é R$&nbsp;4.500?</div>
+      <div class="obj-a">O escopo de quando você era cliente pela primeira vez não tem relação com o que está sendo proposto aqui. Era outro produto, outra profundidade, outro contexto. A REVO passou por centenas de projetos desde então — o que entregamos evoluiu. Você também. Quando pagou R$&nbsp;800, seu resultado era outro. Hoje são mais de R$&nbsp;30 mil no bolso por mês. O serviço cresceu na mesma proporção.</div>
+    </div>
+
+    <div class="obj">
+      <div class="obj-q">Eu já sei bastante sobre o meu negócio. Não sei se preciso de diagnóstico.</div>
+      <div class="obj-a">Saber muito sobre o próprio negócio é exatamente o que gera pontos cegos. O diagnóstico não serve para te dizer o que você não sabe — serve para confirmar o que você acha que sabe, e encontrar onde o dado contradiz a intuição. Quem tem resultado sem diagnóstico estruturado quase sempre encontra uma surpresa — positiva ou negativa — quando para para olhar com precisão.</div>
+    </div>
+
+    <div class="obj">
+      <div class="obj-q">Não preciso de diagnóstico. Quero ir direto para a execução.</div>
+      <div class="obj-a">Executar sem diagnóstico é escalar o que pode não ser o gargalo real. Você pode colocar recurso no canal errado, contratar a posição errada ou investir no funil que não é a prioridade. O diagnóstico não atrasa — ele direciona. É o que garante que o próximo investimento não seja refeito.</div>
+    </div>
+
+    <div class="obj">
+      <div class="obj-q">Quero negociar o preço.</div>
+      <div class="obj-a">O valor não é negociável. Está dentro do que o escopo e a profundidade do trabalho justificam. O que está disponível é a garantia de progressão — que faz o investimento se pagar integralmente quando você avançar. Se o momento não permite, a conversa pode acontecer depois. Não tem problema.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-block">
+      <div class="tag">Próximo passo</div>
+      <div class="cta-h2">Quando quiser avançar,<br>a conversa é direta.</div>
+      <p class="cta-sub">Nada de formulário, nada de etapa extra.<br>Uma mensagem e alinhamos os próximos passos.</p>
+      <a href="https://wa.me/5519966524122?text=BORA%20FECHAR" class="cta-btn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Clique aqui — envie: BORA FECHAR
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <p>REVO Advisory · Março de 2026</p>
+    <p>Confidencial · Elaborado para Derick Nodari</p>
+  </div>
+</footer>
+
+</body>
+</html>

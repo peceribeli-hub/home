@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>Mozini Advocacia - Dashboard</title>
+    <!-- Bibliotecas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f1011;
+            --card-bg: #1a1b1d;
+            --border-color: #2a2b2f;
+            --neon-green: #00ff41;
+            --danger-red: #ff4747;
+            --text-main: #ffffff;
+            --text-muted: #888c94;
+        }
+
+        body {
+            margin: 0; padding: 20px;
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: 'Inter', sans-serif; box-sizing: border-box;
+            display: flex; gap: 20px; height: 100vh; overflow: hidden;
+        }
+
+        /* Área Esquerda */
+        .left-panel {
+            flex: 2; display: grid; gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            height: calc(100vh - 40px); overflow-y: auto;
+        }
+        .card {
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 12px; display: flex; flex-direction: column;
+            justify-content: space-between; position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: 0.2s; cursor: default;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0, 255, 65, 0.1); border-color: rgba(0,255,65,0.3); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .card-value { font-size: 22px; font-weight: 600; color: var(--text-main); }
+        
+        /* Área Direita */
+        .right-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        
+        .top-controls { display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
+        
+        .upload-btn {
+            background: linear-gradient(90deg, #1a1b1d, #2a2b2f);
+            border: 1px solid var(--neon-green); color: var(--neon-green);
+            padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 600;
+        }
+        .upload-btn:hover { background: rgba(0,255,65,0.1); }
+        
+        .date-picker {
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-muted); padding: 8px 16px; border-radius: 20px;
+            font-size: 12px; width: 220px; text-align: center; cursor: pointer; outline: none;
+        }
+        .date-picker:hover { border-color: var(--neon-green); }
+
+        /* Tabela */
+        .table-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; flex: 1; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { padding: 8px 5px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-muted); font-weight: 500; }
+        td:first-child, th:first-child { text-align: left; }
+
+        /* Funil */
+        .funnel-container { flex: 1.5; display: flex; justify-content: center; align-items: center; position: relative; }
+        .funnel-steps { display: flex; flex-direction: column; gap: 12px; align-items: center; z-index: 2; }
+        .f-step { background: linear-gradient(90deg, #ff4747 0%, #1a1b1d 100%); border-radius: 20px; padding: 8px 30px; text-align: center; width: 180px; border: 1px solid var(--border-color); }
+        .f-step:nth-child(2) { width: 160px; } .f-step:nth-child(3) { width: 140px; } .f-step:nth-child(4) { width: 120px; } .f-step:nth-child(5) { width: 100px; }
+        .f-label { font-size: 9px; color: var(--text-muted); } .f-value { font-size: 16px; font-weight: 600; color: #fff; }
+        .funnel-percentages { display: flex; flex-direction: column; gap: 22px; margin-left: 30px; margin-top: 25px; }
+        .f-perc { background: linear-gradient(90deg, #1a1b1d 0%, var(--neon-green) 100%); border-radius: 8px; padding: 6px 15px; text-align: center; min-width: 90px; border: 1px solid rgba(0, 255, 65, 0.3); }
+        .f-p-label { font-size: 8px; color: #fff; } .f-p-value { font-size: 14px; font-weight: 600; color: #1a1b1d; }
+    </style>
+</head>
+<body>
+
+    <div class="left-panel" id="metrics-grid"></div>
+
+    <div class="right-panel">
+        
+        <div class="top-controls">
+            <!-- Botão invisível de arquivo e botão visível para upload -->
+            <input type="file" id="csvFile" accept=".csv" style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('csvFile').click()">+ Carregar CSV Kommo</button>
+            <input type="text" id="dateRangePicker" class="date-picker" placeholder="Filtrar por data..." readonly>
+        </div>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr><th>Origem</th><th>Leads ▼</th><th>%</th></tr>
+                </thead>
+                <tbody id="table-body">
+                    <tr><td colspan="3" style="color:#aaa">Aguardando dados...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="funnel-container">
+            <div class="funnel-steps">
+                <div class="f-step"><div class="f-label">Leads Total (Kommo)</div><div class="f-value" id="f-leads">0</div></div>
+                <div class="f-step"><div class="f-label">Qualificados</div><div class="f-value" id="f-qual">0</div></div>
+                <div class="f-step"><div class="f-label">Reuniões Agendadas</div><div class="f-value" id="f-agend">0</div></div>
+                <div class="f-step"><div class="f-label">Reuniões Realizadas</div><div class="f-value" id="f-real">0</div></div>
+                <div class="f-step"><div class="f-label">Vendas (Contratos)</div><div class="f-value" id="f-ven">0</div></div>
+            </div>
+
+            <div class="funnel-percentages">
+                <div class="f-perc"><div class="f-p-label">% Qualificação</div><div class="f-p-value" id="p-qual">0%</div></div>
+                <div class="f-perc"><div class="f-p-label">% Agendamento</div><div class="f-p-value" id="p-agen">0%</div></div>
+                <div class="f-perc"><div class="f-p-label">% Comparecimento</div><div class="f-p-value" id="p-comp">0%</div></div>
+                <div class="f-perc"><div class="f-p-label">% Conversão Geral</div><div class="f-p-value" id="p-conv">0%</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let globalData = [];
+        let datePickerInstance;
+
+        // Estrutura inicial dos cards vazia
+        const metricKeys = [
+            { id: 'fat', title: 'Faturamento Total', value: 'R$ 0,00' },
+            { id: 'vend', title: 'Contratos Fechados', value: '0' },
+            { id: 'lead', title: 'Leads Total', value: '0' },
+            { id: 'ticket', title: 'Ticket Médio', value: 'R$ 0,00' },
+            { id: 'ra', title: 'Reuniões Agendadas', value: '0' },
+            { id: 'rr', title: 'Reuniões Realizadas', value: '0' },
+            { id: 'cpa', title: 'CPA (Simulado)', value: 'R$ 0,00' },
+            { id: 'roas', title: 'ROAS (Simulado)', value: '0.00' }
+        ];
+
+        function renderGrid(metricsData) {
+            const grid = document.getElementById('metrics-grid');
+            grid.innerHTML = '';
+            
+            // Fills up to 15 cards to maintain layout (some empty)
+            for(let i=0; i<15; i++) {
+                const m = metricsData[i] || { title: '-', value: '-' };
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${m.title}</div>
+                            <div class="card-value">${m.value}</div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        renderGrid(metricKeys); 
+
+        // Faz o upload local do CSV e transforma em JSON array
+        document.getElementById('csvFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+
+            Papa.parse(file, {
+                header: true, skipEmptyLines: true,
+                complete: function(results) {
+                    globalData = results.data;
+                    alert("Dados Carregados! Total de linhas: " + globalData.length);
+                    processData(globalData); // Roda com tudo primeiro
+
+                    // Encontra menor e maior data
+                    // Formato DD/MM/YYYY
+                    const dates = globalData.map(d => parseDataBr(d["Data"])).filter(d => d);
+                    dates.sort((a,b) => a - b);
+                    if(dates.length > 0) {
+                        datePickerInstance.setDate([dates[0], dates[dates.length-1]]);
+                    }
+                }
+            });
+        });
+
+        datePickerInstance = flatpickr("#dateRangePicker", {
+            mode: "range", dateFormat: "d/m/Y", locale: "pt",
+            onChange: function(selectedDates) {
+                if(selectedDates.length === 2 && globalData.length > 0) {
+                    const start = selectedDates[0];
+                    const end = selectedDates[1];
+                    end.setHours(23,59,59);
+                    
+                    const filtered = globalData.filter(row => {
+                        const d = parseDataBr(row["Data"]);
+                        if(!d) return false;
+                        return d >= start && d <= end;
+                    });
+                    processData(filtered);
+                } else if(selectedDates.length === 0 && globalData.length > 0) {
+                    processData(globalData); // Limpou o filtro
+                }
+            }
+        });
+
+        // ------------------ MOTOR MATEMÁTICO ------------------ \\
+        function parseDataBr(str) {
+            if(!str) return null;
+            const pts = str.split('/');
+            if(pts.length !== 3) return null;
+            return new Date(pts[2], pts[1]-1, pts[0]);
+        }
+
+        function extrairMoeda(str) {
+            if(!str || str.trim() === "R$  -") return 0;
+            // Limpa 'R$', espaço, pontos e troca vírgula
+            let limpo = str.replace(/[R$\s\.]/g, '').replace(',', '.');
+            let val = parseFloat(limpo);
+            return isNaN(val) ? 0 : val;
+        }
+
+        function processData(dataset) {
+            let faturamento = 0;
+            let vendas = 0;
+            let agendadas = 0;
+            let realizadas = 0;
+            let leads = dataset.length;
+            let leadsQualificados = 0;
+            
+            let origensMap = {};
+
+            dataset.forEach(row => {
+                // Faturamento (Coluna H = ' Valor Total Contrato ')
+                let colFaturamento = row[' Valor Total Contrato '] || row['Valor Total Contrato'];
+                let val = extrairMoeda(colFaturamento);
+                faturamento += val;
+
+                // Vendas (Condição: Ganhou valor > 0 ou tem data de Contrato)
+                let contratoDate = row['Contrato Fechado'];
+                if(val > 0 || (contratoDate && contratoDate.trim() !== '')) vendas++;
+
+                // Reuniões (Col E, Col F)
+                if(row['Reunião Agendada'] && row['Reunião Agendada'].trim() !== '') agendadas++;
+                if(row['Reunião Realizada'] && row['Reunião Realizada'].trim() !== '') realizadas++;
+
+                // Qualificação (Col K -> MQL / SQL / Oportunidade)
+                let status = (row[' Status '] || row['Status'] || '').trim().toUpperCase();
+                if(status === 'MQL' || status === 'SQL' || status === 'OPORTUNIDADE') leadsQualificados++;
+
+                // Origem
+                let origem = (row['Origem'] || 'Desconhecido').trim();
+                if(origem === '') origem = 'Desconhecido';
+                origensMap[origem] = (origensMap[origem] || 0) + 1;
+            });
+
+            // Atualiza Cards
+            let newKeys = [...metricKeys];
+            newKeys[0].value = faturamento.toLocaleString('pt-BR', {style: 'currency', currency:'BRL'});
+            newKeys[1].value = vendas;
+            newKeys[2].value = leads;
+            newKeys[3].value = vendas > 0 ? (faturamento/vendas).toLocaleString('pt-BR', {style: 'currency', currency:'BRL'}) : 'R$ 0,00';
+            newKeys[4].value = agendadas;
+            newKeys[5].value = realizadas;
+            
+            // Simulação de Investimento/CPA já que o CRM não diz quanto gastou
+            let simInvestimento = leads * 8.5; // Suposição mock de custo
+            newKeys[6].value = vendas > 0 ? (simInvestimento/vendas).toLocaleString('pt-BR', {style: 'currency', currency:'BRL'}) : '-';
+            newKeys[7].value = simInvestimento > 0 ? (faturamento/simInvestimento).toFixed(2) : '-';
+
+            renderGrid(newKeys);
+
+            // Atualiza Tabela de Origem
+            let htmlTable = '';
+            let objArr = Object.keys(origensMap).map(k => ({nome: k, qtd: origensMap[k]}));
+            objArr.sort((a,b) => b.qtd - a.qtd); // Decrescente
+
+            objArr.forEach((o, index) => {
+                let perc = ((o.qtd / leads) * 100).toFixed(2) + '%';
+                let cl = index === 0 ? 'rgba(0, 255, 65, 0.4)' : index===1 ? 'rgba(0, 255, 65, 0.2)' : '';
+                htmlTable += `<tr><td>${o.nome}</td><td style="background:${cl}">${o.qtd}</td><td style="background:${cl}">${perc}</td></tr>`;
+            });
+            document.getElementById('table-body').innerHTML = htmlTable;
+
+            // Atualiza Funil
+            document.getElementById('f-leads').innerText = leads;
+            document.getElementById('f-qual').innerText = leadsQualificados;
+            document.getElementById('f-agend').innerText = agendadas;
+            document.getElementById('f-real').innerText = realizadas;
+            document.getElementById('f-ven').innerText = vendas;
+
+            // Porcentagens do Funil
+            document.getElementById('p-qual').innerText = leads > 0 ? ((leadsQualificados/leads)*100).toFixed(1)+'%' : '0%';
+            // agendamento baseado em leadsQualificados (ou leads gerais, dependendo da regra da agência)
+            document.getElementById('p-agen').innerText = leadsQualificados > 0 ? ((agendadas/leadsQualificados)*100).toFixed(1)+'%' : '0%';
+            document.getElementById('p-comp').innerText = agendadas > 0 ? ((realizadas/agendadas)*100).toFixed(1)+'%' : '0%';
+            document.getElementById('p-conv').innerText = leads > 0 ? ((vendas/leads)*100).toFixed(1)+'%' : '0%';
+        }
+    </script>
+</body>
+</html>

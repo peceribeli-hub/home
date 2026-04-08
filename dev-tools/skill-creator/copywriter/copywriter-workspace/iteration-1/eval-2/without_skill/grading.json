@@ -1,0 +1,26 @@
+{
+    "eval_id": 2,
+    "run_config": "without_skill",
+    "expectations": [
+        {
+            "text": "Sem em-dash",
+            "passed": true,
+            "evidence": "Nenhum em-dash no output baseline — coincidência, sem instrução explícita."
+        },
+        {
+            "text": "Mecânismo Único presente",
+            "passed": false,
+            "evidence": "O baseline menciona 'dashboards personalizados' e 'ferramentas de rastreio' de forma genérica, sem especificar o Kommo CRM nem a metodologia dos 3 dashboards. Não apresenta um Mecanismo Único real."
+        },
+        {
+            "text": "Destruição da Ponte",
+            "passed": false,
+            "evidence": "O baseline usa linguagem neutra e informativa ('as agências tradicionais ainda podem ser uma boa opção'). Não destrói ativamente a crença antiga. Não gera dissonância nem urgência estratégica."
+        },
+        {
+            "text": "Sem jargões proibidos",
+            "passed": false,
+            "evidence": "O texto usa 'parceiros estratégicos' e 'abordagem diferenciada' — linguagem de consultor genérico, sem o dicionário dominante REVO. Não usa os termos proibidos, mas também não usa os obrigatórios."
+        }
+    ]
+}

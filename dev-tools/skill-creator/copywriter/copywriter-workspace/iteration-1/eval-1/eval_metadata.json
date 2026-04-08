@@ -1,0 +1,23 @@
+{
+    "eval_id": 1,
+    "eval_name": "formulario-aplicacao-advisory",
+    "prompt": "Aurora, ative o Copywriter e escreva a copy das perguntas do Formulário de Aplicação para o Advisory Recorrente (high-ticket). Você DEVE carregar o IDP do Regis Prado antes. Aplique rigorosamente os princípios de Anti-Alvo e repulsão descritos no protocolo e no tom de voz.",
+    "assertions": [
+        {
+            "name": "Sem em-dash",
+            "description": "O output NÃO deve conter o caractere — (em-dash/travessão) em nenhuma parte"
+        },
+        {
+            "name": "Sem prescritivo",
+            "description": "O output NÃO deve conter frases como 'você deve', 'faça isso', 'você precisa fazer'"
+        },
+        {
+            "name": "Tom data-driven",
+            "description": "O text deve mencionar pelo menos um dos termos: ROAS, CPL, Lucro Líquido, Diagnóstico, Advisory, Margem, Kommo"
+        },
+        {
+            "name": "Repulsão Anti-Alvo",
+            "description": "Pelo menos uma pergunta deve ativamente filtrar o anti-alvo (ex: freelancer, zero equipe, abaixo de R$20k)"
+        }
+    ]
+}

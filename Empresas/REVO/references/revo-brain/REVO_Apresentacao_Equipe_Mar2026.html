@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>REVO — Reunião de Equipe Mar/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --red:    #E50915;
+    --card:   #7A3328;
+    --bg:     #111111;
+    --white:  #FFFFFF;
+    --cream:  #F2D9C3;
+    --dark:   #1A1A1A;
+    --green:  #4ade80;
+    --pad:    96px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow: hidden;
+    width: 100vw; height: 100vh;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(17,17,17,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #2a2a2a;
+    height: 52px; gap: 2px; padding: 0 40px;
+    flex-wrap: nowrap; overflow-x: auto;
+  }
+  .nav-section {
+    display: flex; align-items: center; gap: 2px;
+    padding: 0 8px;
+    border-right: 1px solid #2a2a2a;
+  }
+  .nav-section:last-child { border-right: none; }
+  .nav-label {
+    font-size: 9px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #555; padding: 0 6px;
+    white-space: nowrap;
+  }
+  .nav-btn {
+    background: none; border: none; color: #666; font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+    cursor: pointer; padding: 5px 10px; border-radius: 6px; transition: all .2s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--white); background: #1e1e1e; }
+  .nav-btn.active { color: var(--white); background: var(--red); }
+
+  /* ── SLIDES ── */
+  #deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    padding: 72px var(--pad) 56px;
+    display: none; flex-direction: column;
+    opacity: 0; transition: opacity .35s;
+  }
+  .slide.active { display: flex; opacity: 1; }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 8px;
+  }
+  .slide-title {
+    font-size: 38px; font-weight: 900; line-height: 1.1;
+    color: var(--white); margin-bottom: 28px;
+  }
+  .slide-title span { color: var(--red); }
+  .section-divider {
+    display: inline-block;
+    font-size: 10px; font-weight: 800; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--red);
+    border: 1px solid var(--red); border-radius: 4px;
+    padding: 3px 10px; margin-bottom: 8px;
+  }
+
+  /* ── CARDS ── */
+  .cards-row { display: flex; gap: 20px; flex: 1; }
+  .card {
+    background: var(--card); border-radius: 16px;
+    padding: 24px 24px 20px; flex: 1; display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .card-title {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--cream); margin-bottom: 14px;
+  }
+  .card-body { font-size: 14px; line-height: 1.75; color: #ddd; flex: 1; }
+  .card-body .arrow { color: var(--red); font-weight: 700; margin-right: 4px; }
+  .card-body .up   { color: var(--green); }
+  .card-body .down { color: var(--red); }
+  .card-body .price { color: var(--cream); font-weight: 700; }
+  .card-body strong { color: var(--white); }
+
+  /* ── HIGHLIGHT BAR ── */
+  .highlight {
+    background: linear-gradient(90deg, rgba(229,9,21,.15), transparent);
+    border-left: 3px solid var(--red);
+    padding: 12px 18px; border-radius: 0 10px 10px 0;
+    font-size: 15px; font-weight: 600; color: var(--white);
+    margin-top: 16px;
+  }
+  .highlight-gold {
+    background: linear-gradient(90deg, rgba(242,217,195,.12), transparent);
+    border-left: 3px solid var(--cream);
+    padding: 14px 20px; border-radius: 0 10px 10px 0;
+    font-size: 16px; font-weight: 700; color: var(--cream);
+    margin-top: 20px; font-style: italic;
+  }
+
+  /* ── TABLES ── */
+  .revo-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .revo-table thead tr { border-bottom: 2px solid var(--red); }
+  .revo-table th {
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--red);
+    padding: 8px 14px; text-align: left;
+  }
+  .revo-table td {
+    padding: 9px 14px; color: #ddd; border-bottom: 1px solid #222;
+  }
+  .revo-table tr:hover td { background: #1a1a1a; }
+  .revo-table .real { color: var(--cream); font-weight: 600; }
+  .revo-table .q-tag {
+    font-size: 10px; font-weight: 700; color: var(--red); letter-spacing:.05em;
+  }
+  .revo-table .target { color: var(--green); font-weight: 600; }
+  .revo-table .highlight-row td { background: rgba(229,9,21,.08); }
+
+  /* ── ORG ── */
+  .org-tree { display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1; justify-content: center; }
+  .org-top {
+    background: rgba(229,9,21,.12); border: 1px solid rgba(229,9,21,.25);
+    border-radius: 12px; padding: 16px 52px;
+    font-size: 15px; font-weight: 800; letter-spacing: .02em; color: var(--white);
+  }
+  .org-top-role { font-size: 9px; font-weight: 600; letter-spacing:.12em; text-transform:uppercase; color:var(--red); margin-top:4px; }
+  .org-stem { width: 2px; height: 28px; background: #2e2e2e; }
+  .org-branches {
+    position: relative; display: flex; gap: 28px; justify-content: center;
+  }
+  .org-branches::before {
+    content: ''; position: absolute; top: 0;
+    left: calc(14.3% + 14px); right: calc(14.3% + 14px);
+    height: 2px; background: #2e2e2e;
+  }
+  .org-col { display: flex; flex-direction: column; align-items: center; }
+  .org-col-stem { width: 2px; height: 24px; background: #2e2e2e; }
+  .org-member {
+    background: #1c1c1c; border-radius: 12px; padding: 20px 20px 18px;
+    width: 230px; border: 1px solid #2a2a2a;
+  }
+  .org-name { font-size: 15px; font-weight: 800; color: var(--cream); margin-bottom: 3px; }
+  .org-role { font-size: 9px; text-transform: uppercase; letter-spacing:.1em; color: var(--red); margin-bottom: 12px; }
+  .org-tasks { font-size: 12px; line-height: 1.75; color: #999; }
+  .org-tasks .arrow { color: var(--red); }
+  .org-connector { display: flex; gap: 28px; }
+  .org-connector-item { display: flex; flex-direction: column; align-items: center; }
+
+  /* ── PRODUCT CARDS ── */
+  .product-card {
+    background: #1c1c1c; border-radius: 16px; padding: 28px 24px;
+    flex: 1; border: 1px solid #2a2a2a; position: relative; overflow: hidden;
+  }
+  .product-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: var(--red);
+  }
+  .product-num {
+    font-size: 42px; font-weight: 900; color: rgba(229,9,21,.2);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .product-name { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+  .product-price { font-size: 20px; font-weight: 900; color: var(--cream); margin-bottom: 16px; }
+  .product-items { font-size: 13px; line-height: 1.8; color: #ccc; }
+  .product-items .arrow { color: var(--red); font-weight: 700; }
+
+  /* ── CHECKLIST ── */
+  .checklist-group { margin-bottom: 20px; }
+  .checklist-group-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--red); margin-bottom: 8px;
+  }
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; line-height: 1.6; color: #ddd; margin-bottom: 5px;
+  }
+  .checklist-item .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--red);
+    margin-top: 7px; flex-shrink: 0;
+  }
+
+  /* ── CHART SLIDE ── */
+  #chart-container { flex: 1; position: relative; min-height: 0; }
+  canvas#growthChart { width: 100% !important; height: 100% !important; }
+
+  /* ── BONIF TABLE ── */
+  .bonif-wrap { display: flex; gap: 40px; flex: 1; align-items: flex-start; }
+  .bonif-table-wrap { flex: 1; }
+  .bonif-text {
+    flex: 1; background: var(--card); border-radius: 16px; padding: 28px;
+    border: 1px solid rgba(255,255,255,.06); display: flex; flex-direction: column; justify-content: center;
+  }
+  .bonif-text p { font-size: 14px; line-height: 1.8; color: #ddd; margin-bottom: 14px; }
+  .bonif-text .big { font-size: 26px; font-weight: 900; color: var(--cream); }
+  .color-red { color: #ff6b6b; }
+  .color-green { color: var(--green); }
+
+  /* ── FOOTER DOTS ── */
+  #footer {
+    position: fixed; bottom: 16px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 6px; z-index: 100;
+  }
+  .dot-btn {
+    width: 7px; height: 7px; border-radius: 50%;
+    border: none; cursor: pointer; transition: all .2s;
+    background: #444;
+  }
+  .dot-btn.active { background: var(--red); transform: scale(1.3); }
+
+  /* ── TWO COLS ── */
+  .two-cols { display: flex; gap: 20px; flex: 1; }
+  .col-green { background: rgba(74,222,128,.05); border: 1px solid rgba(74,222,128,.18); border-radius: 16px; padding: 24px; flex: 1; }
+  .col-red   { background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 24px; flex: 1; }
+  .col-title { font-size: 11px; font-weight: 700; letter-spacing:.1em; text-transform:uppercase; margin-bottom: 14px; }
+  .col-green .col-title { color: var(--green); }
+  .col-red   .col-title { color: var(--red); }
+  .col-item { font-size: 14px; line-height: 1.75; color: #ddd; margin-bottom: 2px; }
+  .col-item .arrow { font-weight: 700; margin-right: 4px; }
+  .col-green .col-item .arrow { color: var(--green); }
+  .col-red   .col-item .arrow { color: var(--red); }
+
+  /* ── SPARKLINE ── */
+  .sparkline-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-top: 8px; }
+  .spark-item {
+    background: #1f1f1f; border-radius: 6px; padding: 5px 6px;
+    font-size: 11px; text-align: center;
+  }
+  .spark-item .month { color: #666; font-size: 9px; }
+  .spark-item .val { font-weight: 700; }
+  .spark-item.peak .val { color: var(--green); }
+  .spark-item.drop .val { color: var(--red); }
+  .spark-item.normal .val { color: var(--cream); }
+
+  /* ── ICP ── */
+  .icp-dim { color: #888; font-size: 12px; }
+  .icp-val { font-weight: 600; }
+
+  /* ── ACTION PLAN SPECIFIC ── */
+  .week-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; flex: 1; }
+  .week-card {
+    background: #1a1a1a; border-radius: 14px; padding: 20px;
+    border: 1px solid #2a2a2a; display: flex; flex-direction: column; gap: 6px;
+  }
+  .week-card-head {
+    font-size: 10px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 4px;
+  }
+  .week-card-person {
+    font-size: 13px; font-weight: 700; color: var(--cream); margin-bottom: 8px;
+  }
+  .week-task { font-size: 12px; line-height: 1.65; color: #ccc; margin-bottom: 2px; }
+  .week-task .arrow { color: var(--red); }
+
+  .clients-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; flex: 1; }
+  .client-card {
+    background: #1a1a1a; border-radius: 12px; padding: 16px;
+    border: 1px solid #2a2a2a;
+  }
+  .client-name { font-size: 14px; font-weight: 800; color: var(--cream); margin-bottom: 3px; }
+  .client-tag {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .tag-advisory { background: rgba(229,9,21,.25); color: #ff9999; }
+  .tag-socio { background: rgba(74,222,128,.15); color: var(--green); }
+  .tag-prospect { background: rgba(242,217,195,.15); color: var(--cream); }
+  .tag-analise { background: rgba(255,200,0,.15); color: #ffd700; }
+  .tag-interna { background: rgba(100,100,255,.2); color: #9999ff; }
+  .client-actions { font-size: 12px; line-height: 1.75; color: #ccc; }
+  .client-actions .arrow { color: var(--red); }
+
+  .kpi-row { display: flex; gap: 16px; margin-bottom: 20px; }
+  .kpi-card {
+    flex: 1; background: #1a1a1a; border-radius: 12px; padding: 18px 20px;
+    border: 1px solid #2a2a2a; text-align: center;
+  }
+  .kpi-value { font-size: 28px; font-weight: 900; color: var(--cream); }
+  .kpi-label { font-size: 10px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: #666; margin-top: 4px; }
+  .kpi-freq { font-size: 11px; color: var(--red); font-weight: 600; margin-top: 2px; }
+
+  .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; }
+  .dash-card {
+    background: #1a1a1a; border-radius: 14px; padding: 20px;
+    border: 1px solid #2a2a2a; position: relative; overflow: hidden;
+  }
+  .dash-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--red);
+  }
+  .dash-name { font-size: 13px; font-weight: 800; color: var(--white); margin-bottom: 12px; }
+  .dash-metric { font-size: 12px; line-height: 1.7; color: #bbb; margin-bottom: 3px; }
+  .dash-metric .dot { color: var(--red); margin-right: 6px; }
+
+  /* ── PADRÃO REVO BLOCKS ── */
+  .padrao-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; }
+  .padrao-block {
+    background: #1a1a1a; border-radius: 14px; padding: 20px;
+    border: 1px solid #2a2a2a;
+  }
+  .padrao-num { font-size: 32px; font-weight: 900; color: rgba(229,9,21,.25); line-height: 1; }
+  .padrao-title { font-size: 14px; font-weight: 800; color: var(--cream); margin: 4px 0 10px; }
+  .padrao-items { font-size: 12px; line-height: 1.7; color: #bbb; }
+  .padrao-items .arrow { color: var(--red); }
+
+  /* ── MANIFESTO ── */
+  .manifesto-slide { justify-content: center; align-items: center; text-align: center; }
+  .manifesto-quote {
+    font-size: 36px; font-weight: 900; color: var(--white); line-height: 1.3;
+    max-width: 900px; margin-bottom: 24px;
+  }
+  .manifesto-quote span { color: var(--red); }
+  .manifesto-sub { font-size: 16px; color: #888; letter-spacing: .05em; }
+  .manifesto-badge {
+    margin-top: 40px; display: inline-block;
+    border: 2px solid var(--red); border-radius: 50px;
+    padding: 10px 32px; font-size: 13px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--red);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <span class="nav-label">Onde Estamos</span>
+  <div class="nav-section">
+    <button class="nav-btn active" onclick="goTo(0)">01 · Situação</button>
+    <button class="nav-btn" onclick="goTo(1)">02 · Posicionamento</button>
+    <button class="nav-btn" onclick="goTo(2)">03 · Carteira</button>
+  </div>
+  <span class="nav-label">Onde Queremos Chegar</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(3)">04 · Metas 2026</button>
+    <button class="nav-btn" onclick="goTo(4)">05 · Produtos</button>
+    <button class="nav-btn" onclick="goTo(5)">06 · ICP</button>
+    <button class="nav-btn" onclick="goTo(6)">07 · Crescimento</button>
+    <button class="nav-btn" onclick="goTo(7)">08 · Bonificação</button>
+  </div>
+  <span class="nav-label">O Plano de Ação</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(8)">09 · Padrão REVO</button>
+    <button class="nav-btn" onclick="goTo(9)">10 · Organograma</button>
+    <button class="nav-btn" onclick="goTo(10)">11 · Semana 1</button>
+    <button class="nav-btn" onclick="goTo(11)">12 · Dashboard</button>
+    <button class="nav-btn" onclick="goTo(12)">13 · Manifesto</button>
+  </div>
+</nav>
+
+<!-- DECK -->
+<div id="deck">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SEÇÃO 1: ONDE ESTAMOS
+  ═══════════════════════════════════════════════════════ -->
+
+  <!-- SLIDE 01: SITUAÇÃO ATUAL -->
+  <section class="slide active" id="s0">
+    <div class="section-divider">Onde Estamos</div>
+    <div class="slide-label">01 — Mar/2026</div>
+    <div class="slide-title">Situação Atual <span>REVO</span></div>
+    <div class="cards-row">
+      <div class="card" style="background:#1c1c1c;border-color:#2a2a2a;">
+        <div class="card-title">📈 Histórico Faturamento</div>
+        <div class="card-body">
+          <div class="sparkline-row">
+            <div class="spark-item normal"><div class="month">Jul/25</div><div class="val">R$16.7k</div></div>
+            <div class="spark-item normal"><div class="month">Ago/25</div><div class="val">R$16.7k</div></div>
+            <div class="spark-item normal"><div class="month">Set/25</div><div class="val">R$18.3k</div></div>
+            <div class="spark-item peak"><div class="month">Out/25</div><div class="val">R$27.7k ↑</div></div>
+            <div class="spark-item peak"><div class="month">Nov/25</div><div class="val">R$28.5k ↑</div></div>
+            <div class="spark-item normal"><div class="month">Dez/25</div><div class="val">R$22.1k</div></div>
+            <div class="spark-item drop"><div class="month">Jan/26</div><div class="val">R$9.3k ↓</div></div>
+            <div class="spark-item peak"><div class="month">Fev/26</div><div class="val">R$21.1k ↑</div></div>
+            <div class="spark-item normal"><div class="month">Média</div><div class="val">~R$16k</div></div>
+          </div>
+          <br>
+          <span style="color:#888;font-size:12px;">Pico Nov/25 → queda abrupta Jan/26 → recuperação Fev/26</span>
+        </div>
+      </div>
+      <div class="card" style="background:#1c1c1c;border-color:#2a2a2a;">
+        <div class="card-title">⚠️ Realidade Operacional</div>
+        <div class="card-body">
+          <div><span class="arrow">→</span> Margem <strong>~0%</strong> <span style="color:#888">(custos R$10k ≈ faturamento)</span></div>
+          <div><span class="arrow">→</span> Muita dependência do Regis</div>
+          <div><span class="arrow">→</span> Atraso constante nas entregas</div>
+          <div><span class="arrow">→</span> Falta de clareza nos processos</div>
+          <div><span class="arrow">→</span> Pró-labore abaixo do alvo</div>
+          <div><span class="arrow">→</span> Entregando coisas que não são cobradas</div>
+          <br>
+          <div style="font-size:12px;color:#888;">Custos fixos: R$10k/mês (fora pró-labore)</div>
+          <div style="font-size:12px;color:#888;">Equipe: Kayque + Paola + Priscila</div>
+        </div>
+      </div>
+      <div class="card" style="background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.22);">
+        <div class="card-title" style="color:var(--green);">🎯 Meta</div>
+        <div class="card-body">
+          <div style="font-size:30px;font-weight:900;color:var(--cream);margin-bottom:6px;">R$100k MRR</div>
+          <div style="color:#888;font-size:12px;margin-bottom:18px;">Dezembro/2026</div>
+          <div><span class="up">→</span> <strong>50%</strong> de margem</div>
+          <div><span class="up">→</span> <strong style="color:var(--cream);">R$25k</strong> pró-labore</div>
+          <div><span class="up">→</span> Equipe cresce junto com a empresa</div>
+          <div><span class="up">→</span> Processos claros e cobranças certas</div>
+          <div><span class="up">→</span> Canal de aquisição ativo (Instagram)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 02: POSICIONAMENTO -->
+  <section class="slide" id="s1">
+    <div class="section-divider">Onde Estamos</div>
+    <div class="slide-label">02 — Mudanças</div>
+    <div class="slide-title">Posicionamento <span>& Escopo</span></div>
+    <div class="two-cols" style="flex:1;">
+      <div class="col-green">
+        <div class="col-title">✅ O que entregamos</div>
+        <div class="col-item"><span class="arrow">→</span> Diagnóstico <span style="color:var(--cream);font-weight:700;">R$4–7k</span></div>
+        <div class="col-item"><span class="arrow">→</span> Implementação <span style="color:var(--cream);font-weight:700;">R$12–18k</span></div>
+        <div class="col-item"><span class="arrow">→</span> Advisory <span style="color:var(--cream);font-weight:700;">R$4k – R$12k/mês</span></div>
+        <div class="col-item"><span class="arrow">→</span> Dashboards e planilhas CORE</div>
+        <div class="col-item"><span class="arrow">→</span> Relatórios de metas e resultados semanal/mensal</div>
+        <div class="col-item"><span class="arrow">→</span> Padrão REVO obrigatório no Advisory</div>
+        <div class="col-item"><span class="arrow">→</span> Direção estratégica baseada em dados</div>
+        <div class="highlight" style="margin-top:20px;font-size:13px;">
+          Somos uma <strong>Data Advisory</strong> — dados como bússola para decisões de negócio.
+        </div>
+      </div>
+      <div class="col-red">
+        <div class="col-title">❌ O que não entregamos mais</div>
+        <div class="col-item"><span class="arrow">→</span> Gestão de tráfego</div>
+        <div class="col-item"><span class="arrow">→</span> Criativos e copy extras</div>
+        <div class="col-item"><span class="arrow">→</span> Entregas não cobradas</div>
+        <div class="col-item"><span class="arrow">→</span> Co-produção de lançamentos</div>
+        <div class="col-item"><span class="arrow">→</span> Escopo aberto sem precificação</div>
+        <br>
+        <div style="font-size:13px;color:#888;line-height:1.7;">
+          A transição com clientes atuais será <strong style="color:var(--white);">gradual e silenciosa</strong>.<br>
+          Novos clientes já entram no modelo correto.<br>
+          Maioria dos atuais provavelmente não continuará no novo modelo.
+        </div>
+        <div class="highlight" style="border-color:var(--red);margin-top:16px;font-size:13px;">
+          Foco: <strong>dados → direção</strong>. Cobrança = entrega exata.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 03: CARTEIRA ATUAL -->
+  <section class="slide" id="s2">
+    <div class="section-divider">Onde Estamos</div>
+    <div class="slide-label">03 — Clientes</div>
+    <div class="slide-title">Carteira <span>Atual</span></div>
+    <div class="clients-grid">
+      <div class="client-card" style="border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06);">
+        <div class="client-name" style="color:var(--green);">REVO Advisory</div>
+        <span class="client-tag tag-socio" style="background:rgba(74,222,128,.2);color:var(--green);">Maior Oportunidade</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Tratar como cliente prioritário</div>
+          <div><span class="arrow">→</span> Kommo CRM + Padrão REVO próprio</div>
+          <div><span class="arrow">→</span> Instagram como canal de aquisição</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Mozini Advocacia</div>
+        <span class="client-tag tag-socio">Sócio</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Verificar status do Padrão REVO</div>
+          <div><span class="arrow">→</span> Validar metas e funis internamente</div>
+          <div><span class="arrow">→</span> Dashboards e relatório semanal em dia</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">NaFazendaPontoCom</div>
+        <span class="client-tag tag-advisory">Advisory Ativo</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Verificar status do Padrão REVO</div>
+          <div><span class="arrow">→</span> Validar metas e funis internamente</div>
+          <div><span class="arrow">→</span> Dashboards e relatório semanal em dia</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Teacher Marcos</div>
+        <span class="client-tag tag-advisory">Advisory Ativo</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Verificar status do Padrão REVO</div>
+          <div><span class="arrow">→</span> Validar metas e funis internamente</div>
+          <div><span class="arrow">→</span> Dashboards e relatório semanal em dia</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Martin Trader</div>
+        <span class="client-tag tag-advisory">Advisory Ativo</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Verificar status do Padrão REVO</div>
+          <div><span class="arrow">→</span> Validar metas e funis internamente</div>
+          <div><span class="arrow">→</span> Dashboards e relatório semanal em dia</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">REVO Imobiliária</div>
+        <span class="client-tag tag-socio">Sócio</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Implementar Kommo CRM esta semana</div>
+          <div><span class="arrow">→</span> Padrão REVO completo</div>
+          <div><span class="arrow">→</span> Dashboard e metas definidos</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">NDO Fit Club</div>
+        <span class="client-tag tag-socio" style="background:rgba(100,180,100,.12);color:#aaa;">Sócio · Stand By</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Regis é sócio — em pausa</div>
+          <div><span class="arrow">→</span> Verificar Padrão REVO interno</div>
+          <div><span class="arrow">→</span> Retomar quando timing adequado</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Derick Nodari</div>
+        <span class="client-tag tag-analise">Lead · Proposta</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Regis faz proposta esta semana</div>
+          <div><span class="arrow">→</span> Diagnóstico ou Implementação?</div>
+          <div><span class="arrow">→</span> Definir escopo e proposta</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Grupo Ser</div>
+        <span class="client-tag tag-analise">Lead · Análise</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Análise de escopo necessária</div>
+          <div><span class="arrow">→</span> Definir produto mais adequado</div>
+          <div><span class="arrow">→</span> Agendar conversa com Regis</div>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-name">Márcia Farias</div>
+        <span class="client-tag tag-analise">Lead · Análise</span>
+        <div class="client-actions">
+          <div><span class="arrow">→</span> Análise de escopo necessária</div>
+          <div><span class="arrow">→</span> Definir produto mais adequado</div>
+          <div><span class="arrow">→</span> Agendar conversa com Regis</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SEÇÃO 2: ONDE QUEREMOS CHEGAR
+  ═══════════════════════════════════════════════════════ -->
+
+  <!-- SLIDE 04: METAS 2026 -->
+  <section class="slide" id="s3">
+    <div class="section-divider">Onde Queremos Chegar</div>
+    <div class="slide-label">04 — Projeção</div>
+    <div class="slide-title">Metas Mensais <span>2026</span></div>
+    <div style="flex:1;overflow:auto;">
+      <table class="revo-table">
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th>Faturamento</th>
+            <th>Margem %</th>
+            <th>Pró-labore</th>
+            <th>Quarter</th>
+            <th>Acumulado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Janeiro*</td><td class="real">R$9.3k <span style="color:#888;font-size:10px;">(real)</span></td><td style="color:#ff6b6b;">~2%</td><td style="color:#ff6b6b;">~R$1k</td><td></td><td class="real">R$9.3k</td></tr>
+          <tr><td>Fevereiro*</td><td class="real">R$21.1k <span style="color:#888;font-size:10px;">(real)</span></td><td style="color:var(--cream);">~28%</td><td style="color:var(--cream);">~R$5k</td><td><span class="q-tag">Q1 → R$55.4k</span></td><td class="real">R$30.4k</td></tr>
+          <tr><td>Março</td><td class="target">R$25k</td><td style="color:var(--cream);">25%</td><td style="color:var(--cream);">R$6k</td><td></td><td class="target">R$55.4k</td></tr>
+          <tr style="height:6px;"><td colspan="6"></td></tr>
+          <tr><td>Abril</td><td class="target">R$32k</td><td style="color:var(--green);">30%</td><td style="color:var(--green);">R$8k</td><td></td><td></td></tr>
+          <tr><td>Maio</td><td class="target">R$40k</td><td style="color:var(--green);">35%</td><td style="color:var(--green);">R$12k</td><td><span class="q-tag">Q2 → R$120k</span></td><td></td></tr>
+          <tr><td>Junho</td><td class="target">R$48k</td><td style="color:var(--green);">38%</td><td style="color:var(--green);">R$15k</td><td></td><td></td></tr>
+          <tr style="height:6px;"><td colspan="6"></td></tr>
+          <tr><td>Julho</td><td class="target">R$55k</td><td style="color:var(--green);">40%</td><td style="color:var(--green);">R$18k</td><td></td><td></td></tr>
+          <tr><td>Agosto</td><td class="target">R$65k</td><td style="color:var(--green);">43%</td><td style="color:var(--green);">R$20k</td><td><span class="q-tag">Q3 → R$195k</span></td><td></td></tr>
+          <tr><td>Setembro</td><td class="target">R$75k</td><td style="color:var(--green);">46%</td><td style="color:var(--green);">R$22k</td><td></td><td></td></tr>
+          <tr style="height:6px;"><td colspan="6"></td></tr>
+          <tr><td>Outubro</td><td class="target">R$85k</td><td style="color:var(--green);">48%</td><td style="color:var(--green);">R$23k</td><td></td><td></td></tr>
+          <tr><td>Novembro</td><td class="target">R$90k</td><td style="color:var(--green);">50%</td><td style="color:var(--green);">R$24k</td><td><span class="q-tag">Q4 → R$275k</span></td><td></td></tr>
+          <tr class="highlight-row"><td><strong>Dezembro</strong></td><td><span style="color:var(--cream);font-size:14px;font-weight:900;">R$100k MRR</span></td><td style="color:var(--green);font-weight:700;">50%</td><td style="color:var(--cream);font-weight:700;">R$25k</td><td></td><td><span style="color:var(--green);font-weight:700;">~R$645k</span></td></tr>
+        </tbody>
+      </table>
+      <div class="highlight" style="margin-top:16px;">
+        Soma anual <strong>~R$645k base</strong> + upsells e diagnósticos <strong>~R$750k potencial</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 05: STACK 3 PRODUTOS -->
+  <section class="slide" id="s4">
+    <div class="section-divider">Onde Queremos Chegar</div>
+    <div class="slide-label">05 — Produtos</div>
+    <div class="slide-title">Stack de <span>3 Produtos</span></div>
+    <div class="cards-row">
+      <div class="product-card">
+        <div class="product-num">01</div>
+        <div class="product-name">Diagnóstico</div>
+        <div class="product-price">R$4k — R$7k</div>
+        <div class="product-items">
+          <div><span class="arrow">→</span> 30 dias de duração</div>
+          <div><span class="arrow">→</span> 2 calls estratégicas</div>
+          <div><span class="arrow">→</span> Mapeamento do negócio</div>
+          <div><span class="arrow">→</span> Identificação de gargalos e oportunidades</div>
+          <div><span class="arrow">→</span> Relatório completo com direcionamento</div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;">ICP</div>
+          <div style="font-size:12px;color:#ccc;">Faturamento R$20–100k · Solo ou 1 gestor · Dor: "Não sei o que está funcionando"</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-num">02</div>
+        <div class="product-name">Implementação</div>
+        <div class="product-price">R$12k — R$18k</div>
+        <div class="product-items">
+          <div><span class="arrow">→</span> Rastreio completo + Padrão REVO</div>
+          <div><span class="arrow">→</span> Dashboards CORE (3 visões)</div>
+          <div><span class="arrow">→</span> Planilha automatizada</div>
+          <div><span class="arrow">→</span> Automações Make/N8N</div>
+          <div><span class="arrow">→</span> CRM configurado (Kommo)</div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;">ICP</div>
+          <div style="font-size:12px;color:#ccc;">Faturamento R$40–200k · Gestor de Tráfego · Dor: "Não sei de onde vem meu dinheiro"</div>
+        </div>
+      </div>
+      <div class="product-card" style="border-color:rgba(229,9,21,.15);">
+        <div class="product-num">03</div>
+        <div class="product-name">Advisory</div>
+        <div class="product-price">R$4k — R$12k/mês</div>
+        <div class="product-items">
+          <div><span class="arrow">→</span> Padrão REVO obrigatório (sem ele: Implementação primeiro)</div>
+          <div><span class="arrow">→</span> Relatórios de metas semanal e mensal</div>
+          <div><span class="arrow">→</span> 1 call estratégica com Regis por mês</div>
+          <div><span class="arrow">→</span> Dashboard atualizado e vivo</div>
+          <div><span class="arrow">→</span> Direção baseada em dados reais</div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;">ICP</div>
+          <div style="font-size:12px;color:#ccc;">Faturamento R$80k+ · Gestor + Equipe Enxuta · Dor: "Estou voando às cegas nos números"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 06: ICP POR PRODUTO -->
+  <section class="slide" id="s5">
+    <div class="section-divider">Onde Queremos Chegar</div>
+    <div class="slide-label">06 — ICP</div>
+    <div class="slide-title">Perfil Ideal de <span>Cliente</span></div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px;">
+      <table class="revo-table">
+        <thead>
+          <tr>
+            <th>Dimensão</th>
+            <th>Diagnóstico</th>
+            <th>Implementação</th>
+            <th>Advisory</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="icp-dim">Faturamento</td>
+            <td class="icp-val">R$20k – R$100k</td>
+            <td class="icp-val">R$40k – R$200k</td>
+            <td class="icp-val">R$80k+</td>
+          </tr>
+          <tr>
+            <td class="icp-dim">Equipe</td>
+            <td class="icp-val">Solo / 1 pessoa</td>
+            <td class="icp-val">Gestor de Tráfego</td>
+            <td class="icp-val">Gestor + Equipe Enxuta</td>
+          </tr>
+          <tr>
+            <td class="icp-dim">Principal dor</td>
+            <td class="icp-val">"Não sei o que está funcionando"</td>
+            <td class="icp-val">"Não tenho clareza de onde vem meu dinheiro"</td>
+            <td class="icp-val">"Estou voando às cegas nos números"</td>
+          </tr>
+          <tr>
+            <td class="icp-dim">Consciência (Schwartz)</td>
+            <td class="icp-val">Nível Problema</td>
+            <td class="icp-val">Nível Solução</td>
+            <td class="icp-val">Nível Produto</td>
+          </tr>
+          <tr>
+            <td class="icp-dim">Padrão REVO</td>
+            <td class="icp-val" style="color:#888;">Não necessário</td>
+            <td class="icp-val" style="color:var(--red);">Implementamos</td>
+            <td class="icp-val" style="color:var(--green);">Obrigatório</td>
+          </tr>
+          <tr>
+            <td class="icp-dim">Canal de entrada</td>
+            <td class="icp-val">Instagram / Indicação</td>
+            <td class="icp-val">Instagram / Indicação</td>
+            <td class="icp-val">Diagnóstico ou já tem Padrão REVO</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="highlight-gold">
+        "Só acredito em Deus, de resto me traga os dados."
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 07: GRÁFICO CRESCIMENTO -->
+  <section class="slide" id="s6">
+    <div class="section-divider">Onde Queremos Chegar</div>
+    <div class="slide-label">07 — Projeção Visual</div>
+    <div class="slide-title">Crescimento <span>Projetado 2026</span></div>
+    <div id="chart-container">
+      <canvas id="growthChart"></canvas>
+    </div>
+  </section>
+
+  <!-- SLIDE 08: DISTRIBUIÇÃO R$100K + BONIFICAÇÃO -->
+  <section class="slide" id="s7">
+    <div class="section-divider">Onde Queremos Chegar</div>
+    <div class="slide-label">08 — Resultado</div>
+    <div class="slide-title">Distribuição <span>R$100k MRR</span></div>
+    <div class="bonif-wrap">
+      <div class="bonif-table-wrap">
+        <table class="revo-table">
+          <thead>
+            <tr>
+              <th>Destino</th>
+              <th>%</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Impostos</td><td>10%</td><td class="color-red">R$10k</td></tr>
+            <tr><td>Pró-labore (Regis)</td><td>25%</td><td class="color-red">R$25k</td></tr>
+            <tr><td>Custos Fixos</td><td>10%</td><td class="color-red">R$10k</td></tr>
+            <tr class="highlight-row"><td><strong>Equipe</strong></td><td>16%+</td><td class="color-green"><strong>R$16k+</strong></td></tr>
+            <tr><td style="color:#888;">Reinvestimento / Margem</td><td>~40%</td><td style="color:var(--cream);">R$40k+</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;padding:14px 16px;background:#1a1a1a;border-radius:10px;border:1px solid #2a2a2a;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Composição da Equipe em Dez/26</div>
+          <div style="font-size:13px;line-height:1.8;color:#ddd;">
+            <div>→ Kayque: automações + rastreio</div>
+            <div>→ Paola: Padrão REVO + dashboards + relatórios</div>
+            <div>→ Priscila: gestão de projetos + documentação</div>
+          </div>
+        </div>
+      </div>
+      <div class="bonif-text">
+        <p class="big">R$100k MRR</p>
+        <p><strong>R$2k+/pessoa</strong> de bonificação base<br>em Dezembro/2026 como meta coletiva.</p>
+        <p>A equipe cresce <span class="color-green">proporcional à margem</span>. Quanto maior o faturamento, maior a distribuição.</p>
+        <p>Isso não é só uma meta de Regis. É uma meta de todos.</p>
+        <div style="margin-top:20px;padding:14px 16px;background:rgba(229,9,21,.08);border:1px solid rgba(229,9,21,.2);border-radius:10px;">
+          <div style="font-size:13px;color:var(--cream);font-weight:700;">Dez/26: R$16k+ divididos entre a equipe</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;">Proporcional à contribuição e resultado</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SEÇÃO 3: O PLANO DE AÇÃO
+  ═══════════════════════════════════════════════════════ -->
+
+  <!-- SLIDE 09: PADRÃO REVO DE DADOS -->
+  <section class="slide" id="s8">
+    <div class="section-divider">O Plano de Ação</div>
+    <div class="slide-label">09 — Fundação</div>
+    <div class="slide-title">Padrão <span>REVO de Dados</span></div>
+    <div style="margin-bottom:16px;font-size:13px;color:#888;line-height:1.6;">
+      Checklist mínimo para qualquer cliente Advisory. Sem o Padrão REVO implementado, o cliente entra na Implementação primeiro.
+      <strong style="color:var(--cream);">Paola</strong> é responsável por checar o status de cada cliente.
+    </div>
+    <div class="padrao-grid">
+      <div class="padrao-block">
+        <div class="padrao-num">01</div>
+        <div class="padrao-title">Rastreio Completo</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Pixel configurado e validado</div>
+          <div><span class="arrow">→</span> Rastreio Padrão REVO ativo</div>
+          <div><span class="arrow">→</span> UTMs padronizadas em todos os links</div>
+        </div>
+      </div>
+      <div class="padrao-block">
+        <div class="padrao-num">02</div>
+        <div class="padrao-title">CRM Kommo</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Pipeline configurado</div>
+          <div><span class="arrow">→</span> Origem dos leads documentada</div>
+          <div><span class="arrow">→</span> Automações básicas ativas</div>
+        </div>
+      </div>
+      <div class="padrao-block">
+        <div class="padrao-num">03</div>
+        <div class="padrao-title">Planilha CORE Automatizada</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Faturamento por canal/produto</div>
+          <div><span class="arrow">→</span> Investimento em tráfego</div>
+          <div><span class="arrow">→</span> Leads e conversões registrados</div>
+        </div>
+      </div>
+      <div class="padrao-block">
+        <div class="padrao-num">04</div>
+        <div class="padrao-title">Dashboard: Visão Geral</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Faturamento (total e por fonte)</div>
+          <div><span class="arrow">→</span> Investimento em mídia</div>
+          <div><span class="arrow">→</span> Posts no Instagram (volume e alcance)</div>
+          <div><span class="arrow">→</span> Seguidores (crescimento)</div>
+        </div>
+      </div>
+      <div class="padrao-block">
+        <div class="padrao-num">05</div>
+        <div class="padrao-title">Dashboard: Perpétuo</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Funil completo de leads perpétuos</div>
+          <div><span class="arrow">→</span> Métricas de conversão por etapa</div>
+          <div><span class="arrow">→</span> ROAS e custo por venda</div>
+        </div>
+      </div>
+      <div class="padrao-block">
+        <div class="padrao-num">06</div>
+        <div class="padrao-title">Dashboard: Lançamentos</div>
+        <div class="padrao-items">
+          <div><span class="arrow">→</span> Funil de captação e conversão</div>
+          <div><span class="arrow">→</span> Resultados por lançamento</div>
+          <div><span class="arrow">→</span> Relatório periódico de dados</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: ORGANOGRAMA E RESPONSABILIDADES -->
+  <section class="slide" id="s9">
+    <div class="section-divider">O Plano de Ação</div>
+    <div class="slide-label">10 — Equipe</div>
+    <div class="slide-title">Organograma <span>& Responsabilidades</span></div>
+    <div class="org-tree">
+      <!-- Root -->
+      <div style="text-align:center;">
+        <div class="org-top">
+          Regis Prado
+          <div class="org-top-role">Estratégia · Vendas · Conteúdo</div>
+        </div>
+      </div>
+      <!-- Stem -->
+      <div class="org-stem"></div>
+      <!-- Branches row -->
+      <div class="org-branches">
+        <div class="org-col">
+          <div class="org-col-stem"></div>
+          <div class="org-member">
+            <div class="org-name">Kayque</div>
+            <div class="org-role">Tech & Automações</div>
+            <div class="org-tasks">
+              <div><span class="arrow">→</span> Automações Make / N8N / Manychat</div>
+              <div><span class="arrow">→</span> Finalizar rastreio Padrão REVO</div>
+              <div><span class="arrow">→</span> Fluidez dos dados no padrão</div>
+              <div><span class="arrow">→</span> Kommo CRM: setup técnico</div>
+            </div>
+          </div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-stem"></div>
+          <div class="org-member">
+            <div class="org-name">Paola</div>
+            <div class="org-role">Dados & Tráfego</div>
+            <div class="org-tasks">
+              <div><span class="arrow">→</span> <strong style="color:var(--cream);">Status Padrão REVO</strong> por cliente</div>
+              <div><span class="arrow">→</span> Planilhas e Dashboards CORE</div>
+              <div><span class="arrow">→</span> Relatórios periódicos de dados</div>
+              <div><span class="arrow">→</span> Gestão de tráfego</div>
+            </div>
+          </div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-stem"></div>
+          <div class="org-member">
+            <div class="org-name">Priscila</div>
+            <div class="org-role">Projetos & Processos</div>
+            <div class="org-tasks">
+              <div><span class="arrow">→</span> Metas, dados e funis de todos os clientes</div>
+              <div><span class="arrow">→</span> Gestão e documentação de processos</div>
+              <div><span class="arrow">→</span> Distribuição das demandas pós-alinhamento</div>
+              <div><span class="arrow">→</span> Acompanhamento dos projetos ativos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: SEMANA 1 — PLANO DE AÇÃO DETALHADO -->
+  <section class="slide" id="s10">
+    <div class="section-divider">O Plano de Ação</div>
+    <div class="slide-label">11 — Semana 1 de Março</div>
+    <div class="slide-title">Plano <span>Esta Semana</span></div>
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="week-card-head">Regis</div>
+        <div class="week-card-person">Estratégia, Vendas & Conteúdo</div>
+        <div class="week-task"><span class="arrow">→</span> Proposta para Derick Nodari</div>
+        <div class="week-task"><span class="arrow">→</span> Análise de escopo: Grupo Ser</div>
+        <div class="week-task"><span class="arrow">→</span> Análise de escopo: Márcia Farias</div>
+        <div class="week-task"><span class="arrow">→</span> Iniciar 1 post/dia no Instagram pessoal</div>
+        <div class="week-task"><span class="arrow">→</span> Setup Kommo CRM REVO Advisory</div>
+        <div class="week-task"><span class="arrow">→</span> Definir pauta de conteúdo Março</div>
+      </div>
+      <div class="week-card">
+        <div class="week-card-head">Paola</div>
+        <div class="week-card-person">Status Padrão REVO por Cliente</div>
+        <div class="week-task"><span class="arrow">→</span> Status Padrão REVO: Mozini Advocacia</div>
+        <div class="week-task"><span class="arrow">→</span> Status Padrão REVO: NaFazendaPontoCom</div>
+        <div class="week-task"><span class="arrow">→</span> Status Padrão REVO: Teacher Marcos</div>
+      </div>
+      <div class="week-card">
+        <div class="week-card-head">Priscila</div>
+        <div class="week-card-person">Projetos & Alinhamento Interno</div>
+        <div class="week-task"><span class="arrow">→</span> Validar com Regis: metas e funis — Mozini Advocacia</div>
+        <div class="week-task"><span class="arrow">→</span> Validar com Regis: metas e funis — NaFazendaPontoCom</div>
+        <div class="week-task"><span class="arrow">→</span> Validar com Regis: metas e funis — Teacher Marcos</div>
+        <div class="week-task"><span class="arrow">→</span> Validar com Regis: metas e funis — Martin Trader</div>
+        <div class="week-task"><span class="arrow">→</span> Documentar e distribuir para a equipe</div>
+        <div class="week-task"><span class="arrow">→</span> Acompanhamento dos projetos ativos</div>
+      </div>
+      <div class="week-card">
+        <div class="week-card-head">Kayque</div>
+        <div class="week-card-person">Tecnologia & Automações</div>
+        <div class="week-task"><span class="arrow">→</span> Finalizar rastreio Padrão REVO nos clientes ativos</div>
+        <div class="week-task"><span class="arrow">→</span> Setup técnico Kommo CRM até 06/03 (REVO Advisory + Imobiliária)</div>
+        <div class="week-task"><span class="arrow">→</span> Automações Make/N8N prioritárias</div>
+        <div class="week-task"><span class="arrow">→</span> Garantir dados fluindo corretamente no padrão</div>
+        <div class="week-task"><span class="arrow">→</span> Manychat: checar fluxos ativos dos clientes</div>
+      </div>
+      <div class="week-card">
+        <div class="week-card-head">Instagram — Canal de Aquisição</div>
+        <div class="week-card-person">Conta Pessoal do Regis</div>
+        <div class="week-task"><span class="arrow">→</span> 1 post por dia (conteúdo data-driven)</div>
+        <div class="week-task"><span class="arrow">→</span> Frase ouro: "Só acredito em Deus, de resto me traga os dados"</div>
+        <div class="week-task"><span class="arrow">→</span> Pilares: Benchmarks, Cases, Bastidores, Estratégia</div>
+        <div class="week-task"><span class="arrow">→</span> Responder DMs e stories diariamente</div>
+        <div class="week-task"><span class="arrow">→</span> Rastrear: impressões, alcance, DMs, seguidores</div>
+      </div>
+      <div class="week-card" style="border-color:rgba(229,9,21,.3);background:rgba(229,9,21,.04);">
+        <div class="week-card-head" style="color:var(--cream);">Prioridade Máxima</div>
+        <div class="week-card-person">Esta semana define o ritmo de Março</div>
+        <div class="week-task"><span class="arrow">→</span> <strong>Kommo CRM</strong> configurado até sexta-feira (06/03)</div>
+        <div class="week-task"><span class="arrow">→</span> <strong>Status Padrão REVO</strong> de todos os clientes mapeado</div>
+        <div class="week-task"><span class="arrow">→</span> <strong>Metas e funis</strong> claros de todos os clientes</div>
+        <div class="week-task"><span class="arrow">→</span> <strong>Instagram</strong> funcionando como canal de aquisição</div>
+        <div class="week-task"><span class="arrow">→</span> <strong>Meta Março:</strong> <span style="color:var(--cream);font-weight:700;">R$25k</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: DASHBOARD SEMANAL REVO -->
+  <section class="slide" id="s11">
+    <div class="section-divider">O Plano de Ação</div>
+    <div class="slide-label">12 — Acompanhamento</div>
+    <div class="slide-title">Dashboard Semanal <span>REVO Advisory</span></div>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value">R$25k</div>
+        <div class="kpi-label">Meta Março</div>
+        <div class="kpi-freq">Mensal</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">1/dia</div>
+        <div class="kpi-label">Posts Instagram</div>
+        <div class="kpi-freq">Diário</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">>10%</div>
+        <div class="kpi-label">Conversão DM → Reunião</div>
+        <div class="kpi-freq">Semanal</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">100%</div>
+        <div class="kpi-label">Clientes com Padrão REVO</div>
+        <div class="kpi-freq">Março</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2+</div>
+        <div class="kpi-label">Novas Propostas</div>
+        <div class="kpi-freq">Março</div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <div class="dash-name">Instagram (Aquisição)</div>
+        <div class="dash-metric"><span class="dot">●</span> Seguidores (crescimento semanal)</div>
+        <div class="dash-metric"><span class="dot">●</span> Alcance dos posts</div>
+        <div class="dash-metric"><span class="dot">●</span> DMs recebidos</div>
+        <div class="dash-metric"><span class="dot">●</span> Reuniões agendadas via Instagram</div>
+        <div class="dash-metric"><span class="dot">●</span> Posts publicados no período</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-name">Funil de Vendas (Kommo CRM)</div>
+        <div class="dash-metric"><span class="dot">●</span> Leads Gerados</div>
+        <div class="dash-metric"><span class="dot">●</span> Leads Qualificados</div>
+        <div class="dash-metric"><span class="dot">●</span> Reuniões Agendadas</div>
+        <div class="dash-metric"><span class="dot">●</span> Reuniões Realizadas</div>
+        <div class="dash-metric"><span class="dot">●</span> Propostas Enviadas</div>
+        <div class="dash-metric"><span class="dot">●</span> Propostas Fechadas</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-name">Financeiro REVO</div>
+        <div class="dash-metric"><span class="dot">●</span> Faturamento acumulado do mês</div>
+        <div class="dash-metric"><span class="dot">●</span> Recorrente Advisory (MRR)</div>
+        <div class="dash-metric"><span class="dot">●</span> Projetos únicos faturados</div>
+        <div class="dash-metric"><span class="dot">●</span> Custos fixos do período</div>
+        <div class="dash-metric"><span class="dot">●</span> Margem % real vs meta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: MANIFESTO -->
+  <section class="slide manifesto-slide" id="s12">
+    <div class="manifesto-quote">
+      "Só acredito em Deus,<br>de resto me traga <span>os dados.</span>"
+    </div>
+    <div class="manifesto-sub">Data Driven + Gut Driven — baseado em Benchmarks reais</div>
+    <div style="margin-top:40px;display:flex;gap:48px;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--cream);">R$100k MRR</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#888;margin-top:4px;">Meta Dezembro/2026</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--green);">50%</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#888;margin-top:4px;">Margem Alvo</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--cream);">R$25k</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#888;margin-top:4px;">Pró-labore Regis</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px;font-weight:900;color:var(--green);">+R$2k</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#888;margin-top:4px;">Bônus por Pessoa</div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:20px 40px;background:rgba(229,9,21,.08);border:1px solid rgba(229,9,21,.2);border-radius:16px;max-width:700px;text-align:center;">
+      <div style="font-size:14px;color:#ddd;line-height:1.8;">
+        Março/2026 é o mês de <strong style="color:var(--white);">construir a fundação</strong>.<br>
+        Padrão REVO em todos os clientes. Instagram ativo. Kommo funcionando.<br>
+        A REVOlução começa agora.
+      </div>
+    </div>
+    <div class="manifesto-badge">REVO Advisory · Mar/2026</div>
+  </section>
+
+</div>
+
+<!-- FOOTER DOTS -->
+<div id="footer"></div>
+
+<script>
+  const TOTAL = 13;
+  let current = 0;
+
+  // Build dots
+  const footer = document.getElementById('footer');
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('button');
+    d.className = 'dot-btn' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    footer.appendChild(d);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= TOTAL) return;
+    document.getElementById('s' + current).classList.remove('active');
+    document.querySelectorAll('.nav-btn')[current].classList.remove('active');
+    document.querySelectorAll('.dot-btn')[current].classList.remove('active');
+    current = n;
+    document.getElementById('s' + current).classList.add('active');
+    document.querySelectorAll('.nav-btn')[current].classList.add('active');
+    document.querySelectorAll('.dot-btn')[current].classList.add('active');
+    if (n === 6) setTimeout(buildChart, 100);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  // Chart
+  let chartBuilt = false;
+  function buildChart() {
+    if (chartBuilt) return;
+    chartBuilt = true;
+
+    const labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const fat    = [9.3, 21.1, 25, 32, 40, 48, 55, 65, 75, 85, 90, 100];
+    const prolab = [null, null, 6.25, 8, 10, 12, 13.75, 16.25, 18.75, 21.25, 22.5, 25];
+    const equipe = [null, null, 3, 4.5, 6, 8, 9, 11, 12, 14, 15, 16];
+    const custos = [9.1, 9.1, 9.3, 9.5, 9.8, 10, 10.2, 10.5, 10.8, 11, 11.2, 11.5];
+
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Faturamento',
+            data: fat,
+            borderColor: '#4ade80',
+            backgroundColor: 'rgba(74,222,128,.07)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#4ade80',
+            pointRadius: 5,
+          },
+          {
+            label: 'Pró-labore',
+            data: prolab,
+            borderColor: '#86efac',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#86efac',
+            borderDash: [],
+          },
+          {
+            label: 'Equipe',
+            data: equipe,
+            borderColor: '#2dd4bf',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#2dd4bf',
+          },
+          {
+            label: 'Custos Fixos',
+            data: custos,
+            borderColor: '#555',
+            borderWidth: 1.5,
+            borderDash: [6, 4],
+            fill: false,
+            tension: 0.3,
+            pointRadius: 2,
+            pointBackgroundColor: '#555',
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#aaa',
+              font: { family: 'Inter', size: 12 },
+              padding: 20,
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1a1a1a',
+            borderColor: '#333',
+            borderWidth: 1,
+            titleColor: '#fff',
+            bodyColor: '#ccc',
+            callbacks: {
+              label: ctx => {
+                const v = ctx.raw;
+                if (v == null) return null;
+                return ` ${ctx.dataset.label}: R$${v}k`;
+              }
+            }
+          },
+          annotation: {
+            annotations: {
+              q1: { type:'line', xMin:2, xMax:2, borderColor:'rgba(229,9,21,.3)', borderWidth:1, borderDash:[4,4], label:{content:'Q1', display:true, color:'#E50915', font:{size:10}} },
+              q2: { type:'line', xMin:5, xMax:5, borderColor:'rgba(229,9,21,.3)', borderWidth:1, borderDash:[4,4], label:{content:'Q2', display:true, color:'#E50915', font:{size:10}} },
+              q3: { type:'line', xMin:8, xMax:8, borderColor:'rgba(229,9,21,.3)', borderWidth:1, borderDash:[4,4], label:{content:'Q3', display:true, color:'#E50915', font:{size:10}} },
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#1f1f1f' },
+            ticks: { color: '#888', font: { family: 'Inter', size: 12 } }
+          },
+          y: {
+            min: 0, max: 120,
+            grid: { color: '#1f1f1f' },
+            ticks: {
+              color: '#888',
+              font: { family: 'Inter', size: 12 },
+              callback: v => 'R$' + v + 'k'
+            }
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial | Paola Peduzzi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Boutique Agency Palette */
+            --bg-base: #0a0a0c;
+            --bg-surface: #121214;
+            --bg-card: rgba(24, 24, 27, 0.6);
+            --primary: #2563eb;
+            --primary-dark: #1e3a8a;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --font-family: 'Outfit', sans-serif;
+            --border-subtle: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
+            font-family: var(--font-family); 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Boutique */
+        .navbar { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 40px 60px; 
+            position: absolute; 
+            width: 100%; 
+            z-index: 100; 
+        }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 2px; color: #fff; text-transform: uppercase; }
+        .logo span { color: var(--primary); font-weight: 300; }
+        
+        /* Hero Minimalist */
+        .hero { 
+            min-height: 90vh; 
+            display: flex; 
+            align-items: center; 
+            padding: 0 60px; 
+            position: relative; 
+            overflow: hidden; 
+            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 50%); 
+        }
+        .hero-content { max-width: 900px; z-index: 10; margin-top: 80px; }
+        .badge { 
+            display: inline-block; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            background: rgba(37, 99, 235, 0.1); 
+            border: 1px solid rgba(37, 99, 235, 0.2); 
+            color: var(--primary); 
+            font-size: 12px; 
+            font-weight: 600; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-bottom: 30px; 
+        }
+        .hero h1 { 
+            font-size: clamp(50px, 7vw, 84px); 
+            font-weight: 800; 
+            line-height: 1.05; 
+            margin-bottom: 30px; 
+            letter-spacing: -2px; 
+        }
+        .hero h1 span { color: var(--text-muted); font-weight: 300; }
+        .hero p { 
+            font-size: 22px; 
+            color: var(--text-muted); 
+            font-weight: 300; 
+            max-width: 650px; 
+            margin-bottom: 50px; 
+        }
+        
+        .btn-primary { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding: 20px 45px; 
+            background: #fff; 
+            color: #000; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: 600; 
+            letter-spacing: 1px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .btn-primary:hover { 
+            background: var(--text-muted); 
+            transform: translateY(-4px); 
+        }
+
+        /* Split Section Layout (The Agency Look) */
+        .split-section { 
+            display: flex; 
+            gap: 100px; 
+            padding: 120px 60px; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            border-bottom: 1px solid var(--border-subtle); 
+        }
+        .split-left { 
+            flex: 0 0 350px; 
+            position: sticky; 
+            top: 100px; 
+            height: fit-content; 
+        }
+        .split-right { flex: 1; }
+
+        .section-label { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 20px; 
+            display: block; 
+        }
+        .section-title { 
+            font-size: 42px; 
+            font-weight: 700; 
+            line-height: 1.2; 
+            letter-spacing: -1px; 
+            color: #fff;
+        }
+
+        /* Content Typography */
+        h4.content-title { font-size: 24px; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        p.content-text { font-size: 18px; color: var(--text-muted); font-weight: 300; margin-bottom: 30px; }
+
+        /* Glass Cards */
+        .glass-card { 
+            background: var(--bg-card); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid var(--border-subtle); 
+            border-radius: 12px; 
+            padding: 40px; 
+            margin-bottom: 24px; 
+            transition: all 0.3s ease; 
+        }
+        .glass-card:hover { border-color: rgba(255,255,255,0.1); }
+        
+        .card-icon { 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 8px; 
+            background: rgba(37, 99, 235, 0.1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 20px; 
+            color: var(--primary); 
+            margin-bottom: 24px; 
+            border: 1px solid rgba(37, 99, 235, 0.2); 
+        }
+
+        /* Grids & Lists */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        .icon-list-item { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 16px; 
+            margin-bottom: 24px; 
+            padding: 24px;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+        .icon-list-icon { margin-top: 2px; color: #10b981; font-size: 20px; }
+        .icon-list-icon.danger { color: #ef4444; }
+        .icon-list-content h5 { font-size: 18px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+        .icon-list-content p { color: var(--text-muted); font-size: 15px; font-weight: 300; }
+
+        /* Minimalist Table */
+        .minimal-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .minimal-table th { 
+            text-align: left; 
+            padding: 24px 16px; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            color: var(--text-muted); 
+            font-weight: 500; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+        .minimal-table td { 
+            padding: 24px 16px; 
+            border-bottom: 1px solid var(--border-subtle); 
+            font-size: 16px; 
+            color: var(--text-main);
+            font-weight: 300;
+        }
+        .minimal-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .minimal-table td strong { font-weight: 600; color: #fff; }
+        .highlight-text { color: var(--primary); font-weight: 600; }
+
+        /* Pricing Cards */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .price-card { 
+            background: var(--bg-surface); 
+            border: 1px solid var(--border-subtle); 
+            border-radius: 12px; 
+            padding: 50px 40px; 
+            position: relative; 
+            transition: transform 0.3s;
+        }
+        .price-card.featured { 
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, var(--bg-surface) 100%); 
+            border-color: rgba(37, 99, 235, 0.3); 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .featured-tag { 
+            position: absolute; 
+            top: -12px; 
+            left: 40px; 
+            background: var(--primary); 
+            padding: 6px 16px; 
+            border-radius: 4px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
+        .price-name { font-size: 18px; font-weight: 500; margin-bottom: 15px; color: var(--text-muted); }
+        .price-value { font-size: 48px; font-weight: 800; margin-bottom: 40px; line-height: 1; letter-spacing: -1px; }
+        .price-value span { font-size: 16px; font-weight: 300; color: var(--text-muted); }
+        
+        .price-features { list-style: none; margin-bottom: 0; }
+        .price-features li { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; color: var(--text-main); font-size: 15px; font-weight: 300; }
+        .price-features li i { color: var(--primary); font-size: 14px; }
+        .price-features li.disabled { opacity: 0.4; }
+        .price-features li.disabled i { color: var(--text-muted); }
+
+        /* Footer */
+        .footer { padding: 100px 60px; text-align: center; border-top: 1px solid var(--border-subtle); }
+        .footer h2 { font-size: 24px; font-weight: 800; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .footer p { color: var(--text-muted); font-size: 15px; font-weight: 300; }
+
+        @media (max-width: 1000px) {
+            .split-section { flex-direction: column; gap: 40px; padding: 80px 40px; }
+            .split-left { position: relative; top: 0; flex: none; margin-bottom: 20px; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .price-card.featured { transform: translateY(0); }
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 42px; }
+            .hero { padding: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Paola<span>Peduzzi</span></div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">Proposta Estratégica</div>
+            <h1>Performance &<br><span>Inteligência de Dados.</span></h1>
+            <p>Uma documentação executiva de gestão de tráfego pago baseada em dados. Estrutura desenhada para maximizar previsibilidade e Retorno sobre Investimento.</p>
+            <a href="#posicionamento" class="btn-primary">Ver Escopo do Projeto <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- 1. POSICIONAMENTO ESTRATÉGICO -->
+    <div id="posicionamento" class="split-section">
+        <div class="split-left">
+            <span class="section-label">01. Filosofia Base</span>
+            <h2 class="section-title">Decisões orientadas a dados reais.</h2>
+        </div>
+        <div class="split-right">
+            <h4 class="content-title">Posicionamento Estratégico</h4>
+            <p class="content-text">Esta frente de atuação foca na construção de uma estrutura de tráfego pago orientada 100% por validação estatística e comportamento do usuário.</p>
+            
+            <div class="glass-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h4 class="content-title">Transparência em Foco</h4>
+                <p class="content-text" style="margin-bottom: 0;">Utilizamos a inteligência técnica das plataformas para traduzir métricas complexas em decisões de ROI, removendo inteiramente o "achismo" da destinação da sua verba de marketing.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. O ESCOPO -->
+    <div class="split-section">
+        <div class="split-left">
+            <span class="section-label">02. O Escopo</span>
+            <h2 class="section-title">Clareza sobre a nossa parceria.</h2>
+        </div>
+        <div class="split-right">
+            <p class="content-text">Fronteiras cirúrgicas sobre as responsabilidades técnicas de cada lado para garantirmos a melhor entrega focada na expansão.</p>
+            
+            <h4 class="content-title" style="margin-top: 40px;">O que faz parte da Gestão</h4>
+            <div class="grid-2">
+                <div class="icon-list-item">
+                    <i class="fas fa-check-circle icon-list-icon"></i>
+                    <div class="icon-list-content">
+                        <h5>Setup Avançado</h5>
+                        <p>Configuração técnica avançada de Pixeis do Meta, eventos e públicos.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item">
+                    <i class="fas fa-check-circle icon-list-icon"></i>
+                    <div class="icon-list-content">
+                        <h5>Estratégia Ativa</h5>
+                        <p>Planejamento de campanhas, monitoramento e otimização de anúncios.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item" style="grid-column: 1 / -1;">
+                    <i class="fas fa-check-circle icon-list-icon"></i>
+                    <div class="icon-list-content">
+                        <h5>Consultoria e Dados</h5>
+                        <p>Análise de dados técnicos reportados através de reuniões de alinhamento com você e sua equipe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="content-title" style="margin-top: 40px; color: #ef4444;">Fica fora do Escopo (Não Incluso)</h4>
+            <div class="grid-2">
+                <div class="icon-list-item">
+                    <i class="fas fa-times-circle icon-list-icon danger"></i>
+                    <div class="icon-list-content">
+                        <h5>Criação de Conteúdo</h5>
+                        <p>Design de artes, captação ou edição de vídeos. <em>Responsabilidade do Cliente.</em></p>
+                    </div>
+                </div>
+                <div class="icon-list-item">
+                    <i class="fas fa-times-circle icon-list-icon danger"></i>
+                    <div class="icon-list-content">
+                        <h5>Programação Web</h5>
+                        <p>Alterações na estrutura de Landing Pages, Google Ads, TikTok e automações de CRM.</p>
+                    </div>
+                </div>
+                <div class="icon-list-item" style="grid-column: 1 / -1;">
+                    <i class="fas fa-times-circle icon-list-icon danger"></i>
+                    <div class="icon-list-content">
+                        <h5>Processo Comercial</h5>
+                        <p>Atendimento direto ao cliente no WhatsApp (Call Center) ou responsabilidade pelo fechamento 1 a 1 de vendas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. VIA DE MÃO DUPLA -->
+    <div class="split-section">
+        <div class="split-left">
+            <span class="section-label">03. Acordo Mútuo</span>
+            <h2 class="section-title">A via de mão dupla do sucesso.</h2>
+        </div>
+        <div class="split-right">
+            <div class="glass-card">
+                <h4 class="content-title">Participação Ativa no Processo</h4>
+                <p class="content-text">A escala de resultados não é um processo unilateral. O gestor de tráfego foca em estratégias de atração e métricas, mas é o seu envolvimento diário com comercial, atendimento e fornecimento dos anúncios que transforma esse tráfego em <strong>dinheiro no caixa</strong> no fim do mês.</p>
+                
+                <h4 class="content-title" style="margin-top: 30px;">Melhoria Contínua</h4>
+                <p class="content-text" style="margin-bottom: 0;">Nossos entregáveis não são apenas planilhas com números; nós te entregamos sugestões práticas de como melhorar a oferta e as vendas. Ao término de cada mês, enviamos uma pesquisa rápida de satisfação para garantirmos a excelência técnica constante do nosso lado.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. DIFERENCIAIS -->
+    <div class="split-section">
+        <div class="split-left">
+            <span class="section-label">04. Modalidades</span>
+            <h2 class="section-title">Diferenciais de entrega por plano.</h2>
+        </div>
+        <div class="split-right">
+            <p class="content-text">Para facilitar sua escolha de investimento, entenda o perfil ideal para cada nível de serviço analítico disponível.</p>
+            
+            <table class="minimal-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Plano</th>
+                        <th style="width: 35%;">Perfil do Negócio</th>
+                        <th style="width: 40%;">Diferencial Principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>BASIC</strong></td>
+                        <td>Necessidade de presença digital constante.</td>
+                        <td>Relatórios claros sobre o desempenho do seu investimento na malha.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="highlight-text">PREMIUM</span></td>
+                        <td>Negócios focados em <strong>escalar o faturamento</strong>.</td>
+                        <td>Inteligência focada. <strong>Dashboard em Tempo Real</strong> e ajustes muito mais rápidos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PARCEIRO</strong></td>
+                        <td>Clientes exclusivos (Ecossistema interno REVO).</td>
+                        <td>Gestão VIP de Tráfego e suporte com contato prioritário.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 5. INVESTIMENTOS -->
+    <div class="split-section">
+        <div class="split-left">
+            <span class="section-label">05. Investimentos</span>
+            <h2 class="section-title">Planos<br>Operacionais.</h2>
+            <p class="content-text" style="margin-top: 20px; font-size: 15px;">Ciclo mínimo sugerido: 03 meses para ganho de inteligência de plataforma.</p>
+        </div>
+        <div class="split-right">
+            <div class="pricing-grid">
+                
+                <!-- BASIC -->
+                <div class="price-card">
+                    <div class="price-name">Plano Basic</div>
+                    <div class="price-value">R$ 1.2k<span>/mês</span></div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Setup & Gestão Meta Ads</li>
+                        <li><i class="fas fa-check"></i> Relatório PDF Mensal</li>
+                        <li><i class="fas fa-check"></i> 01 Reunião de Alinhamento</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Dashboard Time-Real</li>
+                    </ul>
+                </div>
+
+                <!-- PREMIUM -->
+                <div class="price-card featured">
+                    <div class="featured-tag">Recomendado</div>
+                    <div class="price-name" style="color: var(--primary);">Plano Premium</div>
+                    <div class="price-value">R$ 1.5k<span>/mês</span></div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Gestão de Escala Meta Ads</li>
+                        <li><i class="fas fa-check"></i> Relatório Profundo Dados</li>
+                        <li><i class="fas fa-check"></i> <strong>02 Reuniões</strong> de Análise</li>
+                        <li><i class="fas fa-check"></i> <strong>Dashboard Inteligente</strong></li>
+                    </ul>
+                </div>
+
+                <!-- VIP -->
+                <div class="price-card">
+                    <div class="price-name">Condição Parceiro</div>
+                    <div class="price-value">R$ 1.0k<span>/mês</span></div>
+                    <ul class="price-features">
+                        <li><i class="fas fa-check"></i> Gestão Meta Ads Full</li>
+                        <li><i class="fas fa-check"></i> Relatório de Fechamento</li>
+                        <li><i class="fas fa-check"></i> Dashboard Analítico</li>
+                        <li><i class="fas fa-check"></i> Reunião Sob-Demanda</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="glass-card" style="margin-top: 40px; padding: 20px 30px;">
+                <p class="content-text" style="font-size: 13px; margin-bottom: 0;">
+                    <strong>Notas Adicionais:</strong> *Valores aplicáveis para orçamentos de mídia direta de até R$ 10.000,00/mês. A verba de mídia não está inclusa nestes honorários e é paga diretamente às plataformas (Meta), via cartão ou boleto. A modalidade opera sob gestão pré-paga no início de ciclos contínuos de 30 dias.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. SLA & CHECKLIST -->
+    <div class="split-section">
+        <div class="split-left">
+            <span class="section-label">06. Próximos Passos</span>
+            <h2 class="section-title">Logística e<br>Gatilhos Iniciais.</h2>
+        </div>
+        <div class="split-right">
+            
+            <h4 class="content-title">Diretrizes de Atendimento (SLA)</h4>
+            <div class="glass-card" style="padding: 30px;">
+                <ul class="price-features">
+                    <li><i class="fas fa-clock"></i> <strong>Horário Comercial:</strong> Segunda a Sexta, das 09h às 18h.</li>
+                    <li><i class="fas fa-envelope"></i> <strong>Canais de Contato:</strong> WhatsApp para urgências operacionais e E-mail profissional.</li>
+                    <li><i class="fas fa-bolt"></i> <strong>Tempo de Resposta Prometido:</strong> Em até <strong>2 horas úteis</strong> dentro do horário comercial, prezando pelo andamento dos seus resultados.</li>
+                </ul>
+            </div>
+
+            <h4 class="content-title" style="margin-top: 40px;">Checklist "Start" Operacional</h4>
+            <p class="content-text">Para iniciarmos a operação técnica nas primeiras 24h pós-fechamento, prepare os seguintes itens do seu ecossistema digital:</p>
+            
+            <div class="icon-list-item" style="margin-bottom: 12px; padding: 15px 20px;">
+                <i class="fas fa-id-card icon-list-icon" style="font-size: 16px;"></i>
+                <div class="icon-list-content">
+                    <p style="color: #fff; margin-bottom: 0;"><strong>Acesso de Administrador/Parceiro</strong> concedido de maneira limpa no seu Gerenciador de Negócios (BM).</p>
+                </div>
+            </div>
+            <div class="icon-list-item" style="margin-bottom: 12px; padding: 15px 20px;">
+                <i class="fas fa-credit-card icon-list-icon" style="font-size: 16px;"></i>
+                <div class="icon-list-content">
+                    <p style="color: #fff; margin-bottom: 0;"><strong>Conta de Anúncios</strong> ativa e sem bloqueios institucionais, já com o método de pagamento cadastrado.</p>
+                </div>
+            </div>
+            <div class="icon-list-item" style="margin-bottom: 12px; padding: 15px 20px;">
+                <i class="fas fa-share-nodes icon-list-icon" style="font-size: 16px;"></i>
+                <div class="icon-list-content">
+                    <p style="color: #fff; margin-bottom: 0;"><strong>Diretórios Vinculados:</strong> A sua Página oficial no Facebook e o perfil de base no Instagram devem constar dentro da BM.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <h2>Paola Peduzzi</h2>
+        <p>Inteligência de Dados. Decisões estratégicas orientadas pela estatística.</p>
+    </div>
+
+</body>
+</html>

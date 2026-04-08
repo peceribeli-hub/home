@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>REVO Advisory — Proposta · Derick Nodari</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:   #E50915;
+  --bg:    #111111;
+  --dark:  #1A1A1A;
+  --card:  #7A3328;
+  --white: #FFFFFF;
+  --cream: #F2D9C3;
+  --green: #4ade80;
+  --muted: #444444;
+  --border:#2a2a2a;
+  --pad:   88px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow: hidden;
+  width: 100vw; height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(17,17,17,.97); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  height: 52px; gap: 2px; padding: 0 40px;
+  flex-wrap: nowrap; overflow-x: auto;
+}
+.nav-section { display: flex; align-items: center; gap: 2px; padding: 0 8px; border-right: 1px solid var(--border); }
+.nav-section:last-child { border-right: none; }
+.nav-label { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #3a3a3a; padding: 0 6px; white-space: nowrap; }
+.nav-btn {
+  background: none; border: none; color: #555; font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  cursor: pointer; padding: 5px 10px; border-radius: 6px; transition: all .2s; white-space: nowrap;
+}
+.nav-btn:hover { color: var(--white); background: #1e1e1e; }
+.nav-btn.active { color: var(--white); background: var(--red); }
+
+/* ── SLIDES ── */
+#deck { width: 100vw; height: 100vh; position: relative; }
+.slide {
+  position: absolute; inset: 0;
+  padding: 70px var(--pad) 52px;
+  display: none; flex-direction: column;
+  opacity: 0; transition: opacity .3s;
+}
+.slide.active { display: flex; opacity: 1; }
+
+/* ── LABEL / TITLE ── */
+.slide-label { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.slide-title { font-size: 42px; font-weight: 900; line-height: 1.06; color: var(--white); margin-bottom: 30px; }
+.slide-title span { color: var(--red); }
+.slide-title em  { color: var(--cream); font-style: normal; }
+
+/* ── ROWS / COLS ── */
+.row { display: flex; gap: 18px; flex: 1; }
+.col { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+/* ── CARDS (warm brand) ── */
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px; padding: 22px 24px;
+  display: flex; flex-direction: column;
+}
+.card-dark {
+  background: var(--dark);
+  border: 1px solid var(--border);
+}
+.card-outline {
+  background: transparent;
+  border: 1px solid rgba(229,9,21,.2);
+  border-radius: 14px; padding: 22px 24px;
+  display: flex; flex-direction: column;
+}
+.card-green-tint {
+  background: rgba(74,222,128,.04);
+  border: 1px solid rgba(74,222,128,.2);
+  border-radius: 16px; padding: 32px 36px;
+  display: flex; flex-direction: column;
+}
+.card-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cream); margin-bottom: 10px; }
+.card-value { font-size: 30px; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 5px; }
+.card-desc  { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.6; }
+
+/* ── BULLET ITEMS ── */
+.item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 11px; }
+.item:last-child { margin-bottom: 0; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); margin-top: 9px; flex-shrink: 0; }
+.dot-cream { background: var(--cream); }
+.item-text { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.65; }
+.item-text strong { color: var(--white); }
+
+/* ── HIGHLIGHT BAR ── */
+.hl {
+  background: rgba(229,9,21,.07); border-left: 3px solid var(--red);
+  padding: 14px 20px; border-radius: 0 8px 8px 0;
+  font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.7;
+}
+
+/* ── PULL QUOTE ── */
+.pull-quote {
+  border-left: 4px solid var(--red);
+  padding: 16px 28px;
+  font-size: 26px; font-weight: 800; color: var(--cream);
+  font-style: italic; line-height: 1.3;
+  background: rgba(229,9,21,.05); border-radius: 0 12px 12px 0;
+  margin-bottom: 28px;
+}
+
+/* ── STAT BLOCKS ── */
+.stat-row { display: flex; gap: 16px; }
+.stat {
+  flex: 1; background: var(--dark); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 18px; text-align: center;
+}
+.stat-value { font-size: 30px; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 11px; color: #666; line-height: 1.45; }
+
+/* ── ICON CARDS ── */
+.icon-card {
+  flex: 1; background: var(--dark); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 22px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.icon-wrap {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(229,9,21,.12); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.icon-title { font-size: 14px; font-weight: 700; color: var(--white); line-height: 1.3; }
+.icon-desc  { font-size: 12px; color: #777; line-height: 1.6; }
+
+/* ── TIMELINE ── */
+.timeline { display: flex; flex-direction: column; gap: 0; flex: 1; justify-content: space-around; }
+.t-item { display: flex; gap: 18px; align-items: flex-start; position: relative; padding-bottom: 18px; }
+.t-item:not(:last-child)::after {
+  content: ''; position: absolute; left: 17px; top: 36px; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.t-num {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(229,9,21,.1); border: 1px solid rgba(229,9,21,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; color: var(--red); z-index: 1; text-align: center; line-height: 1.3;
+}
+.t-body { flex: 1; padding-top: 5px; }
+.t-when  { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #444; margin-bottom: 2px; }
+.t-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.t-desc  { font-size: 12px; color: #777; line-height: 1.55; }
+
+/* ── PRICING ── */
+.price-card {
+  flex: 1; background: var(--dark); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 26px; position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.price-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--border); }
+.price-card.featured::before { background: var(--red); }
+.price-badge {
+  position: absolute; top: 14px; right: 14px;
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--red); color: var(--white); padding: 3px 9px; border-radius: 4px;
+}
+.price-method { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #555; margin-bottom: 10px; }
+.price-value  { font-size: 50px; font-weight: 900; color: var(--cream); line-height: 1; margin-bottom: 8px; }
+.price-note   { font-size: 13px; color: #777; line-height: 1.55; flex: 1; }
+.inst { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.06); }
+.inst-item { font-size: 13px; color: #888; margin-bottom: 4px; }
+
+/* ── CTA ── */
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: #25D366; color: var(--white); text-decoration: none;
+  font-size: 16px; font-weight: 700; padding: 18px 40px;
+  border-radius: 10px; transition: opacity .2s; width: fit-content;
+}
+.cta-btn:hover { opacity: .88; }
+
+/* ── COVER ── */
+.cover-accent { position: absolute; right: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, transparent 10%, var(--red) 50%, transparent 90%); }
+.cover-big { font-size: 66px; font-weight: 900; line-height: 1.0; color: var(--white); margin-bottom: 18px; }
+.cover-big span { color: var(--red); }
+.cover-sub  { font-size: 17px; color: #666; line-height: 1.75; max-width: 560px; margin-bottom: 40px; }
+.cover-meta { display: flex; gap: 48px; }
+.cover-meta .label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #333; margin-bottom: 4px; }
+.cover-meta .val   { font-size: 15px; font-weight: 700; color: var(--cream); }
+
+/* ── FOOTER DOTS ── */
+#footer {
+  position: fixed; bottom: 16px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 6px; z-index: 100;
+}
+.dot-btn { width: 6px; height: 6px; border-radius: 50%; border: none; cursor: pointer; transition: all .2s; background: #2e2e2e; }
+.dot-btn.active { background: var(--red); transform: scale(1.4); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <span class="nav-label">Contexto</span>
+  <div class="nav-section">
+    <button class="nav-btn active" onclick="goTo(0)">00 · Proposta</button>
+    <button class="nav-btn" onclick="goTo(1)">01 · Cenário</button>
+    <button class="nav-btn" onclick="goTo(2)">02 · REVO</button>
+  </div>
+  <span class="nav-label">Serviço</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(3)">03 · Escopo</button>
+    <button class="nav-btn" onclick="goTo(4)">04 · Cronograma</button>
+  </div>
+  <span class="nav-label">Contrato</span>
+  <div class="nav-section">
+    <button class="nav-btn" onclick="goTo(5)">05 · Investimento</button>
+    <button class="nav-btn" onclick="goTo(6)">06 · Garantia</button>
+    <button class="nav-btn" onclick="goTo(7)">07 · Fechar</button>
+  </div>
+</nav>
+
+<div id="deck">
+
+<!-- ══════════════════════
+     00 · CAPA
+══════════════════════ -->
+<section class="slide active" id="s0">
+  <div class="cover-accent"></div>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+    <div style="display:inline-block; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--red); border:1px solid rgba(229,9,21,.3); border-radius:4px; padding:3px 10px; margin-bottom:24px; width:fit-content;">
+      Diagnóstico + Acompanhamento · 60 dias
+    </div>
+    <div class="cover-big">
+      Você já tem<br>resultado.<br><span>E agora?</span>
+    </div>
+    <div class="cover-sub">
+      Mais de R$&nbsp;30 mil de lucro por mês. O próximo passo não é trabalhar mais. É saber, com precisão, de onde vem o que está funcionando.
+    </div>
+    <div class="cover-meta">
+      <div>
+        <div class="label">Para</div>
+        <div class="val">Derick Nodari</div>
+      </div>
+      <div>
+        <div class="label">Elaborado por</div>
+        <div class="val">REVO Advisory</div>
+      </div>
+      <div>
+        <div class="label">Data</div>
+        <div class="val">Março de 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     01 · CENÁRIO
+══════════════════════ -->
+<section class="slide" id="s1">
+  <div class="slide-label">01 · O cenário</div>
+  <div class="slide-title">O gargalo agora<br><span>não é esforço.</span></div>
+  <div class="row">
+    <div class="icon-card">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50915" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="icon-title">Qual canal traz quem fecha?</div>
+      <div class="icon-desc">Volume de leads não é o mesmo que leads que convertem. Você sabe separar os dois?</div>
+    </div>
+    <div class="icon-card">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50915" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="icon-title">Onde saem os leads no meio?</div>
+      <div class="icon-desc">Em qual etapa do funil as conversões estão travando, sem você ver?</div>
+    </div>
+    <div class="icon-card">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50915" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+      </div>
+      <div class="icon-title">O que é replicável com previsibilidade?</div>
+      <div class="icon-desc">Do que você produz hoje, quanto consegue reproduzir com resultado consistente?</div>
+    </div>
+    <div class="icon-card">
+      <div class="icon-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E50915" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="icon-title">O que corrói margem sem aparecer?</div>
+      <div class="icon-desc">Qual parte da operação cresce mais rápido que o faturamento?</div>
+    </div>
+  </div>
+  <div class="hl" style="margin-top:18px;">
+    Essas perguntas não têm resposta boa sem dados. Sem eles, as decisões ficam mais caras à medida que o negócio cresce.
+  </div>
+</section>
+
+<!-- ══════════════════════
+     02 · REVO
+══════════════════════ -->
+<section class="slide" id="s2">
+  <div class="slide-label">02 · Como trabalhamos</div>
+  <div class="slide-title">A REVO não opera<br><span>com achismo.</span></div>
+  <div class="pull-quote">"Fé só em Deus. O resto é dado."</div>
+  <div style="font-size:15px; color:#999; line-height:1.8; max-width:640px; margin-bottom:30px;">
+    Toda direção parte dos dados do <strong style="color:var(--white);">seu</strong> negócio. Diagnóstico, análise e plano de ação. Sem gestão de tráfego, sem produção de conteúdo, sem reunião de vaidade.
+  </div>
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-value">+R$&nbsp;2M</div>
+      <div class="stat-label">gerados para clientes no histórico</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">+R$&nbsp;700k</div>
+      <div class="stat-label">de faturamento em um cliente em 6 meses</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2x</div>
+      <div class="stat-label">Black Friday dobrada em ciclos recentes</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     03 · ESCOPO
+══════════════════════ -->
+<section class="slide" id="s3">
+  <div class="slide-label">03 · O escopo</div>
+  <div class="slide-title">O que você <em>recebe.</em></div>
+  <div class="row">
+    <div class="col" style="flex:1.1;">
+      <div class="card" style="flex:1;">
+        <div class="card-label">Diagnóstico dos funis</div>
+        <div class="item"><div class="dot"></div><div class="item-text"><strong>Funil de Mentoria</strong> — jornada de lead, fricções e ciclo de fechamento</div></div>
+        <div class="item"><div class="dot"></div><div class="item-text"><strong>Funil de Perpétuo</strong> — aquisição, ativação, recorrência</div></div>
+        <div class="item"><div class="dot"></div><div class="item-text"><strong>Orgânico e pago</strong> — o que gera lead qualificado versus alcance sem conversão</div></div>
+      </div>
+      <div class="card" style="flex:1;">
+        <div class="card-label">Análise de dados e leads</div>
+        <div class="item"><div class="dot"></div><div class="item-text">Quais canais trazem os leads que compram</div></div>
+        <div class="item"><div class="dot"></div><div class="item-text">Conversão etapa a etapa e onde os leads saem</div></div>
+        <div class="item"><div class="dot"></div><div class="item-text">Qualidade e estrutura dos dados existentes</div></div>
+      </div>
+    </div>
+    <div class="col" style="flex:1;">
+      <div class="card-outline" style="flex:1; border-top:3px solid var(--red); border-radius:0 14px 14px 14px;">
+        <div style="font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--red); margin-bottom:12px;">Entrega principal</div>
+        <div style="font-size:17px; font-weight:800; color:var(--white); margin-bottom:16px;">Plano de Ação Completo</div>
+        <div class="item"><div class="dot dot-cream"></div><div class="item-text">Diagnóstico consolidado por funil e etapa</div></div>
+        <div class="item"><div class="dot dot-cream"></div><div class="item-text">Metas definidas a partir dos dados reais</div></div>
+        <div class="item"><div class="dot dot-cream"></div><div class="item-text">Prioridades ordenadas por impacto</div></div>
+        <div class="item"><div class="dot dot-cream"></div><div class="item-text"><strong>Quem contratar, em qual ordem</strong> e o que avaliar em cada posição</div></div>
+        <div class="item"><div class="dot dot-cream"></div><div class="item-text">Apoio direto nas contratações durante o acompanhamento</div></div>
+      </div>
+      <div style="font-size:12px; color:#3a3a3a; font-style:italic; line-height:1.6; padding:0 2px;">
+        Implementação técnica não está neste escopo. Se o diagnóstico apontar necessidade, vira próximo passo natural.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     04 · CRONOGRAMA
+══════════════════════ -->
+<section class="slide" id="s4">
+  <div class="slide-label">04 · Como vai acontecer</div>
+  <div class="slide-title"><span>60 dias.</span> Marcos definidos.</div>
+  <div class="row" style="gap:36px; align-items:flex-start;">
+    <div style="flex:1.3;">
+      <div class="timeline">
+        <div class="t-item">
+          <div class="t-num">D+1</div>
+          <div class="t-body">
+            <div class="t-when">Imediatamente após pagamento</div>
+            <div class="t-title">Call de Onboarding — 60 a 90 min</div>
+            <div class="t-desc">Coleta de acessos, histórico e funis ativos.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-num">D+15</div>
+          <div class="t-body">
+            <div class="t-when">Marco de alinhamento</div>
+            <div class="t-title">Validação dos achados iniciais</div>
+            <div class="t-desc">Revisão de hipóteses e dados antes da entrega.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-num">D+21</div>
+          <div class="t-body">
+            <div class="t-when">Entrega principal</div>
+            <div class="t-title">Plano de Ação Completo</div>
+            <div class="t-desc">Apresentado em call dedicada. Este é o produto central.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <div class="t-num" style="height:auto;border-radius:10px;font-size:8px;padding:6px;text-align:center;line-height:1.4;">D+30<br>D+45</div>
+          <div class="t-body">
+            <div class="t-when">Cadência recomendada</div>
+            <div class="t-title">Checkpoints quinzenais</div>
+            <div class="t-desc">Revisar execução, ajustar prioridades e apoiar contratações.</div>
+          </div>
+        </div>
+        <div class="t-item" style="padding-bottom:0;">
+          <div class="t-num">D+60</div>
+          <div class="t-body">
+            <div class="t-when">Encerramento</div>
+            <div class="t-title">Revisão final e próximos passos</div>
+            <div class="t-desc">Avaliação do executado e definição do que vem depois.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px;">
+      <div class="card card-dark">
+        <div class="card-label">Reuniões no período</div>
+        <div class="card-value">5 encontros</div>
+        <div class="card-desc">Onboarding + alinhamento + entrega + 2 checkpoints</div>
+      </div>
+      <div class="card card-dark">
+        <div class="card-label">Entregável central</div>
+        <div class="card-value">D+21</div>
+        <div class="card-desc">Plano de Ação em documento completo</div>
+      </div>
+      <div class="card card-dark">
+        <div class="card-label">Duração total</div>
+        <div class="card-value">60 dias</div>
+        <div class="card-desc">Início imediato após confirmação do pagamento</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     05 · INVESTIMENTO
+══════════════════════ -->
+<section class="slide" id="s5">
+  <div class="slide-label">05 · Investimento</div>
+  <div class="slide-title">Condições de <em>pagamento.</em></div>
+  <div style="display:flex; gap:20px; flex:1; align-items:stretch;">
+    <div class="price-card featured" style="flex:1.3;">
+      <div class="price-badge">Melhor condição</div>
+      <div class="price-method">Pix</div>
+      <div class="price-value">R$&nbsp;4.500</div>
+      <div class="price-note">Pagamento único. Sem juros. Início imediato.</div>
+      <div style="margin-top:auto; padding-top:18px; border-top:1px solid rgba(255,255,255,.06);">
+        <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:#555;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Menor valor disponível
+        </div>
+      </div>
+    </div>
+    <div class="price-card" style="flex:1.3;">
+      <div class="price-method">Cartão de Crédito</div>
+      <div class="price-value">R$&nbsp;5.000</div>
+      <div class="price-note">Parcelado conforme as condições da operadora.</div>
+      <div class="inst">
+        <div class="inst-item">3x de R$&nbsp;1.792,31</div>
+        <div class="inst-item">6x de R$&nbsp;922,55</div>
+        <div class="inst-item">12x de R$&nbsp;499,97</div>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:14px; justify-content:center;">
+      <div class="card card-dark" style="padding:24px 22px; border-left:3px solid var(--red);">
+        <div style="font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--red); margin-bottom:8px;">Lembre</div>
+        <div style="font-size:14px; color:rgba(255,255,255,.75); line-height:1.75;">
+          Se você fechar Advisory ou Implementação em até <strong style="color:var(--white);">90 dias</strong>, os 100% do que pagou voltam como crédito integral.
+        </div>
+      </div>
+      <div style="font-size:11px; color:#3a3a3a; line-height:1.6; padding:0 2px;">
+        Juros do parcelamento seguem as condições da operadora do cartão.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     06 · GARANTIA
+══════════════════════ -->
+<section class="slide" id="s6">
+  <div class="slide-label">06 · Garantia</div>
+  <div class="slide-title">O risco<br>é <span>nosso.</span></div>
+  <div style="flex:1; display:flex; flex-direction:column; gap:18px;">
+    <div class="card-green-tint" style="flex:1;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin-bottom:14px;">Garantia de Progressão · 90 dias</div>
+      <div style="font-size:22px; font-weight:800; color:var(--white); line-height:1.4; margin-bottom:14px;">
+        Se em até 90 dias você fechar Advisory ou Implementação com a REVO,<br>
+        <span style="color:var(--green);">100% do valor pago volta como crédito integral</span> no próximo contrato.
+      </div>
+      <div style="font-size:14px; color:#666; line-height:1.7;">
+        Sem restrições de uso. Sem negociação. Sem condições escondidas.
+      </div>
+    </div>
+    <div class="row" style="flex:0; gap:14px;">
+      <div class="card card-dark" style="flex:1; gap:6px;">
+        <div style="font-size:12px; font-weight:700; color:var(--cream);">Não é desconto</div>
+        <div style="font-size:13px; color:#777; line-height:1.6;">A REVO assume o risco do primeiro passo com você.</div>
+      </div>
+      <div class="card card-dark" style="flex:1; gap:6px;">
+        <div style="font-size:12px; font-weight:700; color:var(--cream);">Você não perde o investimento</div>
+        <div style="font-size:13px; color:#777; line-height:1.6;">Se avançar, o valor pago financia o próximo nível.</div>
+      </div>
+      <div class="card card-dark" style="flex:1; gap:6px;">
+        <div style="font-size:12px; font-weight:700; color:var(--cream);">Prazo definido</div>
+        <div style="font-size:13px; color:#777; line-height:1.6;">90 dias a partir do início. Sem ambiguidade.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════
+     07 · FECHAR
+══════════════════════ -->
+<section class="slide" id="s7">
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; max-width:620px;">
+    <div class="slide-label">07 · Próximo passo</div>
+    <div class="cover-big" style="font-size:54px; margin-bottom:14px;">
+      Quando quiser avançar,<br><span>a conversa é direta.</span>
+    </div>
+    <div class="cover-sub" style="font-size:16px; margin-bottom:36px; color:#555;">
+      Nada de formulário. Nada de etapa extra. Uma mensagem.
+    </div>
+    <a href="https://wa.me/5519966524122?text=BORA%20FECHAR" class="cta-btn" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Clique aqui — envie: BORA FECHAR
+    </a>
+    <div style="font-size:13px; color:#3a3a3a; margin-top:16px;">REVO Advisory · +55 19 96652-4122</div>
+  </div>
+  <div style="position:absolute; bottom:68px; right:var(--pad); text-align:right;">
+    <div style="font-size:10px; color:#2a2a2a; letter-spacing:.06em; margin-bottom:4px;">REVO ADVISORY</div>
+    <div style="font-size:10px; color:#2a2a2a; letter-spacing:.06em;">Proposta Confidencial · Mar/2026</div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<!-- FOOTER DOTS -->
+<div id="footer">
+  <button class="dot-btn active" onclick="goTo(0)"></button>
+  <button class="dot-btn" onclick="goTo(1)"></button>
+  <button class="dot-btn" onclick="goTo(2)"></button>
+  <button class="dot-btn" onclick="goTo(3)"></button>
+  <button class="dot-btn" onclick="goTo(4)"></button>
+  <button class="dot-btn" onclick="goTo(5)"></button>
+  <button class="dot-btn" onclick="goTo(6)"></button>
+  <button class="dot-btn" onclick="goTo(7)"></button>
+</div>
+
+<script>
+  const total = 8;
+  let cur = 0;
+  window.total = total;
+
+  function goTo(n) {
+    document.getElementById('s' + cur).classList.remove('active');
+    document.querySelectorAll('.nav-btn')[cur].classList.remove('active');
+    document.querySelectorAll('.dot-btn')[cur].classList.remove('active');
+    cur = n;
+    document.getElementById('s' + cur).classList.add('active');
+    document.querySelectorAll('.nav-btn')[cur].classList.add('active');
+    document.querySelectorAll('.dot-btn')[cur].classList.add('active');
+    document.querySelectorAll('.nav-btn')[cur].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(cur + 1, total - 1));
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(Math.max(cur - 1, 0));
+  });
+</script>
+</body>
+</html>

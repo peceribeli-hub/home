@@ -1,0 +1,23 @@
+{
+    "eval_id": 2,
+    "eval_name": "vsl-destruicao-ponte-agencias",
+    "prompt": "Aurora, ative o Copywriter. Preciso de um script de VSL focado na Destruição da Ponte sobre o modelo tradicional de agências, atacando o voo cego no tráfego. O público são infoprodutores e agências que faturam R$30k+. Cliente: Regis Prado.",
+    "assertions": [
+        {
+            "name": "Sem em-dash",
+            "description": "O output NÃO deve conter o caractere — (em-dash/travessão) em nenhuma parte"
+        },
+        {
+            "name": "Mecânismo Único presente",
+            "description": "O VSL deve apresentar o Mecanismo Único do Advisory (ex: Dashboard, Kommo CRM, rastreio cirúrgico) como alternativa à agência"
+        },
+        {
+            "name": "Destruição da Ponte",
+            "description": "O texto deve atacar a crença antiga do ICP (agência, feeling, CLT Premium) antes de apresentar a solução"
+        },
+        {
+            "name": "Sem jargões proibidos",
+            "description": "O output NÃO deve conter: 'Founder', 'Co-Founder', 'hackzinho', 'fórmula mágica', 'guru'"
+        }
+    ]
+}
