@@ -790,10 +790,8 @@ def get_session_page(client_name, client_id, report_html):
             <h1>Report de <span>Resultados.</span></h1>
         </div>
         <div class="header-right">
-            <span class="client-name">{client_name}</span>
             <button class="btn-refresh" onclick="refreshReport(this)">
                 <span class="spinner"></span>
-                <span class="icon">🔄</span>
                 <span class="text">Atualizar</span>
             </button>
             <a href="/?logout=1" class="btn-logout">Sair</a>
