@@ -207,7 +207,7 @@ def generate_report(sheet_id):
         for prob_name, count in sorted(demanda_meta.items(), key=lambda x: x[1], reverse=True):
             prob_label = prob_name if prob_name else "Desconhecido"
             prob_cpl = meta_inv / count if count else 0
-            demanda_meta_html += f'''<div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b style="color: var(--text-gray-light); font-weight: 500; font-size: 12px; text-transform: uppercase;">{prob_label}</b><span style="text-align: center; color: var(--text-white); font-weight: 700;">{count} Leads</span><span style="text-align: right; color: var(--text-gray-light); font-weight: 700;">{format_currency(prob_cpl)}</span></div>'''
+            demanda_meta_html += f'''<div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border-dim); font-size: 13px; align-items: center;"><b style="color: var(--text-gray-light); font-weight: 500; font-size: 12px; text-transform: uppercase;">{prob_label}</b><span style="text-align: center; color: var(--text-white); font-weight: 700;">{count} Leads</span><span style="text-align: right; color: var(--text-gray-light); font-weight: 700;">{format_currency(prob_cpl)}</span></div>'''
 
         df_m['Mensagens Num'] = pd.to_numeric(df_m['Mensagens'], errors='coerce').fillna(0)
         df_m['Invest Num'] = df_m['Investimento'].apply(parse_float)
@@ -219,7 +219,7 @@ def generate_report(sheet_id):
             text_color = "var(--brand-color)" if is_pausado else "var(--text-white)"
             asterisk = "*" if is_pausado else ""
             cpl_criativo = row['Invest Num'] / row['Mensagens Num'] if row['Mensagens Num'] else 0
-            criativos_html += f'''<div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b><a href="{row['AD URL']}" target="_blank" class="btn-criativo">{row['Anúncio'][:20]}</a></b><span style="text-align: center; color: {text_color}; font-weight: 700;">{int(row['Mensagens Num'])} Leads{asterisk}</span><span style="text-align: right; color: {text_color}; font-weight: 700;">{format_currency(cpl_criativo)}{asterisk}</span></div>'''
+            criativos_html += f'''<div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border-dim); font-size: 13px; align-items: center;"><b><a href="{row['AD URL']}" target="_blank" class="btn-criativo">{row['Anúncio'][:20]}</a></b><span style="text-align: center; color: {text_color}; font-weight: 700;">{int(row['Mensagens Num'])} Leads{asterisk}</span><span style="text-align: right; color: {text_color}; font-weight: 700;">{format_currency(cpl_criativo)}{asterisk}</span></div>'''
 
         goog_inv = float(df_g['Investimento'].apply(parse_float).sum()) if len(df_g) > 0 else 0.0
         goog_convs = float(pd.to_numeric(df_g['Conversões'], errors='coerce').sum()) if len(df_g) > 0 else 0.0
@@ -232,7 +232,7 @@ def generate_report(sheet_id):
         for prob_name, count in sorted(demanda_goog.items(), key=lambda x: x[1], reverse=True):
             prob_label = prob_name if prob_name else "Desconhecido"
             prob_cpl = goog_inv / count if count else 0
-            demanda_goog_html += f'''<div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b style="color: var(--text-gray-light); font-weight: 500; font-size: 12px; text-transform: uppercase;">{prob_label}</b><span style="text-align: center; color: var(--text-white); font-weight: 700;">{count} Leads</span><span style="text-align: right; color: var(--text-gray-light); font-weight: 700;">{format_currency(prob_cpl)}</span></div>'''
+            demanda_goog_html += f'''<div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border-dim); font-size: 13px; align-items: center;"><b style="color: var(--text-gray-light); font-weight: 500; font-size: 12px; text-transform: uppercase;">{prob_label}</b><span style="text-align: center; color: var(--text-white); font-weight: 700;">{count} Leads</span><span style="text-align: right; color: var(--text-gray-light); font-weight: 700;">{format_currency(prob_cpl)}</span></div>'''
 
         pipeline_html = ""
         colors_map = {"Meta Ads": "#3B82F6", "Google Ads": "#22C55E", "Indicação": "#F97316", "Desconhecido": "#A855F7"}
@@ -243,7 +243,7 @@ def generate_report(sheet_id):
             color = colors_map.get(label, "#FFFFFF")
             emoji = emoji_map.get(label, "")
             padding = padding_map.get(label, "20px")
-            pipeline_html += f'''<li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;"><b style="color: {color};">{emoji} {label} ({len(group_df)} Leads)</b><div style="font-size: 13px; color: var(--text-gray-light); width: 100%; box-sizing: border-box; padding-right: {padding}; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px; margin-top: 4px; line-height: 1.6;">'''
+            pipeline_html += f'''<li style="flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 16px;"><b style="color: {color};">{emoji} {label} ({len(group_df)} Leads)</b><div style="font-size: 13px; color: var(--text-gray-light); width: 100%; box-sizing: border-box; padding-right: {padding}; border-left: 2px solid var(--border-color); padding-left: 10px; margin-top: 4px; line-height: 1.6;">'''
             for prob, prob_df in group_df.groupby('Problema'):
                 prob_label = prob if prob else "Desconhecido"
                 stages = prob_df.groupby('Etapa Limpa').size().to_dict()
@@ -262,9 +262,9 @@ def generate_report(sheet_id):
         <details class="week-toggle" {"open" if is_current_week else ""}>
             <summary>{w['name']} {w['date_str']}</summary>
             <div class="week-content">
-                <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #F59E0B; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); grid-column: 1 / -1;">
+                <details open style="border: 1px solid var(--border-dim); border-left: 4px solid #F59E0B; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); grid-column: 1 / -1;">
                     <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">1. Report Comercial (CRM)</summary>
-                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
                     <ul class="metric-list">
                         <li><b>Leads Recebidos (Total)</b> <span>{total_leads} Leads</span></li>
                         <li><b>Leads MQL (Qualificados)</b> <span style="line-height: 1.6;">{mql_summary}</span></li>
@@ -283,9 +283,9 @@ def generate_report(sheet_id):
                     {alerta_html}
                     </div>
                 </details>
-                <details open style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #3B82F6; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                <details open style="border: 1px solid var(--border-dim); border-left: 4px solid #3B82F6; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                     <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">2. Report Meta Ads</summary>
-                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
                     <ul class="metric-list">
                         <li><b>Investimento total</b> <span>{format_currency(meta_inv)}</span></li>
                         <li><b>Leads Gerados</b> <span style="line-height: 1.6;">{m_meta} Real<br>{int(meta_mensagens)} Meta Ads</span></li>
@@ -301,9 +301,9 @@ def generate_report(sheet_id):
                     </div>
                     </div>
                 </details>
-                <details style="border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid #34A853; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                <details style="border: 1px solid var(--border-dim); border-left: 4px solid #34A853; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                     <summary style="cursor: pointer; font-size: 16px; font-weight: bold; color: var(--text-white); padding: 20px 24px; outline: none; list-style: none;">3. Report Google Ads</summary>
-                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                    <div style="padding: 0 24px 24px 24px; border-top: 1px solid var(--border-color); padding-top: 20px;">
                     <ul class="metric-list">
                         <li><b>Investimento total</b> <span>{format_currency(goog_inv)}</span></li>
                         <li><b>Leads Gerados</b> <span>{int(goog_convs)} Leads</span></li>
@@ -350,7 +350,7 @@ def get_login_page(error=None):
         :root {{
             --bg-master-dark: #050505;
             --brand-color: rgb(37, 99, 235);
-            --card-bg: #090909;
+            --card-bg: var(--card-bg);
             --text-white: #FFFFFF;
             --text-gray-light: #CCCCCC;
         }}
@@ -367,7 +367,7 @@ def get_login_page(error=None):
         }}
         .login-container {{
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 40px;
             width: 100%;
@@ -405,8 +405,8 @@ def get_login_page(error=None):
         .form-group input {{
             width: 100%;
             padding: 14px 16px;
-            background: #0A0A0A;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-white);
             font-size: 14px;
@@ -444,6 +444,7 @@ def get_login_page(error=None):
     </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" style="position:fixed; top:20px; right:20px; background:var(--card-bg); border:1px solid var(--border-color); color:var(--text-white); padding:10px; border-radius:50%; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; transition:0.3s; font-size:20px;" title="Modo Escuro/Claro">🌓</button>
     <div class="login-container">
         <div class="logo">
             <h1>Painel <span>Tráfego</span></h1>
@@ -461,6 +462,32 @@ def get_login_page(error=None):
             <button type="submit" class="btn-login">Entrar</button>
         </form>
     </div>
+
+<script>
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
+    function toggleTheme() {
+        const current = localStorage.getItem('theme') || 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+</script>
+
+<script>
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }
+    function toggleTheme() {
+        const current = localStorage.getItem('theme') || 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+</script>
 </body>
 </html>'''
 
@@ -510,7 +537,7 @@ def get_session_page(client_name, client_id, report_html):
             --bg-master-dark: #050505;
             --brand-color: rgb(37, 99, 235);
             --brand-color-dark: rgb(29, 78, 216);
-            --card-bg: #090909;
+            --card-bg: var(--card-bg);
             --text-white: #FFFFFF;
             --text-gray-light: #CCCCCC;
             --text-gray-dark: #666666;
@@ -532,7 +559,7 @@ def get_session_page(client_name, client_id, report_html):
         }}
         .header {{
             margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 20px;
             display: flex;
             justify-content: space-between;
@@ -550,7 +577,7 @@ def get_session_page(client_name, client_id, report_html):
         }}
         .btn-logout {{
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
             color: var(--text-gray-light);
             padding: 8px 16px;
             border-radius: 6px;
@@ -632,7 +659,7 @@ def get_session_page(client_name, client_id, report_html):
             align-items: center;
             justify-content: space-between;
             color: var(--text-white);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
         }}
         details > summary::-webkit-details-marker {{ display: none; }}
         details > summary:hover {{ color: var(--brand-color); }}
@@ -644,8 +671,8 @@ def get_session_page(client_name, client_id, report_html):
         details[open] > summary::after {{ content: '−'; color: var(--brand-color); }}
         .details-content {{ padding: 30px 0; }}
         .week-toggle {{
-            background: #0A0A0A;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--section-bg);
+            border: 1px solid var(--border-dim);
             border-radius: 8px;
             margin-bottom: 20px;
             overflow: hidden;
@@ -654,11 +681,11 @@ def get_session_page(client_name, client_id, report_html):
             padding: 20px 25px;
             font-size: 16px;
             font-weight: 700;
-            background: #0D0D0D;
+            background: var(--section-hover);
         }}
         .week-toggle[open] > summary {{
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: #090909;
+            border-bottom: 1px solid var(--border-dim);
+            background: var(--card-bg);
         }}
         .week-content {{
             padding: 25px;
@@ -675,7 +702,7 @@ def get_session_page(client_name, client_id, report_html):
         }}
         .metric-list li {{
             padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-dim);
             font-size: 13px;
             display: flex;
             justify-content: space-between;
@@ -694,8 +721,8 @@ def get_session_page(client_name, client_id, report_html):
             font-size: 14px;
         }}
         .sub-section-toggle {{
-            background: #0A0A0A;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--section-bg);
+            border: 1px solid var(--border-dim);
             border-radius: 8px;
             margin-bottom: 16px;
             overflow: hidden;
@@ -708,15 +735,15 @@ def get_session_page(client_name, client_id, report_html):
             font-weight: 500;
             text-transform: uppercase;
             color: var(--text-gray-light);
-            background: #0A0A0A;
+            background: var(--section-bg);
         }}
         .sub-section-toggle > summary::-webkit-details-marker {{ display: none; }}
-        .sub-section-toggle[open] > summary {{ border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: #0D0D0D; }}
+        .sub-section-toggle[open] > summary {{ border-bottom: 1px solid var(--border-dim); background: var(--section-hover); }}
         .sub-section-toggle > summary::after {{ content: '+'; font-size: 16px; color: var(--text-gray-dark); margin-left: 8px; }}
         .sub-section-toggle[open] > summary::after {{ content: '−'; color: var(--text-white); }}
         .sub-section {{
-            background: #0A0A0A;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--section-bg);
+            border: 1px solid var(--border-dim);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 16px;
@@ -729,8 +756,8 @@ def get_session_page(client_name, client_id, report_html):
             color: var(--text-gray-dark);
         }}
         .insight-box {{
-            background: #0A0A0A;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--section-bg);
+            border: 1px solid var(--border-dim);
             border-left: 3px solid var(--brand-color);
             padding: 16px 20px;
             border-radius: 8px;
@@ -753,8 +780,8 @@ def get_session_page(client_name, client_id, report_html):
         .btn-criativo {{
             display: inline-block;
             padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--border-dim);
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             color: var(--text-white);
             text-decoration: none;
@@ -790,6 +817,7 @@ def get_session_page(client_name, client_id, report_html):
             <h1>Report de <span>Resultados.</span></h1>
         </div>
         <div class="header-right">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Modo Escuro/Claro" style="background:transparent; border:1px solid var(--border-color); color:var(--text-gray-light); border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; height:36px; width:36px; transition:all 0.3s; font-size:16px;">🌓</button>
             <button class="btn-refresh" onclick="refreshReport(this)">
                 <span class="spinner"></span>
                 <span class="text">Atualizar</span>
