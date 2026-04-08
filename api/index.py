@@ -5,6 +5,9 @@ import os
 import json
 from datetime import datetime, timedelta
 import hashlib
+from flask import Flask, request, make_response, redirect
+
+app = Flask(__name__)
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -450,75 +453,38 @@ def get_login_page(error=None):
 </body>
 </html>'''
 
-def handler(event, context):
+@app.route('/', methods=['GET', 'POST'])
+def index():
     cookie_name = 'panel_session'
-    
-    cookies = {}
-    if event.get('headers', {}).get('cookie'):
-        for cookie in event['headers']['cookie'].split(';'):
-            if '=' in cookie:
-                key, value = cookie.strip().split('=', 1)
-                cookies[key] = value
-    
-    client_id = cookies.get(cookie_name)
-    
-    if event.get('method') == 'POST':
-        body = event.get('body', '')
-        params = {}
-        if body:
-            for pair in body.split('&'):
-                if '=' in pair:
-                    key, value = pair.split('=', 1)
-                    params[key] = value.replace('+', ' ')
-        
-        email = params.get('email', '')
-        password = params.get('password', '')
-        
+    client_id = request.cookies.get(cookie_name)
+
+    if request.method == 'POST':
+        email = request.form.get('email', '')
+        password = request.form.get('password', '')
+
         client_id = authenticate(email, password)
-        
+
         if client_id:
             config = get_client_config(client_id)
             session_html = get_session_page(config['name'], client_id, generate_report(config['sheet_id']))
-            return {
-                'statusCode': 200,
-                'headers': {
-                    'Content-Type': 'text/html',
-                    'Set-Cookie': f'{cookie_name}={client_id}; Path=/; HttpOnly; Max-Age=86400'
-                },
-                'body': session_html
-            }
+            resp = make_response(session_html)
+            resp.set_cookie(cookie_name, str(client_id), max_age=86400, httponly=True, path='/')
+            return resp
         else:
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'text/html'},
-                'body': get_login_page(error=True)
-            }
-    
-    if event.get('query', {}).get('logout'):
-        return {
-            'statusCode': 302,
-            'headers': {
-                'Location': '/',
-                'Set-Cookie': f'{cookie_name}=; Path=/; HttpOnly; Max-Age=0'
-            },
-            'body': ''
-        }
-    
+            return make_response(get_login_page(error=True))
+
+    if request.args.get('logout'):
+        resp = make_response(redirect('/'))
+        resp.delete_cookie(cookie_name, path='/')
+        return resp
+
     if client_id:
         config = get_client_config(int(client_id))
         if config:
             session_html = get_session_page(config['name'], client_id, generate_report(config['sheet_id']))
-            return {
-                'statusCode': 200,
-                'headers': {'Content-Type': 'text/html'},
-                'body': session_html
-            }
-    
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'text/html'},
-        'body': get_login_page()
-    }
+            return make_response(session_html)
+
+    return make_response(get_login_page())
 
 def get_session_page(client_name, client_id, report_html):
     return f'''<!DOCTYPE html>
