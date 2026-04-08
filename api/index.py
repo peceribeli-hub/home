@@ -48,9 +48,10 @@ def generate_weeks_for_current_and_past_months(months_back=None):
     # Ajuste para horário de Brasília (Vercel usa UTC)
     today = datetime.now() + timedelta(hours=-3)
     
-    # Encontra a Terça-feira mais recente (weekday 1)
-    days_since_tue = (today.weekday() - 1) % 7
-    current_tue = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days_since_tue)
+    # Encontra a Terça-feira de fechamento do ciclo atual
+    # Se hoje é quarta, a terça de fechamento é a próxima. Se hoje é terça, é hoje.
+    days_to_tue = (1 - today.weekday()) % 7
+    current_tue = today.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=days_to_tue)
     
     # Gera semanas retroativamente até o início de 2026
     raw_weeks = []
