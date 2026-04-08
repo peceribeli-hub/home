@@ -205,7 +205,7 @@ def generate_report(sheet_id):
         criativos_html = ""
         for _, row in top_criativos.iterrows():
             is_pausado = "Pausado" in str(row['AD Status'])
-            text_color = "var(--revo-red-base)" if is_pausado else "var(--text-white)"
+            text_color = "var(--brand-color)" if is_pausado else "var(--text-white)"
             asterisk = "*" if is_pausado else ""
             cpl_criativo = row['Invest Num'] / row['Mensagens Num'] if row['Mensagens Num'] else 0
             criativos_html += f'''<div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b><a href="{row['AD URL']}" target="_blank" class="btn-criativo">{row['Anúncio'][:20]}</a></b><span style="text-align: center; color: {text_color}; font-weight: 700;">{int(row['Mensagens Num'])} Leads{asterisk}</span><span style="text-align: right; color: {text_color}; font-weight: 700;">{format_currency(cpl_criativo)}{asterisk}</span></div>'''
@@ -262,7 +262,7 @@ def generate_report(sheet_id):
                         <li><b>Reunião Agendada</b> <span>{ag_summary}</span></li>
                         <li><b>Reunião Realizada</b> <span>{re_summary}</span></li>
                         <li><b>Leads Perdidos</b> <span style="line-height: 1.6;">{p_summary}</span></li>
-                        <li><b>Contratos Fechados</b> <span style="color: var(--revo-red-base); font-weight: bold; font-size: 16px;">{contratos}</span></li>
+                        <li><b>Contratos Fechados</b> <span style="color: var(--brand-color); font-weight: bold; font-size: 16px;">{contratos}</span></li>
                     </ul>
                     <details class="sub-section-toggle">
                         <summary>Pipeline do Comercial (Etapas do CRM)</summary>
@@ -332,12 +332,12 @@ def get_login_page(error=None):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Painel REVO</title>
+    <title>Login - Painel Tráfego</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {{
             --bg-master-dark: #050505;
-            --revo-red-base: rgb(224, 0, 0);
+            --brand-color: rgb(37, 99, 235);
             --card-bg: #090909;
             --text-white: #FFFFFF;
             --text-gray-light: #CCCCCC;
@@ -371,7 +371,7 @@ def get_login_page(error=None):
             color: var(--text-white);
         }}
         .logo h1 span {{
-            color: var(--revo-red-base);
+            color: var(--brand-color);
         }}
         .logo p {{
             color: var(--text-gray-light);
@@ -402,12 +402,12 @@ def get_login_page(error=None):
         }}
         .form-group input:focus {{
             outline: none;
-            border-color: var(--revo-red-base);
+            border-color: var(--brand-color);
         }}
         .btn-login {{
             width: 100%;
             padding: 14px;
-            background: var(--revo-red-base);
+            background: var(--brand-color);
             color: white;
             border: none;
             border-radius: 8px;
@@ -417,14 +417,14 @@ def get_login_page(error=None):
             transition: all 0.3s;
         }}
         .btn-login:hover {{
-            background: rgb(168, 14, 0);
+            background: rgb(29, 78, 216);
         }}
         .error {{
-            background: rgba(224, 0, 0, 0.1);
-            border: 1px solid var(--revo-red-base);
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid var(--brand-color);
             border-radius: 8px;
             padding: 12px;
-            color: var(--revo-red-base);
+            color: var(--brand-color);
             font-size: 13px;
             margin-bottom: 20px;
             text-align: center;
@@ -434,7 +434,7 @@ def get_login_page(error=None):
 <body>
     <div class="login-container">
         <div class="logo">
-            <h1>Painel <span>REVO</span></h1>
+            <h1>Painel <span>Tráfego</span></h1>
             <p>Report de Resultados</p>
         </div>
         {"<div class='error'>E-mail ou senha incorretos</div>" if error else ""}
@@ -492,13 +492,13 @@ def get_session_page(client_name, client_id, report_html):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel REVO | {client_name}</title>
+    <title>Painel Tráfego | {client_name}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {{
             --bg-master-dark: #050505;
-            --revo-red-base: rgb(224, 0, 0);
-            --revo-red-dark: rgb(168, 14, 0);
+            --brand-color: rgb(37, 99, 235);
+            --brand-color-dark: rgb(29, 78, 216);
             --card-bg: #090909;
             --text-white: #FFFFFF;
             --text-gray-light: #CCCCCC;
@@ -548,11 +548,11 @@ def get_session_page(client_name, client_id, report_html):
             transition: all 0.3s;
         }}
         .btn-logout:hover {{
-            border-color: var(--revo-red-base);
-            color: var(--revo-red-base);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
         }}
         .btn-refresh {{
-            background: var(--revo-red-base);
+            background: var(--brand-color);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -566,7 +566,7 @@ def get_session_page(client_name, client_id, report_html):
             transition: all 0.3s;
         }}
         .btn-refresh:hover {{
-            background: var(--revo-red-dark);
+            background: var(--brand-color-dark);
         }}
         .btn-refresh:disabled {{
             opacity: 0.6;
@@ -588,8 +588,8 @@ def get_session_page(client_name, client_id, report_html):
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(224, 0, 0, 0.3);
-            color: var(--revo-red-base);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            color: var(--brand-color);
             padding: 4px 14px;
             border-radius: 100px;
             font-size: 10px;
@@ -597,7 +597,7 @@ def get_session_page(client_name, client_id, report_html):
             letter-spacing: 0.15em;
             text-transform: uppercase;
             margin-bottom: 10px;
-            background: rgba(224, 0, 0, 0.05);
+            background: rgba(37, 99, 235, 0.05);
         }}
         .header h1 {{
             font-size: 36px;
@@ -606,7 +606,7 @@ def get_session_page(client_name, client_id, report_html):
             color: var(--text-white);
             letter-spacing: -0.02em;
         }}
-        .header h1 span {{ color: var(--revo-red-base); }}
+        .header h1 span {{ color: var(--brand-color); }}
         details {{
             background: transparent;
             margin-bottom: 20px;
@@ -624,13 +624,13 @@ def get_session_page(client_name, client_id, report_html):
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }}
         details > summary::-webkit-details-marker {{ display: none; }}
-        details > summary:hover {{ color: var(--revo-red-base); }}
+        details > summary:hover {{ color: var(--brand-color); }}
         details > summary::after {{
             content: '+';
             font-size: 24px;
             color: var(--text-gray-dark);
         }}
-        details[open] > summary::after {{ content: '−'; color: var(--revo-red-base); }}
+        details[open] > summary::after {{ content: '−'; color: var(--brand-color); }}
         .details-content {{ padding: 30px 0; }}
         .week-toggle {{
             background: #0A0A0A;
@@ -720,7 +720,7 @@ def get_session_page(client_name, client_id, report_html):
         .insight-box {{
             background: #0A0A0A;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--revo-red-base);
+            border-left: 3px solid var(--brand-color);
             padding: 16px 20px;
             border-radius: 8px;
             font-size: 13px;
@@ -760,9 +760,9 @@ def get_session_page(client_name, client_id, report_html):
             opacity: 0.4;
             pointer-events: none;
             background-image:
-                radial-gradient(4px 100px at 0px 235px, var(--revo-red-base), transparent),
-                radial-gradient(4px 100px at 300px 235px, var(--revo-red-base), transparent),
-                radial-gradient(2px 2px at 150px 117.5px, var(--revo-red-base) 100%, transparent 150%);
+                radial-gradient(4px 100px at 0px 235px, var(--brand-color), transparent),
+                radial-gradient(4px 100px at 300px 235px, var(--brand-color), transparent),
+                radial-gradient(2px 2px at 150px 117.5px, var(--brand-color) 100%, transparent 150%);
             background-size: 300px 235px, 300px 235px, 300px 235px;
             background-position: 0px 220px, 3px 220px, 151.5px 337.5px;
             animation: fall 150s linear infinite;
@@ -775,7 +775,7 @@ def get_session_page(client_name, client_id, report_html):
 <div class="dashboard-container">
     <div class="header">
         <div class="header-left">
-            <div class="top-badge">Painel Contínuo</div>
+            <div class="top-badge">Painel Tráfego</div>
             <h1>Report de <span>Resultados.</span></h1>
         </div>
         <div class="header-right">
