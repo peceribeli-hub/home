@@ -464,27 +464,14 @@ def get_login_page(error=None):
     </div>
 
 <script>
-    function setTheme(theme) {
+    function setTheme(theme) {{
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-    }
-    function toggleTheme() {
+    }}
+    function toggleTheme() {{
         const current = localStorage.getItem('theme') || 'dark';
         setTheme(current === 'dark' ? 'light' : 'dark');
-    }
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-</script>
-
-<script>
-    function setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    }
-    function toggleTheme() {
-        const current = localStorage.getItem('theme') || 'dark';
-        setTheme(current === 'dark' ? 'light' : 'dark');
-    }
+    }}
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
 </script>
