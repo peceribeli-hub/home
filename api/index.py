@@ -171,13 +171,15 @@ def generate_report(sheet_id):
     weeks = generate_weeks_for_current_and_past_months()
     all_months_html = {}
     
-    for w in weeks:
+    for i, w in enumerate(weeks):
         start_dt = pd.to_datetime(w["start"])
         end_dt = pd.to_datetime(w["end"])
 
         df_k = df_kommo[(df_kommo['Data format'] >= start_dt) & (df_kommo['Data format'] <= end_dt)].copy()
+        df_m = df_meta[(df_meta['Data format'] >= start_dt) & (df_meta['Data format'] <= end_dt)].copy()
+        df_g = df_google[(df_google['Data format'] >= start_dt) & (df_google['Data format'] <= end_dt)].copy()
         
-        if len(df_k) == 0:
+        if i > 0 and len(df_k) == 0 and len(df_m) == 0 and len(df_g) == 0:
             continue
             
         df_k['Etapa Limpa'] = df_k['Etapa'].apply(clean_stage)
@@ -192,7 +194,6 @@ def generate_report(sheet_id):
         p_summary = get_summary_by_origin(df_k[df_k['Status'] == 'Perdido'])
         contratos = len(df_k[df_k['Contrato Fechado'].str.strip() != ''])
 
-        df_m = df_meta[(df_meta['Data format'] >= start_dt) & (df_meta['Data format'] <= end_dt)].copy()
         meta_inv = float(df_m['Investimento'].apply(parse_float).sum()) if len(df_m) > 0 else 0.0
         meta_mensagens = float(pd.to_numeric(df_m['Mensagens'], errors='coerce').sum()) if len(df_m) > 0 else 0.0
         
@@ -220,7 +221,6 @@ def generate_report(sheet_id):
             cpl_criativo = row['Invest Num'] / row['Mensagens Num'] if row['Mensagens Num'] else 0
             criativos_html += f'''<div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b><a href="{row['AD URL']}" target="_blank" class="btn-criativo">{row['Anúncio'][:20]}</a></b><span style="text-align: center; color: {text_color}; font-weight: 700;">{int(row['Mensagens Num'])} Leads{asterisk}</span><span style="text-align: right; color: {text_color}; font-weight: 700;">{format_currency(cpl_criativo)}{asterisk}</span></div>'''
 
-        df_g = df_google[(df_google['Data format'] >= start_dt) & (df_google['Data format'] <= end_dt)].copy()
         goog_inv = float(df_g['Investimento'].apply(parse_float).sum()) if len(df_g) > 0 else 0.0
         goog_convs = float(pd.to_numeric(df_g['Conversões'], errors='coerce').sum()) if len(df_g) > 0 else 0.0
         df_k_goog = df_k[df_k['Origem'].apply(get_origem_label) == 'Google Ads']
@@ -256,7 +256,7 @@ def generate_report(sheet_id):
         if len(alertas_leads) > 0:
             alerta_html = f'<div class="insight-box"><strong>⚠️ Alerta de CRM</strong>{len(alertas_leads)} leads sem atualização esta semana.</div>'
 
-        is_current_week = w["name"] == "SEMANA 1" and datetime.now().strftime("%Y-%m") == w["start"][:7]
+        is_current_week = (i == 0)
         
         week_html = f'''
         <details class="week-toggle" {"open" if is_current_week else ""}>
