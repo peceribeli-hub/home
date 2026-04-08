@@ -43,61 +43,67 @@ def get_summary_by_origin(df_filter):
     counts = df_filter['Origem'].apply(get_origem_label).value_counts()
     return "<br>".join([f"{v} {k}" for k, v in counts.items()])
 
-def generate_weeks_for_current_and_past_months(months_back=3):
+def generate_weeks_for_current_and_past_months(months_back=None):
     weeks = []
-    today = datetime.now()
+    # Ajuste para horário de Brasília (Vercel usa UTC)
+    today = datetime.now() + timedelta(hours=-3)
     
-    for month_offset in range(months_back):
-        # Calcula o mês correto voltando month_offset vezes
-        m = today.month - month_offset
-        y = today.year
-        while m <= 0:
-            m += 12
-            y -= 1
-        
-        year = y
-        month = m
-        
-        if month == 1: month_pt = "JANEIRO"
-        elif month == 2: month_pt = "FEVEREIRO"
-        elif month == 3: month_pt = "MARÇO"
-        elif month == 4: month_pt = "ABRIL"
-        elif month == 5: month_pt = "MAIO"
-        elif month == 6: month_pt = "JUNHO"
-        elif month == 7: month_pt = "JULHO"
-        elif month == 8: month_pt = "AGOSTO"
-        elif month == 9: month_pt = "SETEMBRO"
-        elif month == 10: month_pt = "OUTUBRO"
-        elif month == 11: month_pt = "NOVEMBRO"
-        else: month_pt = "DEZEMBRO"
-        
-        first_day = datetime(year, month, 1)
-        next_month = datetime(year + (1 if month == 12 else 0), (month % 12) + 1, 1)
-        
-        current = first_day
-        while current < next_month:
-            wed = current + timedelta(days=(2 - current.weekday()) % 7)
-            tue = wed + timedelta(days=6)
-            
-            if wed >= next_month:
-                break
-            
-            wed_str = wed.strftime("%d/%m")
-            tue_str = min(tue, next_month - timedelta(days=1)).strftime("%d/%m")
-            
-            week_num = len([w for w in weeks if w["month"] == f"{month_pt} {year}"]) + 1
-            
-            weeks.append({
-                "month": f"{month_pt} {year}",
-                "name": f"SEMANA {week_num}",
-                "date_str": f"({wed_str} a {tue_str})",
-                "start": wed.strftime("%Y-%m-%d"),
-                "end": min(tue, next_month - timedelta(days=1)).strftime("%Y-%m-%d")
-            })
-            
-            current = wed + timedelta(days=7)
+    # Encontra a Terça-feira mais recente (weekday 1)
+    days_since_tue = (today.weekday() - 1) % 7
+    current_tue = today.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days_since_tue)
     
-    return weeks
+    # Gera semanas retroativamente até o início de 2026
+    raw_weeks = []
+    iter_tue = current_tue
+    while iter_tue.year >= 2026:
+        iter_wed = iter_tue - timedelta(days=6)
+        if iter_wed.year < 2026:
+            break
+            
+        raw_weeks.append({
+            "wed": iter_wed,
+            "tue": iter_tue
+        })
+        iter_tue = iter_wed - timedelta(days=1)
+    
+    # Agrupa por mês e numera (Semana 1, 2...)
+    month_names = {
+        1: "JANEIRO", 2: "FEVEREIRO", 3: "MARÇO", 4: "ABRIL", 
+        5: "MAIO", 6: "JUNHO", 7: "JULHO", 8: "AGOSTO", 
+        9: "SETEMBRO", 10: "OUTUBRO", 11: "NOVEMBRO", 12: "DEZEMBRO"
+    }
+    
+    # Organiza do mais antigo para o mais novo para numerar
+    raw_weeks.sort(key=lambda x: x["wed"])
+    
+    grouped_data = {}
+    for w in raw_weeks:
+        m_name = month_names[w["wed"].month]
+        m_key = f"{m_name} {w['wed'].year}"
+        
+        if m_key not in grouped_data:
+            grouped_data[m_key] = []
+        
+        num = len(grouped_data[m_key]) + 1
+        grouped_data[m_key].append({
+            "month": m_key,
+            "name": f"SEMANA {num}",
+            "date_str": f"({w['wed'].strftime('%d/%m')} a {w['tue'].strftime('%d/%m')})",
+            "start": w['wed'].strftime("%Y-%m-%d"),
+            "end": w['tue'].strftime("%Y-%m-%d")
+        })
+    
+    # Achata a lista de volta para o formato esperado, do mais recente para o antigo
+    # Mas mantendo o agrupamento mensal
+    final_list = []
+    ordered_months = sorted(grouped_data.keys(), key=lambda k: (int(k.split()[1]), list(month_names.values()).index(k.split()[0])), reverse=True)
+    
+    for m in ordered_months:
+        # Semanas do mês do mais recente para o antigo
+        for s in reversed(grouped_data[m]):
+            final_list.append(s)
+            
+    return final_list
 
 def get_client_config(client_id):
     sheet_id = os.environ.get(f'CLIENT_{client_id}_SHEET_ID')
@@ -160,9 +166,8 @@ def generate_report(sheet_id):
             if df[col].dtype == 'object':
                 df[col] = df[col].astype(str).str.strip()
 
-    # Calcula quantos meses se passaram desde Janeiro para mostrar apenas 2026
-    months_back = datetime.now().month
-    weeks = generate_weeks_for_current_and_past_months(months_back=months_back)
+    # Gera as semanas dinamicamente desde Jan/2026 seguindo ciclo Quarta-Terça
+    weeks = generate_weeks_for_current_and_past_months()
     all_months_html = {}
     
     for w in weeks:
