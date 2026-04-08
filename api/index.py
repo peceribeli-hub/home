@@ -183,8 +183,8 @@ def generate_report(sheet_id):
         contratos = len(df_k[df_k['Contrato Fechado'].str.strip() != ''])
 
         df_m = df_meta[(df_meta['Data format'] >= start_dt) & (df_meta['Data format'] <= end_dt)].copy()
-        meta_inv = df_m['Investimento'].apply(parse_float).sum()
-        meta_mensagens = pd.to_numeric(df_m['Mensagens'], errors='coerce').sum()
+        meta_inv = float(df_m['Investimento'].apply(parse_float).sum()) if len(df_m) > 0 else 0.0
+        meta_mensagens = float(pd.to_numeric(df_m['Mensagens'], errors='coerce').sum()) if len(df_m) > 0 else 0.0
         
         df_k_meta = df_k[df_k['Origem'].apply(get_origem_label) == 'Meta Ads']
         m_meta = len(df_k_meta[df_k_meta['Status'] == 'MQL'])
@@ -211,8 +211,8 @@ def generate_report(sheet_id):
             criativos_html += f'''<div style="display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; align-items: center;"><b><a href="{row['AD URL']}" target="_blank" class="btn-criativo">{row['Anúncio'][:20]}</a></b><span style="text-align: center; color: {text_color}; font-weight: 700;">{int(row['Mensagens Num'])} Leads{asterisk}</span><span style="text-align: right; color: {text_color}; font-weight: 700;">{format_currency(cpl_criativo)}{asterisk}</span></div>'''
 
         df_g = df_google[(df_google['Data format'] >= start_dt) & (df_google['Data format'] <= end_dt)].copy()
-        goog_inv = df_g['Investimento'].apply(parse_float).sum()
-        goog_convs = pd.to_numeric(df_g['Conversões'], errors='coerce').sum()
+        goog_inv = float(df_g['Investimento'].apply(parse_float).sum()) if len(df_g) > 0 else 0.0
+        goog_convs = float(pd.to_numeric(df_g['Conversões'], errors='coerce').sum()) if len(df_g) > 0 else 0.0
         df_k_goog = df_k[df_k['Origem'].apply(get_origem_label) == 'Google Ads']
         m_goog = len(df_k_goog[df_k_goog['Status'] == 'MQL'])
         cpl_goog = goog_inv / m_goog if m_goog else 0
