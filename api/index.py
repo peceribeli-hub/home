@@ -48,13 +48,15 @@ def generate_weeks_for_current_and_past_months(months_back=3):
     today = datetime.now()
     
     for month_offset in range(months_back):
-        if month_offset == 0:
-            year = today.year
-            month = today.month
-        else:
-            target = datetime(today.year, today.month, 1) - timedelta(days=32*month_offset)
-            year = target.year
-            month = target.month
+        # Calcula o mês correto voltando month_offset vezes
+        m = today.month - month_offset
+        y = today.year
+        while m <= 0:
+            m += 12
+            y -= 1
+        
+        year = y
+        month = m
         
         if month == 1: month_pt = "JANEIRO"
         elif month == 2: month_pt = "FEVEREIRO"
@@ -314,10 +316,12 @@ def generate_report(sheet_id):
         all_months_html[month_key].append(week_html)
     
     months_html = ""
-    for month_name, weeks_html in sorted(all_months_html.items()):
-        is_current_month = month_name == datetime.now().strftime("%B").upper() + " " + str(datetime.now().year)
+    # Remove o sorted() para manter a ordem cronológica reversa (mais recente primeiro)
+    for month_name, weeks_html in all_months_html.items():
+        # Lógica simplificada para abrir o primeiro mês (o mais recente)
+        is_first = months_html == ""
         months_html += f'''
-        <details {"open" if is_current_month else ""}>
+        <details {"open" if is_first else ""}>
             <summary>{month_name}</summary>
             <div class="details-content">
                 {"".join(weeks_html)}
