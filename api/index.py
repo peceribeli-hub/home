@@ -440,8 +440,8 @@ def get_login_page(error=None):
         {"<div class='error'>E-mail ou senha incorretos</div>" if error else ""}
         <form method="POST">
             <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                <label for="email">Usuário</label>
+                <input type="text" id="email" name="email" required placeholder="mozini.adv">
             </div>
             <div class="form-group">
                 <label for="password">Senha</label>
