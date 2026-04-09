@@ -250,7 +250,7 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
             except:
                 pass # Em caso de erro na data, mantém o total geral
 
-        last_update_str = datetime.now().strftime("%d/%m/%Y %H:%M")
+        last_update_str = (datetime.now() - timedelta(hours=3)).strftime("%d/%m/%Y %H:%M")
 
     except Exception as e:
         return {"error": f"Erro ao acessar planilhas: {str(e)}"}
@@ -663,17 +663,9 @@ def render_client_dashboard(client_id, config, start_date=None, end_date=None):
         if isinstance(data_payload, dict) and "error" in data_payload:
             return f"Erro ao processar dados: {data_payload['error']}"
             
-        # Injeta os dados no template da IFL usando Regex (Protegido contra escapes \u)
-        import re
+        # Injeta os dados no template da IFL de forma robusta e simples
         import json
-        
-        # Usamos uma função lambda para evitar que o re.sub interprete barras invertidas (\u) do JSON
-        session_html = re.sub(
-            r'<script id="python-metrics-payload" type="application/json">.*?</script>',
-            lambda m: f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
-            template,
-            flags=re.DOTALL
-        )
+        session_html = template.replace('PYTHON_METRICS_HERE', json.dumps(data_payload))
         return session_html
     else:
         # Padrão (Mozini etc)
