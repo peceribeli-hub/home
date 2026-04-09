@@ -2,9 +2,10 @@ import gspread
 import pandas as pd
 import re
 import os
+import hashlib
+import traceback
 import json
 from datetime import datetime, timedelta
-import hashlib
 from flask import Flask, request, make_response, redirect
 
 app = Flask(__name__)
@@ -148,17 +149,13 @@ def get_session_html_template(client_id):
 
 def generate_report_ifl(sheet_id, start_date=None, end_date=None):
     """Geração de relatório específica para NaFazenda (IFL) com suporte a filtro de data no servidor."""
-    import tempfile
     cred_json = os.environ.get('GOOGLE_CREDENTIALS_2', os.environ.get('GOOGLE_CREDENTIALS'))
     if not cred_json:
         return {"error": "GOOGLE_CREDENTIALS não configurado"}
     
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
-        json.dump(json.loads(cred_json), f)
-        cred_path = f.name
-    
     try:
-        gc = gspread.service_account(filename=cred_path)
+        # Autenticação direta e rápida na Vercel
+        gc = gspread.service_account_from_dict(json.loads(cred_json))
         sh = gc.open_by_key(sheet_id)
         
         # Abas específicas da NaFazenda
@@ -706,12 +703,16 @@ def index():
         return resp
 
     if client_id:
-        config = get_client_config(int(client_id))
-        if config:
-            start = request.args.get('start')
-            end = request.args.get('end')
-            session_html = render_client_dashboard(client_id, config, start, end)
-            return make_response(session_html)
+        try:
+            config = get_client_config(int(client_id))
+            if config:
+                start = request.args.get('start')
+                end = request.args.get('end')
+                session_html = render_client_dashboard(client_id, config, start, end)
+                return make_response(session_html)
+        except Exception as e:
+            error_details = traceback.format_exc()
+            return f"<h1>Erro de Execução (Diagnóstico)</h1><pre>{error_details}</pre>"
 
     return make_response(get_login_page())
 
