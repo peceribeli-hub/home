@@ -177,45 +177,66 @@ def generate_report_ifl(sheet_id):
         df_leads = pd.DataFrame(data_l)
         df_pesquisa = pd.DataFrame(data_p)
         
-        # Normalização de colunas e valores (Strip spaces)
+        # Funções de Apoio (Fuzzy Search e Limpeza)
+        def find_col(df, keywords):
+            cols = [c.lower().strip() for c in df.columns]
+            for k in keywords:
+                for i, c in enumerate(cols):
+                    if k in c: return df.columns[i]
+            return None
+
+        def clean_val(x):
+            if isinstance(x, str):
+                x = x.replace('R$', '').replace('.', '').replace(',', '.').replace('%', '').strip()
+                try: return float(x)
+                except: return 0.0
+            return float(x) if pd.notnull(x) else 0.0
+
+        # Normalização de colunas
         df_vendas.columns = [c.strip() for c in df_vendas.columns]
         df_meta.columns = [c.strip() for c in df_meta.columns]
         
-        df_vendas = df_vendas.applymap(lambda x: x.strip() if isinstance(x, str) else x)
-        df_meta = df_meta.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+        # Detecção Inteligente de Colunas
+        col_v_data = find_col(df_vendas, ['data', 'date', 'creation'])
+        col_v_fat = find_col(df_vendas, ['faturamento', 'fat', 'valor', 'total'])
+        col_v_status = find_col(df_vendas, ['status', 'situacao', 'situação'])
+        col_v_prod = find_col(df_vendas, ['produto', 'item', 'offer', 'ob'])
+        
+        col_t_data = find_col(df_meta, ['data', 'date'])
+        col_t_inv = find_col(df_meta, ['investimento', 'inv', 'valor', 'gasto'])
+        
+        # Debug info para o painel
+        debug_info = {
+            "vendas_cols": df_vendas.columns.tolist(),
+            "meta_cols": df_meta.columns.tolist(),
+            "detected": {
+                "v_data": col_v_data, "v_fat": col_v_fat, "v_status": col_v_status,
+                "t_inv": col_t_inv
+            }
+        }
+
+        # Limpeza de valores nas colunas detectadas
+        for df, col in [(df_vendas, col_v_fat), (df_meta, col_t_inv)]:
+            if col: df[col] = df[col].apply(clean_val)
+        
+        # Filtro de vendas aprovadas (Flexível)
+        if col_v_status and not df_vendas.empty:
+            status_validos = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado', 'conluído', 'concluido']
+            df_v_aprov = df_vendas[df_vendas[col_v_status].str.lower().str.strip().isin(status_validos)].copy()
+        else:
+            df_v_aprov = df_vendas.copy() # Fallback: se não achar status, traz tudo
+
+        total_rev = df_v_aprov[col_v_fat].sum() if col_v_fat and not df_v_aprov.empty else 0
+        investments = df_meta[col_t_inv].sum() if col_t_inv and not df_meta.empty else 0
         
         last_update_str = datetime.now().strftime("%d/%m/%Y %H:%M")
 
-
     except Exception as e:
         return {"error": f"Erro ao acessar planilhas: {str(e)}"}
-
-    # --- Lógica de cálculo portada de calculate_metrics.py ---
-    def clean_val(x):
-        if isinstance(x, str):
-            x = x.replace('R$', '').replace('.', '').replace(',', '.').strip()
-            try: return float(x)
-            except: return 0.0
-        return float(x) if pd.notnull(x) else 0.0
-
-    for col in ['Faturamento Total', 'Comissão Líquida', 'Taxas', 'Faturamento Ingresso', 'Faturamento OB', 'Investimento']:
-        if col in df_vendas.columns: df_vendas[col] = df_vendas[col].apply(clean_val)
-        if col in df_meta.columns: df_meta[col] = df_meta[col].apply(clean_val)
-
-    # Filtro de vendas aprovadas (Flexível e Case-insensitive)
-    if not df_vendas.empty and 'Status' in df_vendas.columns:
-        status_validos = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado']
-        df_v_aprov = df_vendas[df_vendas['Status'].str.lower().str.strip().isin(status_validos)].copy()
-    else:
-        df_v_aprov = pd.DataFrame()
-
-    
-    investments = df_meta['Investimento'].sum() if not df_meta.empty else 0
-    total_rev = df_v_aprov['Faturamento Total'].sum() if not df_v_aprov.empty else 0
     
     # Ingressos (Imersão)
-    if not df_v_aprov.empty:
-        df_imersao = df_v_aprov[df_v_aprov['Produto'].str.contains('Imersão', na=False)]
+    if not df_v_aprov.empty and col_v_prod:
+        df_imersao = df_v_aprov[df_v_aprov[col_v_prod].str.contains('Imersão', na=False)]
         vendas_imersao = len(df_imersao)
         vendas_xrpec = len(df_v_aprov[df_v_aprov['Produto'].str.contains('xR Pec', na=False)])
     else:
@@ -235,12 +256,13 @@ def generate_report_ifl(sheet_id):
         "roas_geral": f"{roas:.2f}x",
         "ticket_geral": f"R$ {ticket:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
         "cac_imersao": f"R$ {cac:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
-        "raw_vendas": df_v_aprov[['Data', 'Faturamento Total', 'Produto']].rename(columns={'Faturamento Total': 'fat', 'Data': 'data', 'Produto': 'ob'}).to_dict('records') if not df_v_aprov.empty else [],
+        "raw_vendas": df_v_aprov[[col_v_data, col_v_fat, col_v_prod]].rename(columns={col_v_fat: 'fat', col_v_data: 'data', col_v_prod: 'ob'}).to_dict('records') if not df_v_aprov.empty and col_v_data and col_v_fat else [],
         "raw_traffic": df_meta.rename(columns={
-            'Data': 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
-            'Criativo': 'cria', 'Investimento': 'inv'
-        }).to_dict('records') if not df_meta.empty else [],
-        "last_update": last_update_str
+            col_t_data: 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
+            'Criativo': 'cria', col_t_inv: 'inv'
+        }).to_dict('records') if not df_meta.empty and col_t_data and col_t_inv else [],
+        "last_update": last_update_str,
+        "debug": debug_info
     }
     
     return payload

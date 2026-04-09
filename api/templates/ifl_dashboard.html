@@ -2642,7 +2642,10 @@
 <div class="dash-header">
 <div>
 <h2 class="dash-title">Painel de Comando</h2>
-<div style="color:var(--text-muted); font-size:14px; margin-top:5px;">Cockpit de Lançamento Ativo | <span id="ui-last-update">-</span></div>
+<div style="color:var(--text-muted); font-size:14px; margin-top:5px;">
+    Cockpit de Lançamento Ativo | <span id="ui-last-update">-</span> 
+    <span id="ui-debug-trigger" style="cursor:pointer; margin-left:10px; opacity:0.3;">🔍</span>
+</div>
 </div>
 <div class="date-picker-container" style="gap:10px;">
 <div style="display:flex; align-items:center;">
@@ -2939,12 +2942,17 @@
                 const rawJson = document.getElementById("python-metrics-payload").innerHTML;
                 if(rawJson.trim() !== "" && rawJson.trim() !== "{}") {
                     GLOBAL_DATA = JSON.parse(rawJson);
+                    console.log("DEBUG DATA:", GLOBAL_DATA.debug);
                     RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
                     RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
                     populateMicroMacro();
                     recalcMacros(); 
                     renderCascadingTables();
                 }
+                
+                document.getElementById('ui-debug-trigger').addEventListener('dblclick', () => {
+                    alert("DEBUG INFO:\n" + JSON.stringify(GLOBAL_DATA.debug, null, 2));
+                });
             } catch(e) { console.error("Falha JS no Payload Principal: ", e); }
 
             // Isola a injeção dos gráficos para não travar o Main Thread
