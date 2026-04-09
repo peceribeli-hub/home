@@ -663,12 +663,14 @@ def render_client_dashboard(client_id, config, start_date=None, end_date=None):
         if isinstance(data_payload, dict) and "error" in data_payload:
             return f"Erro ao processar dados: {data_payload['error']}"
             
-        # Injeta os dados no template da IFL usando Regex (Mais robusto)
+        # Injeta os dados no template da IFL usando Regex (Protegido contra escapes \u)
         import re
         import json
+        
+        # Usamos uma função lambda para evitar que o re.sub interprete barras invertidas (\u) do JSON
         session_html = re.sub(
             r'<script id="python-metrics-payload" type="application/json">.*?</script>',
-            f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
+            lambda m: f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
             template,
             flags=re.DOTALL
         )
