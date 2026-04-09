@@ -655,23 +655,26 @@ def get_login_page(error=None):
 </body>
 </html>'''
 
-def render_client_dashboard(client_id, config):
-    """Renderiza o dashboard correto baseado no ID do cliente."""
+def render_client_dashboard(client_id, config, start_date=None, end_date=None):
+    """Renderiza o dashboard correto baseado no ID do cliente com suporte a filtros."""
     client_id = int(client_id)
     if client_id == 2:
         # NaFazenda (IFL)
-        data_payload = generate_report_ifl(config['sheet_id'])
+        data_payload = generate_report_ifl(config['sheet_id'], start_date, end_date)
         template = get_session_html_template(2)
-        # Injeta os dados no template da IFL
-        session_html = template
-        if data_payload and '<script id="python-metrics-payload"' in session_html:
-            import re
-            session_html = re.sub(
-                r'<script id="python-metrics-payload" type="application/json">.*?</script>',
-                f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
-                session_html,
-                flags=re.DOTALL
-            )
+        
+        if isinstance(data_payload, dict) and "error" in data_payload:
+            return f"Erro ao processar dados: {data_payload['error']}"
+            
+        # Injeta os dados no template da IFL usando Regex (Mais robusto)
+        import re
+        import json
+        session_html = re.sub(
+            r'<script id="python-metrics-payload" type="application/json">.*?</script>',
+            f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
+            template,
+            flags=re.DOTALL
+        )
         return session_html
     else:
         # Padrão (Mozini etc)
@@ -707,27 +710,7 @@ def index():
         if config:
             start = request.args.get('start')
             end = request.args.get('end')
-            
-            if int(client_id) == 2:
-                # NaFazenda logic com suporte a data
-                payload = generate_report_ifl(config['sheet_id'], start, end)
-                if "error" in payload:
-                    return f"Erro: {payload['error']}"
-                
-                template = get_session_html_template(2)
-                if template.startswith("Erro:"):
-                    return template
-                    
-                session_html = template.replace(
-                    '{{ metrics_json | safe }}', 
-                    json.dumps(payload)
-                ).replace(
-                    '{{ client_name }}', 
-                    config['name']
-                )
-                return make_response(session_html)
-            
-            session_html = render_client_dashboard(int(client_id), config)
+            session_html = render_client_dashboard(client_id, config, start, end)
             return make_response(session_html)
 
     return make_response(get_login_page())
