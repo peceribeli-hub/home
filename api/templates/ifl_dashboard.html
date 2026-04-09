@@ -159,6 +159,274 @@
 <script id="python-metrics-payload" type="application/json">
 PYTHON_METRICS_HERE
 </script>
+<nav class="sidebar">
+<div class="logo-container">
+<div class="logo">IFL</div>
+<div class="logo-text">Fazenda Lucrativa 2.0</div>
+</div>
+<div class="nav-menu">
+<div class="nav-item active" onclick="switchLayer('overview', this)"><i class="fas fa-chart-line"></i> Visão Geral</div>
+<div class="nav-item" onclick="switchLayer('deepdive', this)"><i class="fas fa-project-diagram"></i> Motor Relacional</div>
+<div class="nav-item" onclick="switchLayer('premium', this)"><i class="fas fa-desktop"></i> Dashboard</div>
+<div style="height: 1px; background: var(--border-color); margin: 10px 0;"></div>
+<div class="nav-item" style="opacity: 0.5;"><i class="fas fa-users"></i> Públicos (WIP)</div>
+<div class="nav-item" style="opacity: 0.5;"><i class="fas fa-wallet"></i> Financeiro (WIP)</div>
+<div style="flex-grow: 1;"></div>
+<a href="/?logout=1" class="nav-item" style="color: #6b7280; text-decoration: none;"><i class="fas fa-sign-out-alt"></i> Sair do Painel</a>
+</div>
+</nav>
+<main class="main-content">
+<div class="dash-header">
+<div>
+<h2 class="dash-title">Painel de Comando</h2>
+<div style="color:var(--text-muted); font-size:14px; margin-top:5px;">
+    Cockpit de Lançamento Ativo | <span id="ui-last-update">-</span> 
+    <span id="ui-debug-trigger" style="cursor:pointer; margin-left:10px; opacity:0.3;">🔍</span>
+</div>
+</div>
+<div class="date-picker-container" style="gap:10px;">
+<div style="display:flex; align-items:center;">
+    <i class="far fa-calendar-alt" style="margin-right:12px; color:var(--text-muted);"></i>
+    <input class="date-picker" id="datePicker" placeholder="Filtrar período..." readonly="" type="text"/>
+</div>
+<button id="btnConfirmDate" style="background:var(--brand-color); color:white; border:none; border-radius:8px; padding:8px 16px; cursor:pointer; font-family:'Outfit'; font-weight:600; font-size:13px; transition:0.3s; height:38px;">Confirmar</button>
+</div>
+</div>
+<!-- LAYER 1: OVERVIEW -->
+<section class="layer active" id="layer-overview">
+<!-- RAIO-X: DIA DO LANCAMENTO (Destaque Principal) -->
+<div style="margin-bottom: 30px; border: 1px solid var(--brand-color); border-radius: 16px; padding: 24px; background: rgba(37, 99, 235, 0.04); position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+<div style="position: absolute; top: -20px; right: -20px; font-size: 140px; opacity: 0.03; z-index: 0;">🚀</div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; z-index: 1; position: relative;">
+<h3 style="margin: 0; color: var(--brand-color); display: flex; align-items: center; gap: 10px; font-size: 20px;">
+<i class="fas fa-rocket"></i> Raio-X: Desempenho do Lançamento
+        </h3>
+<span style="background: var(--brand-color); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; animation: pulseAlert 2s infinite;">Ao Vivo 🔵</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; z-index: 1; position: relative;">
+<div style="background: var(--surface-hover); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.08);">
+<div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Fat. Lançamento</div>
+<div id="ui-d1-fat" style="font-size: 28px; font-weight: 800; color: white;">Carregando...</div>
+</div>
+<div style="background: var(--surface-hover); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.08);">
+<div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Ingressos Vendidos</div>
+<div id="ui-d1-vendas" style="font-size: 28px; font-weight: 800; color: white;">Carregando...</div>
+</div>
+<div style="background: var(--surface-hover); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.08);">
+<div style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">ROAS Atual</div>
+<div id="ui-d1-roas" style="font-size: 28px; font-weight: 800; color: var(--positive);">0.0x</div>
+</div>
+</div>
+</div>
+<div class="macro-grid">
+<div class="macro-card"><div class="macro-title">Faturamento Total Bruto</div><div class="macro-value macro-highlight" id="ui-fat-total">R$ 0,00</div></div>
+<div class="macro-card"><div class="macro-title">Investimento Total Tráfego</div><div class="macro-value" id="ui-inv-total" style="color:#d1d5db;">R$ 0,00</div></div>
+<div class="macro-card"><div class="macro-title">ROAS Consolidado (Geral)</div><div class="macro-value" id="ui-roas-geral" style="color:var(--positive);">0.0x</div></div>
+<div class="macro-card"><div class="macro-title">Custo Por Venda (Geral)</div><div class="macro-value" id="ui-cpv-geral" style="color:#f5f5f5;">R$ 0,00</div></div>
+</div>
+<div class="micro-grid">
+<div class="kpi-card"><div class="kpi-title">Ingressos (O Mapa da Origem) <i class="fas fa-map-signs"></i></div><div class="metric-list"><div class="metric-row"><span class="metric-label" style="font-weight:700;">Volume Real da Planilha Vendas:</span> <span class="metric-val val-large" id="ui-ing-total">0</span></div><div style="height:1px; background:rgba(255,255,255,0.05); margin:5px 0;"></div><div class="metric-row"><span class="metric-label"><i class="fas fa-desktop"></i> Volume do Painel Meta (Fake)</span> <span class="metric-val" id="ui-ing-meta" style="opacity:0.6;">0</span></div><div class="metric-row"><span class="metric-label"><i class="fas fa-crosshairs"></i> Vendas Meta Real (Trackeado)</span> <span class="metric-val" id="ui-ing-realmeta">0</span></div><div class="metric-row"><span class="metric-label"><i class="fas fa-seedling"></i> Vendas Órfãs Orgânicas (Loss)</span> <span class="metric-val val-good" id="ui-ing-org">0</span></div></div></div>
+<div class="kpi-card"><div class="kpi-title">Dissecação de Custos <i class="fas fa-microscope"></i></div><div class="metric-list"><div class="metric-row"><span class="metric-label">CPV Tráfego (O que diz o Painel Meta)</span> <span class="metric-val" id="ui-cpv-meta">R$ 0,00</span></div><div class="metric-row"><span class="metric-label"><b>CPV Tráfego Real</b> (A Verdade Trackeada)</span> <span class="metric-val val-red" id="ui-cpv-realmeta">R$ 0,00</span></div><div class="metric-row"><span class="metric-label">CPV Orgânico</span> <span class="metric-val val-good" id="ui-cpv-org">-</span></div><div style="height:1px; background:rgba(255,255,255,0.05); margin:5px 0;"></div><div class="metric-row"><span class="metric-label">ROAS Tráfego Real (Excluindo Org.)</span> <span class="metric-val" id="ui-roas-realmeta">0.0x</span></div><div class="metric-row"><span class="metric-label">ROAS Orgânico Adicional</span> <span class="metric-val val-good" id="ui-roas-org">INFINITO</span></div></div></div>
+<div class="kpi-card"><div class="kpi-title">Ticket e Qualidade <i class="fas fa-gem"></i></div><div class="metric-list"><div class="metric-row"><span class="metric-label" style="font-weight:700;">Ticket Médio Geral:</span> <span class="metric-val val-large" id="ui-ticket-geral">R$ 0,00</span></div><div style="height:1px; background:rgba(255,255,255,0.05); margin:5px 0;"></div><div class="metric-row"><span class="metric-label">Qualidade do Trafego Misto</span> <span class="metric-val" id="ui-tk-meta">R$ 0,00</span></div><div class="metric-row"><span class="metric-label">Qualidade do Trafego Base</span> <span class="metric-val" id="ui-tk-realmeta">R$ 0,00</span></div><div class="metric-row"><span class="metric-label">Qualidade Livres (Org)</span> <span class="metric-val val-good" id="ui-tk-org">R$ 0,00</span></div></div></div>
+<div class="kpi-card"><div class="kpi-title">Adoção de Orderbumps <i class="fas fa-shopping-cart"></i></div><div class="metric-list"><div class="metric-row"><span class="metric-label" style="font-weight:700;">Volume Integral Mapeado:</span> <span class="metric-val val-large" id="ui-ob-total">0 Uni</span></div><div style="height:1px; background:rgba(255,255,255,0.05); margin:5px 0;"></div><div class="metric-row"><span class="metric-label">Gravações Vendidas</span> <span class="metric-val" id="ui-ob-grav">0</span></div><div class="metric-row"><span class="metric-label">Planilhas Financeiras</span> <span class="metric-val" id="ui-ob-plan">0</span></div><div class="metric-row"><span class="metric-label">E-Books Lidos</span> <span class="metric-val" id="ui-ob-ebook">0</span></div><div class="metric-row"><span class="metric-label">Kits Combos</span> <span class="metric-val" id="ui-ob-combo">0</span></div></div></div>
+</div>
+</section>
+<!-- LAYER 2: MOTOR CASCATA (DEEP DIVE MULTI-COLUMN) -->
+<section class="layer" id="layer-deepdive">
+<div class="interativo-header">
+<div>
+<h3>Explorador de Tráfego <i class="fas fa-level-down-alt" style="color:var(--brand-color); margin-left:10px;"></i></h3>
+<div class="filter-breadcrumbs" id="breadcrumb-area">
+                        Visão: Global 
+                        <span class="filter-badge" id="badge-camp" onclick="clearFilter('camp')" style="display:none;">Campanha x <i class="fas fa-times"></i></span>
+<span class="filter-badge" id="badge-pub" onclick="clearFilter('pub')" style="display:none;">Público y <i class="fas fa-times"></i></span>
+</div>
+</div>
+</div>
+<div class="analysis-container">
+<!-- Tabela 1: Campanhas -->
+<div class="data-table-wrapper">
+<div class="data-table-header">
+<div>1. Campanhas (Clique para Filtrar)</div>
+</div>
+<div class="table-scroll-container">
+<table id="table-campanhas">
+<thead><tr><th>Nome</th><th>Invest.</th><th>Impr. 👁</th><th>CPM</th><th>Cliques 🖱</th><th>CTR %</th><th>Checkouts 🛒</th><th>Cpl Chk</th><th>Vendas 💎</th><th>CPV</th><th>Fat 💵</th><th>ROAS</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<!-- Tabela 2: Públicos -->
+<div class="data-table-wrapper">
+<div class="data-table-header">
+<div id="pub-header-text">2. Públicos (Clique para Filtrar)</div>
+</div>
+<div class="table-scroll-container">
+<table id="table-publicos">
+<thead><tr><th>Nome</th><th>Invest.</th><th>Impr. 👁</th><th>CPM</th><th>Cliques 🖱</th><th>CTR %</th><th>Checkouts 🛒</th><th>Cpl Chk</th><th>Vendas 💎</th><th>CPV</th><th>Fat 💵</th><th>ROAS</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<!-- Tabela 3: Criativos (Podium) -->
+<div class="data-table-wrapper">
+<div class="data-table-header">
+<div id="cria-header-text">🏆 Rank: 3. Criativos <span style="font-weight:400; font-size:12px; margin-left:10px; color:var(--text-muted);">(Role a tabela para ver mais - Clique para ver Anúncio)</span></div>
+</div>
+<div class="table-scroll-container">
+<table id="table-criativos">
+<thead><tr><th>ID Visual do Campeão</th><th>Invest.</th><th>Impr. 👁</th><th>CPM</th><th>Cliques 🖱</th><th>CTR %</th><th>Checkouts 🛒</th><th>Cpl Chk</th><th>Vendas 💎</th><th>CPV</th><th>Fat 💵</th><th>ROAS</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- POPUP THUMBNAIL (Flutuante para não estourar a tela de tabelas) -->
+<div class="thumb-overlay" id="thumb-overlay">
+<div class="thumb-overlay-head">
+<span>Pré-Visualização</span>
+<i class="fas fa-times" onclick="document.getElementById('thumb-overlay').style.display='none'"></i>
+</div>
+<img alt="Thumbnail" id="thumb-img" src=""/>
+</div>
+<!-- LISTA POPUP NO MEIO DE DEEPDIVE FICA... -->
+
+</section>
+<!-- LAYER 3: PREMIUM DASHBOARD (Nova Aba) -->
+<section class="layer" id="layer-premium">
+<div class="dash-header" style="border-bottom:none; margin-bottom:10px;">
+<h2 class="dash-title">Painel Operacional (Premium)</h2>
+</div>
+<!-- GAUGES OMITTED FOR BREVITY, JS WILL BUILD THEM IF NEEDED. ACTUALLY, LET'S JUST CREATE THE STRUCTURE -->
+<section class="top-gauges">
+<div class="gauge-card"><span class="gauge-title">Faturamento Vendas</span><div id="gauge1"></div><span class="gauge-value" id="p_fat">R$ 0</span></div>
+<div class="gauge-card"><span class="gauge-title">Investimento</span><div id="gauge2"></div><span class="gauge-value" id="p_inv">R$ 0</span></div>
+<div class="gauge-card"><span class="gauge-title">CPV Relacional</span><div id="gauge3"></div><span class="gauge-value" id="p_cpv">R$ 0</span></div>
+<div class="gauge-card"><span class="gauge-title">ROAS Retorno</span><div id="gauge4"></div><span class="gauge-value" id="p_roas">0x</span></div>
+<div class="gauge-card"><span class="gauge-title">Ingressos</span><div id="gauge5"></div><span class="gauge-value" id="p_ing">0</span></div>
+</section>
+<div class="prem-main-grid">
+<div class="tables-container">
+<section class="graphs-grid">
+<div class="kpi-card" style="padding:15px;"><h3 class="kpi-title" style="margin-bottom:5px;">Investimento vs Vendas D-7</h3><div id="main-line-chart"></div></div>
+<div class="kpi-card" style="padding:15px;"><h3 class="kpi-title" style="margin-bottom:5px;">ROAS Tático</h3><div id="roas-chart"></div></div>
+</section>
+</div>
+<aside class="funnel-container">
+<div class="thermometer">
+<h3 style="font-size:14px; margin-bottom:10px; color:white;">Funil de Aquisição</h3>
+<div class="funnel-step"><span class="funnel-label">Impressões</span><span class="funnel-val" id="f_imp">0</span></div>
+<div class="funnel-step"><span class="funnel-label">Cliques</span><span class="funnel-val" id="f_cli">0</span><span class="funnel-pct" id="f_p_cli">0%</span></div>
+<div class="funnel-step"><span class="funnel-label">Visitas</span><span class="funnel-val" id="f_vis">0</span><span class="funnel-pct" id="f_p_vis">0%</span></div>
+<div class="funnel-step"><span class="funnel-label">Checkout</span><span class="funnel-val" id="f_chk">0</span><span class="funnel-pct" id="f_p_chk">0%</span></div>
+<div class="funnel-step"><span class="funnel-label">Vendas Track.</span><span class="funnel-val" id="f_ven">0</span><span class="funnel-pct" id="f_p_ven">0%</span></div>
+</div>
+</aside>
+</div>
+</section>
+</main>
+<script>
+        let GLOBAL_DATA = {};
+        let RAW_TRAFFIC = [];
+        
+        let RAW_VENDAS = [];
+        
+        // --- APEXCHARTS INSTANCES ---
+        let radialFat, radialInv, radialCpv, radialRoas, radialIng;
+        let lineChartArea, barChartRoas;
+
+        let actCamp = null;
+        let actPub = null;
+        
+        let picker;
+
+        function parseDateBR(dateStr) {
+            if(!dateStr || dateStr==="-") return null;
+            let dStr = String(dateStr).trim();
+            // Tenta formato DD/MM/YYYY
+            let parts = dStr.split('/');
+            if(parts.length===3) return new Date(parts[2], parts[1]-1, parts[0]);
+            // Tenta formato YYYY-MM-DD
+            let partsIso = dStr.split('-');
+            if(partsIso.length===3 && partsIso[0].length === 4) return new Date(partsIso[0], partsIso[1]-1, partsIso[2]);
+            return null;
+        }
+
+        async function applyDateFilter(d1, d2) {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+            
+            try {
+                // Formata as datas para o padrão ISO (YYYY-MM-DD) esperado pelo servidor
+                const startStr = d1.getFullYear() + '-' + String(d1.getMonth() + 1).padStart(2, '0') + '-' + String(d1.getDate()).padStart(2, '0');
+                const endStr = d2.getFullYear() + '-' + String(d2.getMonth() + 1).padStart(2, '0') + '-' + String(d2.getDate()).padStart(2, '0');
+                
+                console.log("Sincronizando com servidor para o período:", startStr, "até", endStr);
+                
+                const response = await fetch(`/?start=${startStr}&end=${endStr}`);
+                if (!response.ok) throw new Error("Servidor retornou erro " + response.status);
+                
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newJson = doc.getElementById('python-metrics-payload') ? doc.getElementById('python-metrics-payload').innerHTML : null;
+                
+                if (newJson) {
+                    GLOBAL_DATA = JSON.parse(newJson);
+                    RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
+                    RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
+                    
+                    populateMicroMacro();
+                    recalcMacros();
+                    renderCascadingTables();
+                    
+                    console.log("Sincronização concluída com sucesso.");
+                } else {
+                    throw new Error("Payload de dados não encontrado na resposta");
+                }
+            } catch (e) {
+                console.error("Erro na sincronização:", e);
+                alert("Erro ao conectar com a planilha. Detalhe: " + e.message + ". Tente recarregar a página (F5).");
+            } finally {
+                overlay.style.display = 'none';
+            }
+        }
+
+        function recalcMacros() {
+            let fat_total = RAW_VENDAS.reduce((s, r) => s + (r.fat||0), 0);
+            let ing_total = RAW_VENDAS.length;
+            let inv_total = RAW_TRAFFIC.reduce((s, r) => s + (r.inv||0), 0);
+            
+            let cpv = ing_total > 0 ? (inv_total / ing_total) : 0;
+            let roas = inv_total > 0 ? (fat_total / inv_total) : 0;
+            
+            // D1 View Update
+            if(document.getElementById('ui-d1-fat')) document.getElementById('ui-d1-fat').innerText = fBr(fat_total);
+            if(document.getElementById('ui-d1-vendas')) document.getElementById('ui-d1-vendas').innerText = ing_total;
+            if(document.getElementById('ui-d1-roas')) document.getElementById('ui-d1-roas').innerText = fRoas(roas);
+            
+            // Layer 1 Global Macros Update
+            if(document.getElementById('ui-fat-total')) document.getElementById('ui-fat-total').innerText = fBr(fat_total);
+            if(document.getElementById('ui-inv-total')) document.getElementById('ui-inv-total').innerText = fBr(inv_total);
+            if(document.getElementById('ui-roas-geral')) document.getElementById('ui-roas-geral').innerText = fRoas(roas);
+            if(document.getElementById('ui-cpv-geral')) document.getElementById('ui-cpv-geral').innerText = fBr(cpv);
+            if(document.getElementById('ui-ingressos-total')) document.getElementById('ui-ingressos-total').innerText = ing_total + " Uni";
+            let vend_meta = RAW_TRAFFIC.reduce((s, r) => s + (r.vend||0), 0);
+            if(document.getElementById('ui-vendas-meta')) document.getElementById('ui-vendas-meta').innerText = vend_meta + " Uni";
+            
+            // Premium View Update
+            if(document.getElementById('p_fat')) document.getElementById('p_fat').innerText = fBr(fat_total);
+            if(document.getElementById('p_inv')) document.getElementById('p_inv').innerText = fBr(inv_total);
+            if(document.getElementById('p_cpv')) document.getElementById('p_cpv').innerText = fBr(cpv);
+            if(document.getElementById('p_roas')) document.getElementById('p_roas').innerText = fRoas(roas);
+            if(document.getElementById('p_ing')) document.getElementById('p_ing').innerText = ing_total;
+            
+            // Funnel Stats
+            let fim = RAW_TRAFFIC.reduce((s, r) => s + (r.imp||0), 0);
+            let fcl = RAW_TRAFFIC.reduce((s, r) => s + (r.cli||0), 0);
+            let fvi = RAW_TRAFFIC.reduce((s, r) => s + (r.vis||0), 0);
+            let fch = RAW_TRAFFIC.reduce((s, r) => s + (r.chk||0), 0);
+            
             if(document.getElementById('f_imp')) document.getElementById('f_imp').innerText = fNum(fim);
             if(document.getElementById('f_cli')) document.getElementById('f_cli').innerText = fNum(fcl);
             if(document.getElementById('f_vis')) document.getElementById('f_vis').innerText = fNum(fvi);
