@@ -146,8 +146,8 @@ def get_session_html_template(client_id):
     # Padrão para outros clientes (Mozini etc)
     return None
 
-def generate_report_ifl(sheet_id):
-    """Geração de relatório específica para NaFazenda (IFL)."""
+def generate_report_ifl(sheet_id, start_date=None, end_date=None):
+    """Geração de relatório específica para NaFazenda (IFL) com suporte a filtro de data no servidor."""
     import tempfile
     cred_json = os.environ.get('GOOGLE_CREDENTIALS_2', os.environ.get('GOOGLE_CREDENTIALS'))
     if not cred_json:
@@ -229,6 +229,29 @@ def generate_report_ifl(sheet_id):
         total_rev = df_v_aprov[col_v_fat].sum() if col_v_fat in df_v_aprov.columns and not df_v_aprov.empty else 0
         investments = df_meta[col_t_inv].sum() if col_t_inv in df_meta.columns and not df_meta.empty else 0
         
+        # --- FILTRO DE DATA NO SERVIDOR (ESTILO MOZINI) ---
+        if start_date and end_date:
+            try:
+                d1 = pd.to_datetime(start_date, errors='coerce')
+                d2 = pd.to_datetime(end_date, errors='coerce')
+                
+                if pd.notnull(d1) and pd.notnull(d2):
+                    # Filtrar Vendas
+                    if col_v_data in df_v_aprov.columns:
+                        df_v_aprov[col_v_data] = pd.to_datetime(df_v_aprov[col_v_data], dayfirst=True, errors='coerce')
+                        df_v_aprov = df_v_aprov[(df_v_aprov[col_v_data] >= d1) & (df_v_aprov[col_v_data] <= d2)].copy()
+                    
+                    # Filtrar Tráfego
+                    if col_t_data in df_meta.columns:
+                        df_meta[col_t_data] = pd.to_datetime(df_meta[col_t_data], dayfirst=True, errors='coerce')
+                        df_meta = df_meta[(df_meta[col_t_data] >= d1) & (df_meta[col_t_data] <= d2)].copy()
+                    
+                    # Recalcular totais após filtro
+                    total_rev = df_v_aprov[col_v_fat].sum() if col_v_fat in df_v_aprov.columns and not df_v_aprov.empty else 0
+                    investments = df_meta[col_t_inv].sum() if col_t_inv in df_meta.columns and not df_meta.empty else 0
+            except:
+                pass # Em caso de erro na data, mantém o total geral
+
         last_update_str = datetime.now().strftime("%d/%m/%Y %H:%M")
 
     except Exception as e:
@@ -681,7 +704,29 @@ def index():
     if client_id:
         config = get_client_config(int(client_id))
         if config:
-            session_html = render_client_dashboard(client_id, config)
+            start = request.args.get('start')
+            end = request.args.get('end')
+            
+            if int(client_id) == 2:
+                # NaFazenda logic com suporte a data
+                payload = generate_report_ifl(config['sheet_id'], start, end)
+                if "error" in payload:
+                    return f"Erro: {payload['error']}"
+                
+                template = get_session_html_template(2)
+                if template.startswith("Erro:"):
+                    return template
+                    
+                session_html = template.replace(
+                    '{{ metrics_json | safe }}', 
+                    json.dumps(payload)
+                ).replace(
+                    '{{ client_name }}', 
+                    config['name']
+                )
+                return make_response(session_html)
+            
+            session_html = render_client_dashboard(int(client_id), config)
             return make_response(session_html)
 
     return make_response(get_login_page())

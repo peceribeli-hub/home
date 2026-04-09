@@ -126,8 +126,36 @@
         .funnel-pct { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); background: var(--positive); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 800; }
         .prem-main-grid { display: grid; grid-template-columns: 1fr 280px; gap: 30px; margin-bottom: 30px; }
     </style>
+    <style>
+        /* Overlay de Loading */
+        #loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .spinner-dash {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
+    <div id="loading-overlay">
+        <div class="spinner-dash"></div>
+        <div style="font-weight: 600; letter-spacing: 1px;">SINCRONIZANDO COM A PLANILHA...</div>
+    </div>
 <script id="python-metrics-payload" type="application/json">{
     "fat_total": "R$ 1.009,60",
     "inv_total": "R$ 740,58",
@@ -2815,31 +2843,41 @@
             return null;
         }
 
-        function applyDateFilter(d1, d2) {
-            console.log("Aplicando filtro:", d1, d2);
-            if(!d1 || !d2) {
-                RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
-                RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
-            } else {
-                const start = new Date(d1); start.setHours(0,0,0,0);
-                const end = new Date(d2); end.setHours(23,59,59,999);
+        async function applyDateFilter(d1, d2) {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+            
+            try {
+                // Formata as datas para o padrão ISO (YYYY-MM-DD) esperado pelo servidor
+                const startStr = d1.getFullYear() + '-' + String(d1.getMonth() + 1).padStart(2, '0') + '-' + String(d1.getDate()).padStart(2, '0');
+                const endStr = d2.getFullYear() + '-' + String(d2.getMonth() + 1).padStart(2, '0') + '-' + String(d2.getDate()).padStart(2, '0');
                 
-                RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic||[]).filter(r => {
-                    let d = parseDateBR(String(r.data));
-                    return d && d >= start && d <= end;
-                });
-                RAW_VENDAS = (GLOBAL_DATA.raw_vendas||[]).filter(r => {
-                    let d = parseDateBR(String(r.data));
-                    return d && d >= start && d <= end;
-                });
+                console.log("Sincronizando com servidor para o período:", startStr, "até", endStr);
+                
+                const response = await fetch(`/?start=${startStr}&end=${endStr}`);
+                const html = await response.text();
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newJson = doc.getElementById('python-metrics-payload').innerHTML;
+                
+                if (newJson) {
+                    GLOBAL_DATA = JSON.parse(newJson);
+                    RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
+                    RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
+                    
+                    populateMicroMacro();
+                    recalcMacros();
+                    renderCascadingTables();
+                    
+                    console.log("Sincronização concluída com sucesso.");
+                }
+            } catch (e) {
+                console.error("Erro na sincronização:", e);
+                alert("Erro ao conectar com a planilha. Verifique sua internet.");
+            } finally {
+                overlay.style.display = 'none';
             }
-            console.log(`Filtro aplicado. Tráfego: ${RAW_TRAFFIC.length}, Vendas: ${RAW_VENDAS.length}`);
-            if(RAW_VENDAS.length === 0 && RAW_TRAFFIC.length === 0) {
-                console.warn("Nenhum dado encontrado para este período.");
-                // Opcional: você pode adicionar um alert(..) aqui se desejar feedback agressivo
-            }
-            recalcMacros();
-            renderCascadingTables();
         }
 
         function recalcMacros() {
