@@ -133,6 +133,101 @@ def authenticate(email, password):
     
     return None
 
+def get_session_html_template(client_id):
+    """Retorna o template HTML correto baseado no ID do cliente."""
+    # Cliente 2 é NaFazenda (IFL)
+    if client_id == 2:
+        template_path = os.path.join(os.path.dirname(__file__), 'templates', 'ifl_dashboard.html')
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except Exception as e:
+            return f"Erro: Template IFL não encontrado ({str(e)})."
+    # Padrão para outros clientes (Mozini etc)
+    return None
+
+def generate_report_ifl(sheet_id):
+    """Geração de relatório específica para NaFazenda (IFL)."""
+    import tempfile
+    cred_json = os.environ.get('GOOGLE_CREDENTIALS_2', os.environ.get('GOOGLE_CREDENTIALS'))
+    if not cred_json:
+        return {"error": "GOOGLE_CREDENTIALS não configurado"}
+    
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        json.dump(json.loads(cred_json), f)
+        cred_path = f.name
+    
+    try:
+        gc = gspread.service_account(filename=cred_path)
+        sh = gc.open_by_key(sheet_id)
+        
+        # Abas específicas da NaFazenda
+        ws_vendas = sh.get_worksheet_by_id(1417375901)
+        ws_trafego = sh.get_worksheet_by_id(2062220158)
+        ws_leads = sh.get_worksheet_by_id(621645250)
+        ws_pesquisa = sh.get_worksheet_by_id(1970699103)
+
+        data_v = ws_vendas.get_all_records()
+        data_t = ws_trafego.get_all_records()
+        data_l = ws_leads.get_all_records()
+        data_p = ws_pesquisa.get_all_records()
+
+        df_vendas = pd.DataFrame(data_v)
+        df_meta = pd.DataFrame(data_t)
+        df_leads = pd.DataFrame(data_l)
+        df_pesquisa = pd.DataFrame(data_p)
+    except Exception as e:
+        return {"error": f"Erro ao acessar planilhas: {str(e)}"}
+
+    # --- Lógica de cálculo portada de calculate_metrics.py ---
+    def clean_val(x):
+        if isinstance(x, str):
+            x = x.replace('R$', '').replace('.', '').replace(',', '.').strip()
+            try: return float(x)
+            except: return 0.0
+        return float(x) if pd.notnull(x) else 0.0
+
+    for col in [' Faturamento Total ', ' Comissão Líquida ', ' Taxas ', ' Faturamento Ingresso ', ' Faturamento OB ', ' Investimento ']:
+        if col in df_vendas.columns: df_vendas[col] = df_vendas[col].apply(clean_val)
+        if col in df_meta.columns: df_meta[col] = df_meta[col].apply(clean_val)
+
+    df_v_aprov = df_vendas[df_vendas['Status'] == 'Aprovada'].copy() if not df_vendas.empty else pd.DataFrame()
+    
+    investments = df_meta[' Investimento '].sum() if not df_meta.empty else 0
+    total_rev = df_v_aprov[' Faturamento Total '].sum() if not df_v_aprov.empty else 0
+    
+    # Ingressos (Imersão)
+    if not df_v_aprov.empty:
+        df_imersao = df_v_aprov[df_v_aprov['Produto'].str.contains('Imersão', na=False)]
+        vendas_imersao = len(df_imersao)
+        vendas_xrpec = len(df_v_aprov[df_v_aprov['Produto'].str.contains('xR Pec', na=False)])
+    else:
+        vendas_imersao = 0
+        vendas_xrpec = 0
+    
+    # Métricas Gerais
+    roas = total_rev / investments if investments > 0 else 0
+    ticket = total_rev / (vendas_imersao + vendas_xrpec) if (vendas_imersao + vendas_xrpec) > 0 else 0
+    cac = investments / vendas_imersao if vendas_imersao > 0 else 0
+    
+    # Preparar JSON para o Dashboard
+    payload = {
+        "fat_total": f"R$ {total_rev:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
+        "inv_total": f"R$ {investments:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
+        "ingressos_total": vendas_imersao,
+        "roas_geral": f"{roas:.2f}x",
+        "ticket_geral": f"R$ {ticket:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
+        "cac_imersao": f"R$ {cac:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
+        "raw_vendas": df_v_aprov[['Data', ' Faturamento Total ', 'Produto']].rename(columns={' Faturamento Total ': 'fat', 'Data': 'data', 'Produto': 'ob'}).to_dict('records') if not df_v_aprov.empty else [],
+        "raw_traffic": df_meta.rename(columns={
+            'Data': 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
+            'Criativo': 'cria', ' Investimento ': 'inv'
+        }).to_dict('records') if not df_meta.empty else []
+    }
+    
+    return payload
+
+
 def generate_report(sheet_id):
     import tempfile
     cred_json = os.environ.get('GOOGLE_CREDENTIALS')
@@ -496,6 +591,28 @@ def get_login_page(error=None):
 </body>
 </html>'''
 
+def render_client_dashboard(client_id, config):
+    """Renderiza o dashboard correto baseado no ID do cliente."""
+    client_id = int(client_id)
+    if client_id == 2:
+        # NaFazenda (IFL)
+        data_payload = generate_report_ifl(config['sheet_id'])
+        template = get_session_html_template(2)
+        # Injeta os dados no template da IFL
+        session_html = template
+        if data_payload and '<script id="python-metrics-payload"' in session_html:
+            import re
+            session_html = re.sub(
+                r'<script id="python-metrics-payload" type="application/json">.*?</script>',
+                f'<script id="python-metrics-payload" type="application/json">{json.dumps(data_payload)}</script>',
+                session_html,
+                flags=re.DOTALL
+            )
+        return session_html
+    else:
+        # Padrão (Mozini etc)
+        return get_session_page(config['name'], client_id, generate_report(config['sheet_id']))
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     cookie_name = 'panel_session'
@@ -509,7 +626,7 @@ def index():
 
         if client_id:
             config = get_client_config(client_id)
-            session_html = get_session_page(config['name'], client_id, generate_report(config['sheet_id']))
+            session_html = render_client_dashboard(client_id, config)
             resp = make_response(session_html)
             resp.set_cookie(cookie_name, str(client_id), max_age=86400, httponly=True, path='/')
             return resp
@@ -524,7 +641,7 @@ def index():
     if client_id:
         config = get_client_config(int(client_id))
         if config:
-            session_html = get_session_page(config['name'], client_id, generate_report(config['sheet_id']))
+            session_html = render_client_dashboard(client_id, config)
             return make_response(session_html)
 
     return make_response(get_login_page())
