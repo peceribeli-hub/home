@@ -2831,6 +2831,10 @@
                 });
             }
             console.log(`Filtro aplicado. Tráfego: ${RAW_TRAFFIC.length}, Vendas: ${RAW_VENDAS.length}`);
+            if(RAW_VENDAS.length === 0 && RAW_TRAFFIC.length === 0) {
+                console.warn("Nenhum dado encontrado para este período.");
+                // Opcional: você pode adicionar um alert(..) aqui se desejar feedback agressivo
+            }
             recalcMacros();
             renderCascadingTables();
         }
@@ -2957,6 +2961,10 @@
         function populateMicroMacro() {
             const bind = (id, key) => { if(document.getElementById(id) && GLOBAL_DATA[key]) document.getElementById(id).innerText = GLOBAL_DATA[key]; };
             bind('ui-fat-total', 'fat_total'); bind('ui-inv-total', 'inv_total'); bind('ui-roas-geral', 'roas_geral'); bind('ui-cpv-geral', 'cpv_geral');
+            bind('ui-fat-total', 'fat_total');
+            bind('ui-inv-total', 'inv_total');
+            bind('ui-roas-geral', 'roas_geral');
+            bind('ui-cpv-geral', 'cpv_geral');
             bind('ui-ing-total', 'ingressos_total'); bind('ui-ing-meta', 'ingressos_meta'); bind('ui-ing-realmeta', 'ingressos_real_meta'); bind('ui-ing-org', 'ingressos_organico');
             bind('ui-cpv-meta', 'cpv_meta'); bind('ui-cpv-realmeta', 'cpv_real_meta'); bind('ui-roas-realmeta', 'roas_real_meta');
             bind('ui-ticket-geral', 'ticket_geral'); bind('ui-tk-meta', 'ticket_meta'); bind('ui-tk-realmeta', 'ticket_real_meta'); bind('ui-tk-org', 'ticket_organico');

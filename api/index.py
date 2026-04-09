@@ -202,7 +202,13 @@ def generate_report_ifl(sheet_id):
         if col in df_vendas.columns: df_vendas[col] = df_vendas[col].apply(clean_val)
         if col in df_meta.columns: df_meta[col] = df_meta[col].apply(clean_val)
 
-    df_v_aprov = df_vendas[df_vendas['Status'] == 'Aprovada'].copy() if not df_vendas.empty else pd.DataFrame()
+    # Filtro de vendas aprovadas (Flexível e Case-insensitive)
+    if not df_vendas.empty and 'Status' in df_vendas.columns:
+        status_validos = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado']
+        df_v_aprov = df_vendas[df_vendas['Status'].str.lower().str.strip().isin(status_validos)].copy()
+    else:
+        df_v_aprov = pd.DataFrame()
+
     
     investments = df_meta['Investimento'].sum() if not df_meta.empty else 0
     total_rev = df_v_aprov['Faturamento Total'].sum() if not df_v_aprov.empty else 0
