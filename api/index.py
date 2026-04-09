@@ -661,7 +661,10 @@ def render_client_dashboard(client_id, config, start_date=None, end_date=None):
         template = get_session_html_template(2)
         
         if isinstance(data_payload, dict) and "error" in data_payload:
-            return f"Erro ao processar dados: {data_payload['error']}"
+            # Em caso de erro, ainda retornamos o template mas com o erro no JSON
+            import json
+            session_html = template.replace('PYTHON_METRICS_HERE', json.dumps(data_payload))
+            return session_html
             
         # Injeta os dados no template da IFL de forma robusta e simples
         import json

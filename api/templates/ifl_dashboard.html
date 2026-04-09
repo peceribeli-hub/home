@@ -372,7 +372,14 @@ PYTHON_METRICS_HERE
                 const newJson = doc.getElementById('python-metrics-payload') ? doc.getElementById('python-metrics-payload').innerHTML : null;
                 
                 if (newJson) {
-                    GLOBAL_DATA = JSON.parse(newJson);
+                    const data = JSON.parse(newJson);
+                    
+                    // Verifica se o servidor retornou um erro específico no JSON
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    
+                    GLOBAL_DATA = data;
                     RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
                     RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
                     
