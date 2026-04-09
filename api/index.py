@@ -196,14 +196,14 @@ def generate_report_ifl(sheet_id):
         df_vendas.columns = [c.strip() for c in df_vendas.columns]
         df_meta.columns = [c.strip() for c in df_meta.columns]
         
-        # Detecção Inteligente de Colunas
-        col_v_data = find_col(df_vendas, ['data', 'date', 'creation'])
-        col_v_fat = find_col(df_vendas, ['faturamento', 'fat', 'valor', 'total'])
-        col_v_status = find_col(df_vendas, ['status', 'situacao', 'situação'])
-        col_v_prod = find_col(df_vendas, ['produto', 'item', 'offer', 'ob'])
+        # Detecção Inteligente de Colunas com Fallbacks
+        col_v_data = find_col(df_vendas, ['data', 'date', 'creation']) or 'Data'
+        col_v_fat = find_col(df_vendas, ['faturamento', 'fat', 'valor', 'total']) or 'Faturamento Total'
+        col_v_status = find_col(df_vendas, ['status', 'situacao', 'situação']) or 'Status'
+        col_v_prod = find_col(df_vendas, ['produto', 'item', 'offer', 'ob']) or 'Produto'
         
-        col_t_data = find_col(df_meta, ['data', 'date'])
-        col_t_inv = find_col(df_meta, ['investimento', 'inv', 'valor', 'gasto'])
+        col_t_data = find_col(df_meta, ['data', 'date']) or 'Data'
+        col_t_inv = find_col(df_meta, ['investimento', 'inv', 'valor', 'gasto']) or 'Investimento'
         
         # Debug info para o painel
         debug_info = {
@@ -215,19 +215,19 @@ def generate_report_ifl(sheet_id):
             }
         }
 
-        # Limpeza de valores nas colunas detectadas
-        for df, col in [(df_vendas, col_v_fat), (df_meta, col_t_inv)]:
-            if col: df[col] = df[col].apply(clean_val)
+        # Limpeza de valores nas colunas detectadas (Apenas se existirem)
+        if col_v_fat in df_vendas.columns: df_vendas[col_v_fat] = df_vendas[col_v_fat].apply(clean_val)
+        if col_t_inv in df_meta.columns: df_meta[col_t_inv] = df_meta[col_t_inv].apply(clean_val)
         
         # Filtro de vendas aprovadas (Flexível)
-        if col_v_status and not df_vendas.empty:
+        if col_v_status in df_vendas.columns and not df_vendas.empty:
             status_validos = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado', 'conluído', 'concluido']
             df_v_aprov = df_vendas[df_vendas[col_v_status].str.lower().str.strip().isin(status_validos)].copy()
         else:
-            df_v_aprov = df_vendas.copy() # Fallback: se não achar status, traz tudo
+            df_v_aprov = df_vendas.copy()
 
-        total_rev = df_v_aprov[col_v_fat].sum() if col_v_fat and not df_v_aprov.empty else 0
-        investments = df_meta[col_t_inv].sum() if col_t_inv and not df_meta.empty else 0
+        total_rev = df_v_aprov[col_v_fat].sum() if col_v_fat in df_v_aprov.columns and not df_v_aprov.empty else 0
+        investments = df_meta[col_t_inv].sum() if col_t_inv in df_meta.columns and not df_meta.empty else 0
         
         last_update_str = datetime.now().strftime("%d/%m/%Y %H:%M")
 
@@ -235,10 +235,10 @@ def generate_report_ifl(sheet_id):
         return {"error": f"Erro ao acessar planilhas: {str(e)}"}
     
     # Ingressos (Imersão)
-    if not df_v_aprov.empty and col_v_prod:
+    if not df_v_aprov.empty and col_v_prod in df_v_aprov.columns:
         df_imersao = df_v_aprov[df_v_aprov[col_v_prod].str.contains('Imersão', na=False)]
         vendas_imersao = len(df_imersao)
-        vendas_xrpec = len(df_v_aprov[df_v_aprov['Produto'].str.contains('xR Pec', na=False)])
+        vendas_xrpec = len(df_v_aprov[df_v_aprov[col_v_prod].str.contains('xR Pec', na=False)])
     else:
         vendas_imersao = 0
         vendas_xrpec = 0
@@ -256,11 +256,11 @@ def generate_report_ifl(sheet_id):
         "roas_geral": f"{roas:.2f}x",
         "ticket_geral": f"R$ {ticket:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
         "cac_imersao": f"R$ {cac:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
-        "raw_vendas": df_v_aprov[[col_v_data, col_v_fat, col_v_prod]].rename(columns={col_v_fat: 'fat', col_v_data: 'data', col_v_prod: 'ob'}).to_dict('records') if not df_v_aprov.empty and col_v_data and col_v_fat else [],
-        "raw_traffic": df_meta.rename(columns={
+        "raw_vendas": df_v_aprov[[c for c in [col_v_data, col_v_fat, col_v_prod] if c in df_v_aprov.columns]].rename(columns={col_v_fat: 'fat', col_v_data: 'data', col_v_prod: 'ob'}).to_dict('records') if not df_v_aprov.empty else [],
+        "raw_traffic": df_meta[[c for c in [col_t_data, col_t_inv, 'Campanha', 'Conjunto de anúncios', 'Criativo'] if c in df_meta.columns]].rename(columns={
             col_t_data: 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
             'Criativo': 'cria', col_t_inv: 'inv'
-        }).to_dict('records') if not df_meta.empty and col_t_data and col_t_inv else [],
+        }).to_dict('records') if not df_meta.empty else [],
         "last_update": last_update_str,
         "debug": debug_info
     }
