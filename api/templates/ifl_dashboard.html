@@ -2799,25 +2799,6 @@
         let actPub = null;
         
         let picker;
-        try {
-            picker = flatpickr("#datePicker", { 
-                mode: "range", 
-                dateFormat: "d/m/Y", 
-                locale: "pt", 
-                theme: "dark"
-            });
-            
-            document.getElementById('btnConfirmDate').addEventListener('click', function() {
-                const dates = picker.selectedDates;
-                if(dates.length === 2) {
-                    applyDateFilter(dates[0], dates[1]);
-                } else if(dates.length === 1) {
-                    applyDateFilter(dates[0], dates[0]);
-                } else {
-                    applyDateFilter(null, null);
-                }
-            });
-        } catch(e) { console.error("Falha ao iniciar filtro de datas Flatpickr:", e); }
 
         function parseDateBR(dateStr) {
             if(!dateStr || dateStr==="-") return null;
@@ -2827,21 +2808,24 @@
         }
 
         function applyDateFilter(d1, d2) {
+            console.log("Aplicando filtro:", d1, d2);
             if(!d1 || !d2) {
-                RAW_TRAFFIC = GLOBAL_DATA.raw_traffic || [];
-                RAW_VENDAS = GLOBAL_DATA.raw_vendas || [];
+                RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
+                RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
             } else {
-                d1.setHours(0,0,0,0);
-                d2.setHours(23,59,59,999);
+                const start = new Date(d1); start.setHours(0,0,0,0);
+                const end = new Date(d2); end.setHours(23,59,59,999);
+                
                 RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic||[]).filter(r => {
                     let d = parseDateBR(String(r.data));
-                    return d && d >= d1 && d <= d2;
+                    return d && d >= start && d <= end;
                 });
                 RAW_VENDAS = (GLOBAL_DATA.raw_vendas||[]).filter(r => {
                     let d = parseDateBR(String(r.data));
-                    return d && d >= d1 && d <= d2;
+                    return d && d >= start && d <= end;
                 });
             }
+            console.log(`Filtro aplicado. Tráfego: ${RAW_TRAFFIC.length}, Vendas: ${RAW_VENDAS.length}`);
             recalcMacros();
             renderCascadingTables();
         }
@@ -2910,14 +2894,46 @@
         const fRoas = (val) => { return `${parseFloat(val).toFixed(2)}x`; };
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicialização do Filtro de Datas
+            try {
+                picker = flatpickr("#datePicker", { 
+                    mode: "range", 
+                    dateFormat: "d/m/Y", 
+                    locale: "pt", 
+                    theme: "dark"
+                });
+                
+                const btnConfirm = document.getElementById('btnConfirmDate');
+                if(btnConfirm) {
+                    btnConfirm.addEventListener('click', function() {
+                        // Feedback visual simples
+                        this.style.transform = "scale(0.95)";
+                        this.style.opacity = "0.7";
+                        setTimeout(() => { 
+                            this.style.transform = "scale(1)"; 
+                            this.style.opacity = "1";
+                        }, 100);
+
+                        const dates = picker.selectedDates;
+                        if(dates.length === 2) {
+                            applyDateFilter(dates[0], dates[1]);
+                        } else if(dates.length === 1) {
+                            applyDateFilter(dates[0], dates[0]);
+                        } else {
+                            applyDateFilter(null, null);
+                        }
+                    });
+                }
+            } catch(e) { console.error("Erro ao iniciar Flatpickr ou botão:", e); }
+
             try {
                 const rawJson = document.getElementById("python-metrics-payload").innerHTML;
                 if(rawJson.trim() !== "" && rawJson.trim() !== "{}") {
                     GLOBAL_DATA = JSON.parse(rawJson);
-                    RAW_TRAFFIC = GLOBAL_DATA.raw_traffic || [];
-                    RAW_VENDAS = GLOBAL_DATA.raw_vendas || [];
+                    RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
+                    RAW_VENDAS = (GLOBAL_DATA.raw_vendas || []).slice();
                     populateMicroMacro();
-                    recalcMacros(); // Forca preenchimento na tela
+                    recalcMacros(); 
                     renderCascadingTables();
                 }
             } catch(e) { console.error("Falha JS no Payload Principal: ", e); }

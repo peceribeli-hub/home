@@ -176,6 +176,12 @@ def generate_report_ifl(sheet_id):
         df_meta = pd.DataFrame(data_t)
         df_leads = pd.DataFrame(data_l)
         df_pesquisa = pd.DataFrame(data_p)
+        
+        # Normalização de colunas (Strip spaces)
+        for df in [df_vendas, df_meta, df_leads, df_pesquisa]:
+            if not df.empty:
+                df.columns = [c.strip() for c in df.columns]
+
     except Exception as e:
         return {"error": f"Erro ao acessar planilhas: {str(e)}"}
 
@@ -187,14 +193,14 @@ def generate_report_ifl(sheet_id):
             except: return 0.0
         return float(x) if pd.notnull(x) else 0.0
 
-    for col in [' Faturamento Total ', ' Comissão Líquida ', ' Taxas ', ' Faturamento Ingresso ', ' Faturamento OB ', ' Investimento ']:
+    for col in ['Faturamento Total', 'Comissão Líquida', 'Taxas', 'Faturamento Ingresso', 'Faturamento OB', 'Investimento']:
         if col in df_vendas.columns: df_vendas[col] = df_vendas[col].apply(clean_val)
         if col in df_meta.columns: df_meta[col] = df_meta[col].apply(clean_val)
 
     df_v_aprov = df_vendas[df_vendas['Status'] == 'Aprovada'].copy() if not df_vendas.empty else pd.DataFrame()
     
-    investments = df_meta[' Investimento '].sum() if not df_meta.empty else 0
-    total_rev = df_v_aprov[' Faturamento Total '].sum() if not df_v_aprov.empty else 0
+    investments = df_meta['Investimento'].sum() if not df_meta.empty else 0
+    total_rev = df_v_aprov['Faturamento Total'].sum() if not df_v_aprov.empty else 0
     
     # Ingressos (Imersão)
     if not df_v_aprov.empty:
@@ -218,10 +224,10 @@ def generate_report_ifl(sheet_id):
         "roas_geral": f"{roas:.2f}x",
         "ticket_geral": f"R$ {ticket:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
         "cac_imersao": f"R$ {cac:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."),
-        "raw_vendas": df_v_aprov[['Data', ' Faturamento Total ', 'Produto']].rename(columns={' Faturamento Total ': 'fat', 'Data': 'data', 'Produto': 'ob'}).to_dict('records') if not df_v_aprov.empty else [],
+        "raw_vendas": df_v_aprov[['Data', 'Faturamento Total', 'Produto']].rename(columns={'Faturamento Total': 'fat', 'Data': 'data', 'Produto': 'ob'}).to_dict('records') if not df_v_aprov.empty else [],
         "raw_traffic": df_meta.rename(columns={
             'Data': 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
-            'Criativo': 'cria', ' Investimento ': 'inv'
+            'Criativo': 'cria', 'Investimento': 'inv'
         }).to_dict('records') if not df_meta.empty else []
     }
     
