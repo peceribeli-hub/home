@@ -2855,11 +2855,12 @@
                 console.log("Sincronizando com servidor para o período:", startStr, "até", endStr);
                 
                 const response = await fetch(`/?start=${startStr}&end=${endStr}`);
-                const html = await response.text();
+                if (!response.ok) throw new Error("Servidor retornou erro " + response.status);
                 
+                const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const newJson = doc.getElementById('python-metrics-payload').innerHTML;
+                const newJson = doc.getElementById('python-metrics-payload') ? doc.getElementById('python-metrics-payload').innerHTML : null;
                 
                 if (newJson) {
                     GLOBAL_DATA = JSON.parse(newJson);
@@ -2871,10 +2872,12 @@
                     renderCascadingTables();
                     
                     console.log("Sincronização concluída com sucesso.");
+                } else {
+                    throw new Error("Payload de dados não encontrado na resposta");
                 }
             } catch (e) {
                 console.error("Erro na sincronização:", e);
-                alert("Erro ao conectar com a planilha. Verifique sua internet.");
+                alert("Erro ao conectar com a planilha. Detalhe: " + e.message + ". Tente recarregar a página (F5).");
             } finally {
                 overlay.style.display = 'none';
             }

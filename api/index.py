@@ -167,15 +167,16 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         ws_leads = sh.get_worksheet_by_id(621645250)
         ws_pesquisa = sh.get_worksheet_by_id(1970699103)
 
-        data_v = ws_vendas.get_all_records()
-        data_t = ws_trafego.get_all_records()
-        data_l = ws_leads.get_all_records()
-        data_p = ws_pesquisa.get_all_records()
+        # Otimização: get_values() é muito mais rápido que get_all_records()
+        data_v_raw = ws_vendas.get_values('A1:Z5000')
+        data_t_raw = ws_trafego.get_values('A1:Z5000')
+        data_l_raw = ws_leads.get_values('A1:Z5000')
+        data_p_raw = ws_pesquisa.get_values('A1:Z5000')
 
-        df_vendas = pd.DataFrame(data_v)
-        df_meta = pd.DataFrame(data_t)
-        df_leads = pd.DataFrame(data_l)
-        df_pesquisa = pd.DataFrame(data_p)
+        df_vendas = pd.DataFrame(data_v_raw[1:], columns=[c.strip() for c in data_v_raw[0]]) if data_v_raw else pd.DataFrame()
+        df_meta = pd.DataFrame(data_t_raw[1:], columns=[c.strip() for c in data_t_raw[0]]) if data_t_raw else pd.DataFrame()
+        df_leads = pd.DataFrame(data_l_raw[1:], columns=[c.strip() for c in data_l_raw[0]]) if data_l_raw else pd.DataFrame()
+        df_pesquisa = pd.DataFrame(data_p_raw[1:], columns=[c.strip() for c in data_p_raw[0]]) if data_p_raw else pd.DataFrame()
         
         # Funções de Apoio (Fuzzy Search e Limpeza)
         def find_col(df, keywords):
@@ -1071,7 +1072,8 @@ async function refreshReport(btn) {{
             document.getElementById('report-content').innerHTML = newContent.innerHTML;
         }}
     }} catch (error) {{
-        alert('Erro ao atualizar. Tente novamente.');
+        console.error("Erro na atualização:", error);
+        alert("Erro ao conectar com a planilha. Verifique se as abas não foram renomeadas ou tente novamente em instantes. Detalhe: " + error.message);
     }} finally {{
         btn.classList.remove('loading');
         btn.disabled = false;
