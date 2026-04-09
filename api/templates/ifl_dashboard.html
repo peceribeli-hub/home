@@ -2642,7 +2642,7 @@
 <div class="dash-header">
 <div>
 <h2 class="dash-title">Painel de Comando</h2>
-<div style="color:var(--text-muted); font-size:14px; margin-top:5px;">Cockpit de Lançamento Ativo</div>
+<div style="color:var(--text-muted); font-size:14px; margin-top:5px;">Cockpit de Lançamento Ativo | <span id="ui-last-update">-</span></div>
 </div>
 <div class="date-picker-container" style="gap:10px;">
 <div style="display:flex; align-items:center;">
@@ -2802,8 +2802,13 @@
 
         function parseDateBR(dateStr) {
             if(!dateStr || dateStr==="-") return null;
-            let parts = dateStr.split('/');
+            let dStr = String(dateStr).trim();
+            // Tenta formato DD/MM/YYYY
+            let parts = dStr.split('/');
             if(parts.length===3) return new Date(parts[2], parts[1]-1, parts[0]);
+            // Tenta formato YYYY-MM-DD
+            let partsIso = dStr.split('-');
+            if(partsIso.length===3 && partsIso[0].length === 4) return new Date(partsIso[0], partsIso[1]-1, partsIso[2]);
             return null;
         }
 
@@ -2955,13 +2960,15 @@
             bind('ui-ing-total', 'ingressos_total'); bind('ui-ing-meta', 'ingressos_meta'); bind('ui-ing-realmeta', 'ingressos_real_meta'); bind('ui-ing-org', 'ingressos_organico');
             bind('ui-cpv-meta', 'cpv_meta'); bind('ui-cpv-realmeta', 'cpv_real_meta'); bind('ui-roas-realmeta', 'roas_real_meta');
             bind('ui-ticket-geral', 'ticket_geral'); bind('ui-tk-meta', 'ticket_meta'); bind('ui-tk-realmeta', 'ticket_real_meta'); bind('ui-tk-org', 'ticket_organico');
-            if(document.getElementById('ui-ob-total')) document.getElementById('ui-ob-total').innerText = GLOBAL_DATA.ob_total + " Uni";
+            if(document.getElementById('ui-ob-total')) document.getElementById('ui-ob-total').innerText = (GLOBAL_DATA.ob_total || 0) + " Uni";
             bind('ui-ob-grav', 'ob_gravacao'); bind('ui-ob-plan', 'ob_planilha'); bind('ui-ob-ebook', 'ob_ebook'); bind('ui-ob-combo', 'ob_combo');
             
-            // Destaque D1 (Vinculando diretamente com a carga total devido ao andamento atual Ao Vivo)
+            // Destaque D1
             bind('ui-d1-fat', 'fat_total');
             bind('ui-d1-vendas', 'ingressos_total');
             bind('ui-d1-roas', 'roas_geral');
+
+            if(GLOBAL_DATA.last_update) document.getElementById('ui-last-update').innerText = GLOBAL_DATA.last_update;
         }
 
         // --- PREMIUM CHARTS ENGINE ---

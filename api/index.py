@@ -177,10 +177,15 @@ def generate_report_ifl(sheet_id):
         df_leads = pd.DataFrame(data_l)
         df_pesquisa = pd.DataFrame(data_p)
         
-        # Normalização de colunas (Strip spaces)
-        for df in [df_vendas, df_meta, df_leads, df_pesquisa]:
-            if not df.empty:
-                df.columns = [c.strip() for c in df.columns]
+        # Normalização de colunas e valores (Strip spaces)
+        df_vendas.columns = [c.strip() for c in df_vendas.columns]
+        df_meta.columns = [c.strip() for c in df_meta.columns]
+        
+        df_vendas = df_vendas.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+        df_meta = df_meta.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+        
+        last_update_str = datetime.now().strftime("%d/%m/%Y %H:%M")
+
 
     except Exception as e:
         return {"error": f"Erro ao acessar planilhas: {str(e)}"}
@@ -228,7 +233,8 @@ def generate_report_ifl(sheet_id):
         "raw_traffic": df_meta.rename(columns={
             'Data': 'data', 'Campanha': 'camp', 'Conjunto de anúncios': 'pub', 
             'Criativo': 'cria', 'Investimento': 'inv'
-        }).to_dict('records') if not df_meta.empty else []
+        }).to_dict('records') if not df_meta.empty else [],
+        "last_update": last_update_str
     }
     
     return payload
