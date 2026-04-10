@@ -373,11 +373,7 @@ PYTHON_METRICS_HERE
                 
                 if (newJson) {
                     const data = JSON.parse(newJson);
-                    
-                    // Verifica se o servidor retornou um erro específico no JSON
-                    if (data.error) {
-                        throw new Error(data.error);
-                    }
+                    if (data.error) throw new Error(data.error);
                     
                     GLOBAL_DATA = data;
                     RAW_TRAFFIC = (GLOBAL_DATA.raw_traffic || []).slice();
@@ -386,10 +382,10 @@ PYTHON_METRICS_HERE
                     populateMicroMacro();
                     recalcMacros();
                     renderCascadingTables();
-                    
-                    console.log("Sincronização concluída com sucesso.");
                 } else {
-                    throw new Error("Payload de dados não encontrado na resposta");
+                    // Se não achou o JSON, o servidor pode ter enviado um erro HTML. Vamos mostrar o começo dele.
+                    const cleanText = html.replace(/<[^>]*>?/gm, '').substring(0, 200);
+                    throw new Error("Resposta do servidor inválida. Início do erro: " + cleanText);
                 }
             } catch (e) {
                 console.error("Erro na sincronização:", e);

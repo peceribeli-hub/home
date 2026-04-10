@@ -165,10 +165,10 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         ws_pesquisa = sh.get_worksheet_by_id(1970699103)
 
         # Otimização: get_values() é muito mais rápido que get_all_records()
-        data_v_raw = ws_vendas.get_values('A1:Z5000')
-        data_t_raw = ws_trafego.get_values('A1:Z5000')
-        data_l_raw = ws_leads.get_values('A1:Z5000')
-        data_p_raw = ws_pesquisa.get_values('A1:Z5000')
+        data_v_raw = ws_vendas.get_values('A1:Z500')
+        data_t_raw = ws_trafego.get_values('A1:Z500')
+        data_l_raw = ws_leads.get_values('A1:Z500') if ws_leads else []
+        data_p_raw = ws_pesquisa.get_values('A1:Z500') if ws_pesquisa else []
 
         df_vendas = pd.DataFrame(data_v_raw[1:], columns=[c.strip() for c in data_v_raw[0]]) if data_v_raw else pd.DataFrame()
         df_meta = pd.DataFrame(data_t_raw[1:], columns=[c.strip() for c in data_t_raw[0]]) if data_t_raw else pd.DataFrame()
@@ -307,7 +307,7 @@ def generate_report(sheet_id):
         df_kommo = pd.DataFrame(data_k[1:], columns=[c.strip() for c in data_k[0]])
 
         ws_meta = sh.get_worksheet_by_id(1936428443)
-        data_m = ws_meta.get_values('A1:Z5000')
+        data_m = ws_meta.get_values('A1:Z500')
         df_meta = pd.DataFrame(data_m[1:], columns=[c.strip() for c in data_m[0]])
 
         ws_google = sh.get_worksheet_by_id(677341941)
@@ -666,7 +666,7 @@ def render_client_dashboard(client_id, config, start_date=None, end_date=None):
             session_html = template.replace('PYTHON_METRICS_HERE', json.dumps(data_payload))
             return session_html
             
-        # Injeta os dados no template da IFL de forma robusta e simples
+        # Injeta os dados no template da IFL de forma robusta
         import json
         session_html = template.replace('PYTHON_METRICS_HERE', json.dumps(data_payload))
         return session_html
