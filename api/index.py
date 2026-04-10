@@ -131,8 +131,24 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
                 except: return 0.0
             return float(x) if pd.notnull(x) else 0.0
 
-        # Detecção de Colunas Adicionais para Inteligência
+        # Detecção de Colunas (Dicionário Expandido)
+        cv_data = find_c(df_v, ['data', 'date', 'creation']) or 'Data'
+        cv_fat = find_c(df_v, ['fat', 'valor', 'total', 'bruto', 'pago', 'recebido', 'soma', 'preço', 'preco']) or 'Faturamento'
+        cv_status = find_c(df_v, ['status', 'situacao', 'situação', 'etapa', 'resultado']) or 'Status'
+        cv_prod = find_c(df_v, ['produto', 'ob', 'item', 'offer', 'oferta', 'nome']) or 'Produto'
         cv_origem = find_c(df_v, ['origem', 'utm_source', 'src', 'utm', 'mídia', 'midia']) or 'Origem'
+        
+        ct_data = find_c(df_t, ['data', 'date']) or 'Data'
+        ct_inv = find_c(df_t, ['invest', 'inv', 'valor', 'gasto', 'custo', 'spending', 'amount', 'spen']) or 'Investimento'
+        ct_chk = find_c(df_t, ['check', 'finaliz', 'checkout']) or 'Checkout'
+        ct_cli = find_c(df_t, ['clique', 'click', 'clic']) or 'Cliques'
+        ct_imp = find_c(df_t, ['impres', 'visualiz', 'imp']) or 'Impressões'
+        ct_vis = find_c(df_t, ['visit', 'page', 'visu']) or 'Visitas'
+        ct_camp = find_c(df_t, ['campanh', 'camp', 'campaign']) or 'Campanha'
+        ct_pub = find_c(df_t, ['público', 'publico', 'conjunto', 'adset', 'pub']) or 'Público'
+        ct_cria = find_c(df_t, ['criativo', 'anúncio', 'ad', 'cria']) or 'Criativo'
+        ct_link = find_c(df_t, ['link', 'url', 'destin']) or 'Link'
+        ct_thumb = find_c(df_t, ['thumb', 'imagem', 'img']) or 'Thumbnail'
         ct_v_meta = find_c(df_t, ['venda', 'conversion', 'concurr', 'v_meta', 'result']) or 'Vendas Plataforma'
 
         if cv_fat in df_v.columns: df_v[cv_fat] = df_v[cv_fat].apply(clean_val)
