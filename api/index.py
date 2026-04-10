@@ -131,28 +131,15 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
                 except: return 0.0
             return float(x) if pd.notnull(x) else 0.0
 
-        # Detecção de Colunas (Dicionário Expandido)
-        cv_data = find_c(df_v, ['data', 'date', 'creation']) or 'Data'
-        cv_fat = find_c(df_v, ['fat', 'valor', 'total', 'bruto', 'pago', 'recebido', 'soma', 'preço', 'preco']) or 'Faturamento'
-        cv_status = find_c(df_v, ['status', 'situacao', 'situação', 'etapa', 'resultado']) or 'Status'
-        cv_prod = find_c(df_v, ['produto', 'ob', 'item', 'offer', 'oferta', 'nome']) or 'Produto'
-        
-        ct_data = find_c(df_t, ['data', 'date']) or 'Data'
-        ct_inv = find_c(df_t, ['invest', 'inv', 'valor', 'gasto', 'custo', 'spending', 'amount', 'spen']) or 'Investimento'
-        ct_chk = find_c(df_t, ['check', 'finaliz', 'checkout']) or 'Checkout'
-        ct_cli = find_c(df_t, ['clique', 'click', 'clic']) or 'Cliques'
-        ct_imp = find_c(df_t, ['impres', 'visualiz', 'imp']) or 'Impressões'
-        ct_vis = find_c(df_t, ['visit', 'page', 'visu']) or 'Visitas'
-        ct_camp = find_c(df_t, ['campanh', 'camp', 'campaign']) or 'Campanha'
-        ct_pub = find_c(df_t, ['público', 'publico', 'conjunto', 'adset', 'pub']) or 'Público'
-        ct_cria = find_c(df_t, ['criativo', 'anúncio', 'ad', 'cria']) or 'Criativo'
-        ct_link = find_c(df_t, ['link', 'url', 'destin']) or 'Link'
-        ct_thumb = find_c(df_t, ['thumb', 'imagem', 'img']) or 'Thumbnail'
+        # Detecção de Colunas Adicionais para Inteligência
+        cv_origem = find_c(df_v, ['origem', 'utm_source', 'src', 'utm', 'mídia', 'midia']) or 'Origem'
+        ct_v_meta = find_c(df_t, ['venda', 'conversion', 'concurr', 'v_meta', 'result']) or 'Vendas Plataforma'
 
         if cv_fat in df_v.columns: df_v[cv_fat] = df_v[cv_fat].apply(clean_val)
         if ct_inv in df_t.columns: df_t[ct_inv] = df_t[ct_inv].apply(clean_val)
+        if ct_v_meta in df_t.columns: df_t[ct_v_meta] = df_t[ct_v_meta].apply(clean_val)
 
-        # Filtro de Aprovadas (Dicionário Expandido)
+        # Filtro de Aprovadas
         if cv_status in df_v.columns and not df_v.empty:
             status_ok = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado', 'concluido', 'concluí', 'concluída', 'concluído', 'finalizado', 'active']
             df_v_ok = df_v[df_v[cv_status].str.lower().str.strip().isin(status_ok)].copy()
@@ -173,51 +160,92 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
                         df_t = df_t[(df_t[ct_data] >= d1) & (df_t[ct_data] <= d2)].copy()
             except: pass
 
+        # --- CÁLCULOS TOTAIS ---
         t_rev = df_v_ok[cv_fat].sum() if cv_fat in df_v_ok.columns else 0
         t_inv = df_t[ct_inv].sum() if ct_inv in df_t.columns else 0
+        t_v_meta_fake = df_t[ct_v_meta].sum() if ct_v_meta in df_t.columns else 0
         
-        # --- NORMALIZAÇÃO DE CHAVES (TRADUÇÃO PARA O DASHBOARD) ---
-        # Vendas
-        cols_v = {cv_data: 'data', cv_fat: 'fat', cv_prod: 'ob'}
+        # --- LÓGICA DE ATRIBUIÇÃO (META x ORGÂNICO) ---
+        df_v_meta = pd.DataFrame(); df_v_org = pd.DataFrame()
+        if not df_v_ok.empty and cv_origem in df_v_ok.columns:
+            meta_keys = ['fb', 'facebook', 'meta', 'ig', 'instagram', 'ads', 'pago', 'traffic']
+            df_v_meta = df_v_ok[df_v_ok[cv_origem].str.lower().str.contains('|'.join(meta_keys), na=False, regex=True)].copy()
+            df_v_org = df_v_ok[~(df_v_ok[cv_origem].str.lower().str.contains('|'.join(meta_keys), na=False, regex=True)) | (df_v_ok[cv_origem].isna())].copy()
+        else:
+            df_v_org = df_v_ok.copy()
+
+        # Filtrar apenas o produto principal "Imersão" para contagem de ingressos
+        def get_ing(df): return len(df[df[cv_prod].str.contains('Imersão', na=False)]) if cv_prod in df.columns else 0
+        ing_total = get_ing(df_v_ok)
+        ing_meta = get_ing(df_v_meta)
+        ing_org = get_ing(df_v_org)
+
+        # --- SCANNER DE ORDERBUMPS ---
+        def count_ob(keywords):
+            if cv_prod not in df_v_ok.columns: return 0
+            return len(df_v_ok[df_v_ok[cv_prod].str.lower().str.contains('|'.join(keywords), na=False, regex=True)])
+        
+        ob_grav = count_ob(['grava', 'acesso', 'vitalícia', 'gravacao'])
+        ob_plan = count_ob(['planilha', 'calculadora', 'ferramenta'])
+        ob_ebook = count_ob(['ebook', 'e-book', 'guia', 'pdf'])
+        ob_combo = count_ob(['combo', 'kit', 'plus', 'premium'])
+        ob_total = ob_grav + ob_plan + ob_ebook + ob_combo
+
+        # --- MÉTRICAS DE QUALIDADE E CUSTO ---
+        # CPV e CAC
+        cpv_meta_fake = t_inv / t_v_meta_fake if t_v_meta_fake > 0 else 0
+        cpv_real_meta = t_inv / ing_meta if ing_meta > 0 else 0
+        roas_real_meta = df_v_meta[cv_fat].sum() / t_inv if t_inv > 0 else 0
+        
+        # Tickets Médios
+        ticket_geral = t_rev / ing_total if ing_total > 0 else 0
+        ticket_meta = df_v_meta[cv_fat].sum() / ing_meta if ing_meta > 0 else 0
+        ticket_org = df_v_org[cv_fat].sum() / ing_org if ing_org > 0 else 0
+
+        # --- NORMALIZAÇÃO E SAÍDA ---
+        cols_v = {cv_data: 'data', cv_fat: 'fat', cv_prod: 'ob', cv_origem: 'src'}
         df_v_dash = df_v_ok[[c for c in cols_v.keys() if c in df_v_ok.columns]].rename(columns=cols_v)
         
-        # Tráfego
         cols_t = {
             ct_data: 'data', ct_inv: 'inv', ct_chk: 'chk', ct_cli: 'cli', 
             ct_imp: 'imp', ct_vis: 'vis', ct_camp: 'camp', ct_pub: 'pub', 
-            ct_cria: 'cria', ct_link: 'link', ct_thumb: 'thumb'
+            ct_cria: 'cria', ct_link: 'link', ct_thumb: 'thumb', ct_v_meta: 'vend'
         }
         df_t_ash = df_t[[c for c in cols_t.keys() if c in df_t.columns]].rename(columns=cols_t)
 
-        # Conversão de Datas de Volta para Texto (Essencial para não travar o JSON)
-        if 'data' in df_v_dash.columns:
-            df_v_dash['data'] = df_v_dash['data'].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
-        if 'data' in df_t_ash.columns:
-            df_t_ash['data'] = df_t_ash['data'].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
+        # Conversão de Datas de Volta para Texto
+        for df in [df_v_dash, df_t_ash]:
+            if 'data' in df.columns:
+                df['data'] = df['data'].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
+
+        def fmt(v): return f"R$ {v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        def fmt_n(v): return f"{int(v)}"
 
         last_up = (datetime.now() - timedelta(hours=3)).strftime("%d/%m/%Y %H:%M")
 
-        roas = t_rev / t_inv if t_inv > 0 else 0
-        v_imersao = 0; v_xrpec = 0
-        if not df_v_dash.empty and 'ob' in df_v_dash.columns:
-            v_imersao = len(df_v_dash[df_v_dash['ob'].str.contains('Imersão', na=False)])
-            v_xrpec = len(df_v_dash[df_v_dash['ob'].str.contains('xR Pec', na=False)])
-
-        ticket = t_rev / (v_imersao + v_xrpec) if (v_imersao + v_xrpec) > 0 else 0
-        cac = t_inv / v_imersao if v_imersao > 0 else 0
-
-        def fmt(v): return f"R$ {v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-
         return {
-            "fat_total": fmt(t_rev), "inv_total": fmt(t_inv), "roas_geral": f"{roas:.2f}x",
-            "ingressos_total": int(v_imersao), "ticket_geral": fmt(ticket), "cac_imersao": fmt(cac),
+            # Blocos Principais
+            "fat_total": fmt(t_rev), "inv_total": fmt(t_inv), "roas_geral": f"{(t_rev/t_inv if t_inv > 0 else 0):.2f}x",
+            "ingressos_total": int(ing_total), "ticket_geral": fmt(ticket_geral), "cpv_geral": fmt(t_inv / ing_total if ing_total > 0 else 0),
+            
+            # Bloco Ingressos (Origem)
+            "ingressos_meta": int(t_v_meta_fake), "ingressos_real_meta": int(ing_meta), "ingressos_organico": int(ing_org),
+            
+            # Bloco Custos
+            "cpv_meta": fmt(cpv_meta_fake), "cpv_real_meta": fmt(cpv_real_meta), "roas_real_meta": f"{roas_real_meta:.2f}x",
+            
+            # Bloco Tickets
+            "ticket_meta": fmt(ticket_meta), "ticket_real_meta": fmt(ticket_meta), "ticket_organico": fmt(ticket_org),
+            
+            # Bloco Orderbumps
+            "ob_total": int(ob_total), "ob_gravacao": int(ob_grav), "ob_planilha": int(ob_plan), "ob_ebook": int(ob_ebook), "ob_combo": int(ob_combo),
+            
+            # Dados Brutos
             "raw_vendas": df_v_dash.fillna(0).to_dict('records') if not df_v_dash.empty else [],
             "raw_traffic": df_t_ash.fillna(0).to_dict('records') if not df_t_ash.empty else [],
             "last_update": last_up,
             "debug": {
-                "v_cols": df_v_dash.columns.tolist() if not df_v_dash.empty else [],
-                "t_cols": df_t_ash.columns.tolist() if not df_t_ash.empty else [],
-                "detected": {"fat": cv_fat, "inv": ct_inv, "status": cv_status, "prod": cv_prod}
+                "detected": {"fat": cv_fat, "inv": ct_inv, "status": cv_status, "prod": cv_prod, "origem": cv_origem, "v_meta": ct_v_meta}
             }
         }
     except Exception as e:
