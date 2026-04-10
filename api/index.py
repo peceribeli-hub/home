@@ -158,11 +158,14 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         gc = gspread.service_account_from_dict(json.loads(cred_json))
         sh = gc.open_by_key(sheet_id)
         
-        # Abas específicas da NaFazenda
+                # Abas específicas da NaFazenda
         ws_vendas = sh.get_worksheet_by_id(1417375901)
         ws_trafego = sh.get_worksheet_by_id(2062220158)
         ws_leads = sh.get_worksheet_by_id(621645250)
         ws_pesquisa = sh.get_worksheet_by_id(1970699103)
+        
+        if not ws_vendas: return {"error": "Aba de Vendas (ID: 1417375901) não encontrada."}
+        if not ws_trafego: return {"error": "Aba de Tráfego (ID: 2062220158) não encontrada."}
 
         # Otimização: get_values() é muito mais rápido que get_all_records()
         data_v_raw = ws_vendas.get_values('A1:Z500')
