@@ -131,18 +131,20 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
                 except: return 0.0
             return float(x) if pd.notnull(x) else 0.0
 
+        # Detecção de Colunas (Dicionário Expandido)
         cv_data = find_c(df_v, ['data', 'date', 'creation']) or 'Data'
-        cv_fat = find_c(df_v, ['fat', 'valor', 'total']) or 'Faturamento'
-        cv_status = find_c(df_v, ['status', 'situacao']) or 'Status'
-        cv_prod = find_c(df_v, ['produto', 'ob', 'item']) or 'Produto'
+        cv_fat = find_c(df_v, ['fat', 'valor', 'total', 'bruto', 'pago', 'recebido', 'soma', 'preço', 'preco']) or 'Faturamento'
+        cv_status = find_c(df_v, ['status', 'situacao', 'situação', 'etapa', 'resultado']) or 'Status'
+        cv_prod = find_c(df_v, ['produto', 'ob', 'item', 'offer', 'oferta', 'nome']) or 'Produto'
         ct_data = find_c(df_t, ['data', 'date']) or 'Data'
-        ct_inv = find_c(df_t, ['invest', 'inv', 'valor']) or 'Investimento'
+        ct_inv = find_c(df_t, ['invest', 'inv', 'valor', 'gasto', 'custo', 'spending', 'amount', 'spen']) or 'Investimento'
 
         if cv_fat in df_v.columns: df_v[cv_fat] = df_v[cv_fat].apply(clean_val)
         if ct_inv in df_t.columns: df_t[ct_inv] = df_t[ct_inv].apply(clean_val)
 
+        # Filtro de Aprovadas (Dicionário Expandido)
         if cv_status in df_v.columns and not df_v.empty:
-            status_ok = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado', 'concluido', 'concluí']
+            status_ok = ['aprovada', 'aprovado', 'pago', 'paga', 'sucesso', 'liquidado', 'concluido', 'concluí', 'concluída', 'concluído', 'finalizado', 'active']
             df_v_ok = df_v[df_v[cv_status].str.lower().str.strip().isin(status_ok)].copy()
         else:
             df_v_ok = df_v.copy()
@@ -188,7 +190,12 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
             "ingressos_total": int(v_imersao), "ticket_geral": fmt(ticket), "cac_imersao": fmt(cac),
             "raw_vendas": df_v_ok.fillna(0).to_dict('records') if not df_v_ok.empty else [],
             "raw_traffic": df_t.fillna(0).to_dict('records') if not df_t.empty else [],
-            "last_update": last_up
+            "last_update": last_up,
+            "debug": {
+                "v_cols": df_v.columns.tolist() if not df_v.empty else [],
+                "t_cols": df_t.columns.tolist() if not df_t.empty else [],
+                "detected": {"fat": cv_fat, "inv": ct_inv, "status": cv_status, "prod": cv_prod}
+            }
         }
     except Exception as e:
         return {"error": f"Erro interno: {str(e)}"}
