@@ -136,8 +136,18 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         cv_fat = find_c(df_v, ['fat', 'valor', 'total', 'bruto', 'pago', 'recebido', 'soma', 'preço', 'preco']) or 'Faturamento'
         cv_status = find_c(df_v, ['status', 'situacao', 'situação', 'etapa', 'resultado']) or 'Status'
         cv_prod = find_c(df_v, ['produto', 'ob', 'item', 'offer', 'oferta', 'nome']) or 'Produto'
+        
         ct_data = find_c(df_t, ['data', 'date']) or 'Data'
         ct_inv = find_c(df_t, ['invest', 'inv', 'valor', 'gasto', 'custo', 'spending', 'amount', 'spen']) or 'Investimento'
+        ct_chk = find_c(df_t, ['check', 'finaliz', 'checkout']) or 'Checkout'
+        ct_cli = find_c(df_t, ['clique', 'click', 'clic']) or 'Cliques'
+        ct_imp = find_c(df_t, ['impres', 'visualiz', 'imp']) or 'Impressões'
+        ct_vis = find_c(df_t, ['visit', 'page', 'visu']) or 'Visitas'
+        ct_camp = find_c(df_t, ['campanh', 'camp', 'campaign']) or 'Campanha'
+        ct_pub = find_c(df_t, ['público', 'publico', 'conjunto', 'adset', 'pub']) or 'Público'
+        ct_cria = find_c(df_t, ['criativo', 'anúncio', 'ad', 'cria']) or 'Criativo'
+        ct_link = find_c(df_t, ['link', 'url', 'destin']) or 'Link'
+        ct_thumb = find_c(df_t, ['thumb', 'imagem', 'img']) or 'Thumbnail'
 
         if cv_fat in df_v.columns: df_v[cv_fat] = df_v[cv_fat].apply(clean_val)
         if ct_inv in df_t.columns: df_t[ct_inv] = df_t[ct_inv].apply(clean_val)
@@ -166,19 +176,32 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         t_rev = df_v_ok[cv_fat].sum() if cv_fat in df_v_ok.columns else 0
         t_inv = df_t[ct_inv].sum() if ct_inv in df_t.columns else 0
         
-        # --- CONVERSÃO DE SEGURANÇA (Timestamp -> String) para evitar erro de JSON ---
-        if cv_data in df_v_ok.columns:
-            df_v_ok[cv_data] = df_v_ok[cv_data].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
-        if ct_data in df_t.columns:
-            df_t[ct_data] = df_t[ct_data].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
+        # --- NORMALIZAÇÃO DE CHAVES (TRADUÇÃO PARA O DASHBOARD) ---
+        # Vendas
+        cols_v = {cv_data: 'data', cv_fat: 'fat', cv_prod: 'ob'}
+        df_v_dash = df_v_ok[[c for c in cols_v.keys() if c in df_v_ok.columns]].rename(columns=cols_v)
+        
+        # Tráfego
+        cols_t = {
+            ct_data: 'data', ct_inv: 'inv', ct_chk: 'chk', ct_cli: 'cli', 
+            ct_imp: 'imp', ct_vis: 'vis', ct_camp: 'camp', ct_pub: 'pub', 
+            ct_cria: 'cria', ct_link: 'link', ct_thumb: 'thumb'
+        }
+        df_t_ash = df_t[[c for c in cols_t.keys() if c in df_t.columns]].rename(columns=cols_t)
+
+        # Conversão de Datas de Volta para Texto (Essencial para não travar o JSON)
+        if 'data' in df_v_dash.columns:
+            df_v_dash['data'] = df_v_dash['data'].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
+        if 'data' in df_t_ash.columns:
+            df_t_ash['data'] = df_t_ash['data'].apply(lambda x: x.strftime('%d/%m/%Y') if hasattr(x, 'strftime') else str(x))
 
         last_up = (datetime.now() - timedelta(hours=3)).strftime("%d/%m/%Y %H:%M")
 
         roas = t_rev / t_inv if t_inv > 0 else 0
         v_imersao = 0; v_xrpec = 0
-        if not df_v_ok.empty and cv_prod in df_v_ok.columns:
-            v_imersao = len(df_v_ok[df_v_ok[cv_prod].str.contains('Imersão', na=False)])
-            v_xrpec = len(df_v_ok[df_v_ok[cv_prod].str.contains('xR Pec', na=False)])
+        if not df_v_dash.empty and 'ob' in df_v_dash.columns:
+            v_imersao = len(df_v_dash[df_v_dash['ob'].str.contains('Imersão', na=False)])
+            v_xrpec = len(df_v_dash[df_v_dash['ob'].str.contains('xR Pec', na=False)])
 
         ticket = t_rev / (v_imersao + v_xrpec) if (v_imersao + v_xrpec) > 0 else 0
         cac = t_inv / v_imersao if v_imersao > 0 else 0
@@ -188,12 +211,12 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         return {
             "fat_total": fmt(t_rev), "inv_total": fmt(t_inv), "roas_geral": f"{roas:.2f}x",
             "ingressos_total": int(v_imersao), "ticket_geral": fmt(ticket), "cac_imersao": fmt(cac),
-            "raw_vendas": df_v_ok.fillna(0).to_dict('records') if not df_v_ok.empty else [],
-            "raw_traffic": df_t.fillna(0).to_dict('records') if not df_t.empty else [],
+            "raw_vendas": df_v_dash.fillna(0).to_dict('records') if not df_v_dash.empty else [],
+            "raw_traffic": df_t_ash.fillna(0).to_dict('records') if not df_t_ash.empty else [],
             "last_update": last_up,
             "debug": {
-                "v_cols": df_v.columns.tolist() if not df_v.empty else [],
-                "t_cols": df_t.columns.tolist() if not df_t.empty else [],
+                "v_cols": df_v_dash.columns.tolist() if not df_v_dash.empty else [],
+                "t_cols": df_t_ash.columns.tolist() if not df_t_ash.empty else [],
                 "detected": {"fat": cv_fat, "inv": ct_inv, "status": cv_status, "prod": cv_prod}
             }
         }
