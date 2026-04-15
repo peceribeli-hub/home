@@ -131,7 +131,7 @@ def generate_report_mozini(sheet_id):
         if len(data_crm) < 2:
             return "<p style='color:#aaa;'>Planilha CRM sem dados.</p>"
 
-        df_crm = pd.DataFrame(data_crm[1:], columns=data_crm[0])
+        df_crm = pd.DataFrame(data_crm[1:], columns=[c.strip() for c in data_crm[0]])
 
         # Buscar aba Google Ads (ID: 677341941)
         try:
@@ -150,7 +150,7 @@ def generate_report_mozini(sheet_id):
             df_meta = pd.DataFrame()
 
         # Normalização de Datas
-        date_col_crm = 'Data' if 'Data' in df_crm.columns else df_crm.columns[0]
+        date_col_crm = next((c for c in df_crm.columns if c.lower().strip() == 'data'), df_crm.columns[0])
         df_crm['Data format'] = pd.to_datetime(df_crm[date_col_crm], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
 
         if not df_google.empty and 'Dia' in df_google.columns:
@@ -191,8 +191,8 @@ def generate_report_mozini(sheet_id):
 
             total_inv = float(meta_inv or 0) + float(goog_inv or 0)
             total_inv_fmt = "R$ {:,.2f}".format(total_inv).replace(',', 'X').replace('.', ',').replace('X', '.')
-            label = "Semana atual" if i == 0 else f"Semana {s.strftime('%d/%m')} a {e.strftime('%d/%m')}"
-            open_attr = "open" if i == 0 else ""
+            label = f"Semana atual ({s.strftime('%d/%m')} a {e.strftime('%d/%m')})" if i == 0 else f"Semana {s.strftime('%d/%m')} a {e.strftime('%d/%m')}"
+            open_attr = "open" if i == 1 else ""  # Abre semana anterior (tem dados completos)
 
             all_html += f'''
             <details {open_attr} style="background:rgba(20,20,20,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; margin-bottom:15px; overflow:hidden;">
