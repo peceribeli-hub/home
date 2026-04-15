@@ -43,73 +43,184 @@ def parse_float(val):
     try: return float(val)
     except: return 0.0
 
+def get_gspread_client(cred_env='GOOGLE_CREDENTIALS'):
+    cred_json = os.environ.get(cred_env)
+    if not cred_json:
+        return None, f"Variável de ambiente '{cred_env}' não encontrada no Vercel."
+    try:
+        gc = gspread.service_account_from_dict(json.loads(cred_json))
+        return gc, None
+    except json.JSONDecodeError as je:
+        return None, f"JSON inválido em '{cred_env}': {str(je)}"
+    except Exception as e:
+        return None, f"Falha ao autenticar Google: {str(e)}"
+
+# --- ROTA DE DIAGNÓSTICO ---
+@app.route('/health')
+def health_check():
+    results = {}
+
+    # Verificar credenciais Google
+    gc, err = get_gspread_client('GOOGLE_CREDENTIALS')
+    results['GOOGLE_CREDENTIALS'] = 'OK' if gc else f'ERRO: {err}'
+
+    gc2, err2 = get_gspread_client('GOOGLE_CREDENTIALS_2')
+    results['GOOGLE_CREDENTIALS_2'] = 'OK' if gc2 else f'Ausente (opcional): {err2}'
+
+    # Verificar clientes configurados
+    clients_found = []
+    for i in range(1, 10):
+        email = os.environ.get(f'CLIENT_{i}_EMAIL')
+        if email:
+            clients_found.append({
+                f'CLIENT_{i}_EMAIL': email,
+                f'CLIENT_{i}_NAME': os.environ.get(f'CLIENT_{i}_NAME', 'N/A'),
+                f'CLIENT_{i}_SHEET_ID': 'presente' if os.environ.get(f'CLIENT_{i}_SHEET_ID') else 'AUSENTE',
+                f'CLIENT_{i}_PASSWORD_HASH': 'presente' if os.environ.get(f'CLIENT_{i}_PASSWORD_HASH') else 'AUSENTE',
+            })
+
+    results['clientes_configurados'] = clients_found if clients_found else 'NENHUM CLIENTE ENCONTRADO'
+
+    # Teste de conexão com planilha do cliente 1 (Mozini)
+    sheet_id = os.environ.get('CLIENT_1_SHEET_ID')
+    if sheet_id and gc:
+        try:
+            sh = gc.open_by_key(sheet_id)
+            worksheets = [{'id': ws.id, 'title': ws.title} for ws in sh.worksheets()]
+            results['mozini_planilha'] = {'status': 'OK', 'abas': worksheets}
+        except Exception as e:
+            results['mozini_planilha'] = {'status': f'ERRO: {str(e)}', 'sheet_id': sheet_id}
+    else:
+        results['mozini_planilha'] = 'Skipped (sem sheet_id ou credenciais)'
+
+    return jsonify({
+        'timestamp': (datetime.now() - timedelta(hours=3)).strftime('%d/%m/%Y %H:%M:%S'),
+        'status': 'diagnostico',
+        'checks': results
+    })
+
 # --- MOTOR MOZINI (AUTOMÁTICO) ---
 def get_week_range(date_obj):
-    weekday = date_obj.weekday() 
-    if weekday >= 2: # Quarta ou depois
+    weekday = date_obj.weekday()
+    if weekday >= 2:  # Quarta ou depois
         start = date_obj - timedelta(days=weekday - 2)
-    else: # Seg ou Ter
+    else:  # Seg ou Ter
         start = date_obj - timedelta(days=weekday + 5)
     end = start + timedelta(days=6)
     return start.replace(hour=0, minute=0, second=0), end.replace(hour=23, minute=59, second=59)
 
 def generate_report_mozini(sheet_id):
-    cred_json = os.environ.get('GOOGLE_CREDENTIALS')
-    if not cred_json: return "<p>Erro: Sem credenciais Google.</p>"
-    try:
-        gc = gspread.service_account_from_dict(json.loads(cred_json))
-        sh = gc.open_by_key(sheet_id)
-        
-        ws_crm = sh.get_worksheet_by_id(899775580)
-        data_crm = ws_crm.get_values('A1:L2000')
-        df_crm = pd.DataFrame(data_crm[1:], columns=data_crm[0])
-        
-        ws_google = sh.get_worksheet_by_id(677341941)
-        data_g = ws_google.get_values('A1:K1000')
-        df_google = pd.DataFrame(data_g[1:], columns=[c.strip() for c in data_g[0]])
-        
-        ws_meta = sh.get_worksheet_by_id(0)
-        data_m = ws_meta.get_values('A1:K1000')
-        df_meta = pd.DataFrame(data_m[1:], columns=[c.strip() for c in data_m[0]])
+    gc, err = get_gspread_client('GOOGLE_CREDENTIALS')
+    if not gc:
+        return f"<div style='padding:20px; color:#ff6b6b; background:rgba(255,0,0,0.1); border-radius:8px; border:1px solid rgba(255,0,0,0.3);'><b>⚠ Erro de Autenticação Google</b><br>{err}<br><br><small>Verifique a variável GOOGLE_CREDENTIALS no painel do Vercel (Settings → Environment Variables).</small></div>"
 
-        # Normalização de Datas para evitar o erro de Timestamp
-        df_crm['Data format'] = pd.to_datetime(df_crm['Data'], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
-        df_google['Data format'] = pd.to_datetime(df_google['Dia'], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
-        df_meta['Data format'] = pd.to_datetime(df_meta['Dia'], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
-        
+    try:
+        sh = gc.open_by_key(sheet_id)
+
+        # Listar abas disponíveis para diagnóstico
+        available_ws = {ws.id: ws.title for ws in sh.worksheets()}
+
+        # Buscar aba CRM (ID: 899775580)
+        try:
+            ws_crm = sh.get_worksheet_by_id(899775580)
+            data_crm = ws_crm.get_values('A1:L2000')
+        except Exception as e:
+            aba_list = ', '.join([f"{v} (id={k})" for k, v in available_ws.items()])
+            return f"<div style='padding:20px; color:#ff6b6b; background:rgba(255,0,0,0.1); border-radius:8px; border:1px solid rgba(255,0,0,0.3);'><b>⚠ Aba CRM não encontrada (ID: 899775580)</b><br>Abas disponíveis: {aba_list}</div>"
+
+        if len(data_crm) < 2:
+            return "<p style='color:#aaa;'>Planilha CRM sem dados.</p>"
+
+        df_crm = pd.DataFrame(data_crm[1:], columns=data_crm[0])
+
+        # Buscar aba Google Ads (ID: 677341941)
+        try:
+            ws_google = sh.get_worksheet_by_id(677341941)
+            data_g = ws_google.get_values('A1:K1000')
+            df_google = pd.DataFrame(data_g[1:], columns=[c.strip() for c in data_g[0]]) if len(data_g) > 1 else pd.DataFrame()
+        except Exception:
+            df_google = pd.DataFrame()
+
+        # Buscar aba Meta (ID: 0 = primeira aba)
+        try:
+            ws_meta = sh.get_worksheet_by_id(0)
+            data_m = ws_meta.get_values('A1:K1000')
+            df_meta = pd.DataFrame(data_m[1:], columns=[c.strip() for c in data_m[0]]) if len(data_m) > 1 else pd.DataFrame()
+        except Exception:
+            df_meta = pd.DataFrame()
+
+        # Normalização de Datas
+        date_col_crm = 'Data' if 'Data' in df_crm.columns else df_crm.columns[0]
+        df_crm['Data format'] = pd.to_datetime(df_crm[date_col_crm], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
+
+        if not df_google.empty and 'Dia' in df_google.columns:
+            df_google['Data format'] = pd.to_datetime(df_google['Dia'], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
+        elif not df_google.empty:
+            df_google['Data format'] = pd.NaT
+
+        if not df_meta.empty and 'Dia' in df_meta.columns:
+            df_meta['Data format'] = pd.to_datetime(df_meta['Dia'], format='%d/%m/%Y', errors='coerce').dt.tz_localize(None)
+        elif not df_meta.empty:
+            df_meta['Data format'] = pd.NaT
+
         # Gerar semanas automáticas
         now = datetime.now() - timedelta(hours=3)
         all_html = ""
-        for i in range(4): # Últimas 4 semanas
+        for i in range(4):  # Últimas 4 semanas
             s, e = get_week_range(now - timedelta(weeks=i))
             df_c = df_crm[(df_crm['Data format'] >= s) & (df_crm['Data format'] <= e)]
-            df_g = df_google[(df_google['Data format'] >= s) & (df_google['Data format'] <= e)]
-            df_m = df_meta[(df_meta['Data format'] >= s) & (df_meta['Data format'] <= e)]
-            
-            fechados = len(df_c[df_c['Status'].str.contains('Fechado', na=False)])
-            meta_inv = df_m['Valor usado (BRL)'].apply(parse_float).sum()
-            goog_inv = df_g['Investimento'].apply(parse_float).sum()
-            
+
+            status_col = next((c for c in df_crm.columns if 'status' in c.lower()), None)
+            fechados = len(df_c[df_c[status_col].str.contains('Fechado', na=False)]) if status_col else 0
+
+            meta_inv = 0.0
+            goog_inv = 0.0
+            leads_total = len(df_c)
+
+            if not df_meta.empty and 'Data format' in df_meta.columns:
+                df_m = df_meta[(df_meta['Data format'] >= s) & (df_meta['Data format'] <= e)]
+                inv_col_meta = next((c for c in df_meta.columns if 'valor' in c.lower() or 'brl' in c.lower() or 'investimento' in c.lower()), None)
+                if inv_col_meta:
+                    meta_inv = df_m[inv_col_meta].apply(parse_float).sum()
+
+            if not df_google.empty and 'Data format' in df_google.columns:
+                df_g = df_google[(df_google['Data format'] >= s) & (df_google['Data format'] <= e)]
+                inv_col_g = next((c for c in df_google.columns if 'investimento' in c.lower() or 'cost' in c.lower() or 'gasto' in c.lower()), None)
+                if inv_col_g:
+                    goog_inv = df_g[inv_col_g].apply(parse_float).sum()
+
+            total_inv = meta_inv + goog_inv
+            label = "Semana atual" if i == 0 else f"Semana {s.strftime('%d/%m')} a {e.strftime('%d/%m')}"
+            open_attr = "open" if i == 0 else ""
+
             all_html += f'''
-            <details style="background:rgba(20,20,20,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; margin-bottom:15px; overflow:hidden;">
-                <summary style="padding:20px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between;">
-                    Semana {s.strftime('%d/%m')} a {e.strftime('%d/%m')}
-                    <span style="color:#2563eb;">Ver Detalhes</span>
+            <details {open_attr} style="background:rgba(20,20,20,0.8); border:1px solid rgba(255,255,255,0.1); border-radius:12px; margin-bottom:15px; overflow:hidden;">
+                <summary style="padding:20px; font-weight:600; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center;">
+                    <span>{label}</span>
+                    <span style="color:#2563eb; font-size:13px;">Ver Detalhes ▾</span>
                 </summary>
-                <div style="padding:20px; border-top:1px solid rgba(255,255,255,0.1); display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                    <div>
-                        <h4 style="margin:0; font-size:11px; color:#a0a0a0; text-transform:uppercase;">Comercial</h4>
-                        <p style="margin:10px 0; font-size:13px;">Fechados: <b>{fechados}</b></p>
+                <div style="padding:20px; border-top:1px solid rgba(255,255,255,0.1); display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;">
+                    <div style="background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:8px; padding:16px;">
+                        <div style="font-size:11px; color:#a0a0a0; text-transform:uppercase; margin-bottom:8px;">Leads CRM</div>
+                        <div style="font-size:28px; font-weight:800;">{leads_total}</div>
                     </div>
-                    <div>
-                        <h4 style="margin:0; font-size:11px; color:#a0a0a0; text-transform:uppercase;">Tráfego</h4>
-                        <p style="margin:10px 0; font-size:13px;">Gasto: <b>R$ {meta_inv + goog_inv:,.2f}</b></p>
+                    <div style="background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:8px; padding:16px;">
+                        <div style="font-size:11px; color:#a0a0a0; text-transform:uppercase; margin-bottom:8px;">Fechados</div>
+                        <div style="font-size:28px; font-weight:800;">{fechados}</div>
+                    </div>
+                    <div style="background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:8px; padding:16px;">
+                        <div style="font-size:11px; color:#a0a0a0; text-transform:uppercase; margin-bottom:8px;">Investimento</div>
+                        <div style="font-size:20px; font-weight:800;">R$ {total_inv:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')</div>
                     </div>
                 </div>
             </details>'''
-        return all_html
+
+        last_update = (datetime.now() - timedelta(hours=3)).strftime("%d/%m/%Y %H:%M")
+        return f'<p style="font-size:12px; color:#666; margin-bottom:20px;">Última atualização: {last_update} (Horário de Brasília)</p>' + all_html
+
     except Exception as e:
-        return f"Erro Mozini: {str(e)}"
+        tb = traceback.format_exc()
+        return f"<div style='padding:20px; color:#ff6b6b; background:rgba(255,0,0,0.1); border-radius:8px; border:1px solid rgba(255,0,0,0.3); font-family:monospace; font-size:12px;'><b>⚠ Erro Mozini</b><br><br>{str(e)}<br><br><pre style='white-space:pre-wrap; color:#aaa;'>{tb}</pre></div>"
 
 # --- MOTOR IFL (VERSÃO DE FERRO) ---
 def generate_report_ifl(sheet_id, start_date=None, end_date=None):
@@ -120,13 +231,13 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         sh = gc.open_by_key(sheet_id)
         ws_v = sh.get_worksheet_by_id(1417375901)
         ws_t = sh.get_worksheet_by_id(2062220158)
-        
+
         v_raw = ws_v.get_values('A1:Z2000')
         t_raw = ws_t.get_values('A1:Z2000')
-        
+
         df_v = pd.DataFrame(v_raw[1:], columns=[c.strip() for c in v_raw[0]])
         df_t = pd.DataFrame(t_raw[1:], columns=[c.strip() for c in t_raw[0]])
-        
+
         def find_c(df, ks):
             cols = [c.lower().strip() for c in df.columns]
             for k in ks:
@@ -139,7 +250,7 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
         cv_status = find_c(df_v, ['status', 'situacao', 'situação']) or 'Status'
         cv_prod = find_c(df_v, ['produto', 'offer', 'oferta']) or 'Produto'
         cv_origem = find_c(df_v, ['origem', 'src', 'utm_source']) or 'Origem'
-        
+
         ct_data = find_c(df_t, ['data', 'date']) or 'Data'
         ct_inv = find_c(df_t, ['invest', 'inv', 'valor', 'gasto', 'custo']) or 'Investimento'
         ct_v_meta = find_c(df_t, ['venda', 'conversion', 'concurr', 'result']) or 'Vendas Plataforma'
@@ -161,7 +272,7 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
 
         t_rev = df_v_ok[cv_fat].apply(parse_float).sum() if cv_fat in df_v_ok.columns else 0
         t_inv = df_t_ok[ct_inv].apply(parse_float).sum() if ct_inv in df_t_ok.columns else 0
-        
+
         last_up = (datetime.now() - timedelta(hours=3)).strftime("%d/%m/%Y %H:%M")
 
         return {
@@ -173,7 +284,7 @@ def generate_report_ifl(sheet_id, start_date=None, end_date=None):
             "raw_traffic": df_t_ok.head(10).to_dict('records')
         }
     except Exception as e:
-        return {"error": f"Erro IFL: {str(e)}"}
+        return {"error": f"Erro IFL: {str(e)}", "traceback": traceback.format_exc()}
 
 # --- FRONT-END UNIFICADO (AZUL) ---
 def get_session_page(client_name, client_id, report_html):
@@ -216,14 +327,13 @@ def get_session_html_template(client_id):
 
 def render_client_dashboard(client_id, config):
     cid = int(client_id)
-    if cid == 2: # IFL
+    if cid == 2:  # IFL
         payload = generate_report_ifl(config['sheet_id'], request.args.get('start'), request.args.get('end'))
         tmpl = get_session_html_template(2)
         if payload and '<script id="python-metrics-payload"' in tmpl:
-            import re
             return re.sub(r'<script id="python-metrics-payload".*?</script>', f'<script id="python-metrics-payload" type="application/json">{json.dumps(payload)}</script>', tmpl, flags=re.DOTALL)
         return tmpl
-    else: # Outros (Mozini)
+    else:  # Outros (Mozini)
         report_html = generate_report_mozini(config['sheet_id'])
         return get_session_page(config['name'], cid, report_html)
 
@@ -246,7 +356,7 @@ def index():
     if cid:
         cfg = get_client_config(cid)
         if cfg: return render_client_dashboard(cid, cfg)
-    
+
     # Login Minimalista
     err = request.args.get('error')
     return f'''
