@@ -189,7 +189,8 @@ def generate_report_mozini(sheet_id):
                 if inv_col_g:
                     goog_inv = df_g[inv_col_g].apply(parse_float).sum()
 
-            total_inv = meta_inv + goog_inv
+            total_inv = float(meta_inv or 0) + float(goog_inv or 0)
+            total_inv_fmt = "R$ {:,.2f}".format(total_inv).replace(',', 'X').replace('.', ',').replace('X', '.')
             label = "Semana atual" if i == 0 else f"Semana {s.strftime('%d/%m')} a {e.strftime('%d/%m')}"
             open_attr = "open" if i == 0 else ""
 
@@ -210,7 +211,7 @@ def generate_report_mozini(sheet_id):
                     </div>
                     <div style="background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:8px; padding:16px;">
                         <div style="font-size:11px; color:#a0a0a0; text-transform:uppercase; margin-bottom:8px;">Investimento</div>
-                        <div style="font-size:20px; font-weight:800;">R$ {total_inv:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')</div>
+                        <div style="font-size:20px; font-weight:800;">{total_inv_fmt}</div>
                     </div>
                 </div>
             </details>'''
